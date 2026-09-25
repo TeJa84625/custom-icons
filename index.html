@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CI Icons Explorer</title>
+    
+    <link rel="stylesheet" href="ci-icons.css">
+    
+    <style>
+        :root { --bg: #09090b; --card: #18181b; --text: #f4f4f5; --muted: #a1a1aa; --accent: #6366f1; --border: #27272a; }
+        body { font-family: system-ui, -apple-system, sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 0; }
+        header { text-align: center; padding: 50px 20px 20px; border-bottom: 1px solid var(--border); }
+        header h1 { font-size: 2.2rem; margin: 0 0 10px; background: linear-gradient(to right, #818cf8, #c084fc); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        header p { color: var(--muted); }
+        
+        .container { max-width: 1200px; margin: 0 auto; padding: 30px 20px; }
+        .search-bar { margin-bottom: 30px; display: flex; justify-content: center; }
+        input#search { width: 100%; max-width: 450px; padding: 12px 16px; background: var(--card); border: 1px solid var(--border); border-radius: 8px; color: var(--text); font-size: 1rem; outline: none; }
+        input#search:focus { border-color: var(--accent); }
+        
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px; }
+        .icon-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 20px; display: flex; flex-direction: column; align-items: center; cursor: pointer; transition: 0.2s; position: relative; }
+        .icon-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+        
+        .icon-preview { width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; margin-bottom: 12px; color: var(--text); }
+        .icon-preview svg { width: 100%; height: 100%; fill: currentColor; }
+        
+        .icon-name { font-size: 0.95rem; font-weight: 500; }
+        .icon-version { font-size: 0.7rem; color: var(--muted); background: rgba(255,255,255,0.05); padding: 2px 6px; border-radius: 4px; margin-top: 6px; }
+        
+        .toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(100px); background: #22c55e; color: #fff; padding: 10px 20px; border-radius: 8px; font-weight: 500; transition: 0.3s; opacity: 0; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
+        .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>CI Icons Library</h1>
+        <p>Click any card to copy its integration tag.</p>
+    </header>
+
+    <div class="container">
+        <div class="search-bar">
+            <input type="text" id="search" placeholder="Search icons..." oninput="filterIcons()">
+        </div>
+
+        <div class="grid" id="iconGrid">
+            <!-- Dynamically populated -->
+        </div>
+    </div>
+
+    <div class="toast" id="toast">Copied to clipboard!</div>
+
+    <script>
+        let iconsMap = {};
+
+        async function loadIcons() {
+            try {
+                const res = await fetch('svgs/svgs.json');
+                iconsMap = await res.json();
+                renderGrid(iconsMap);
+            } catch (err) {
+                console.error('Error loading svgs.json', err);
+            }
+        }
+
+        async function renderGrid(data) {
+            const grid = document.getElementById('iconGrid');
+            const entries = Object.entries(data);
+
+            if (entries.length === 0) {
+                grid.innerHTML = `<p style="grid-column: 1/-1; text-align: center; color: var(--muted);">No icons found.</p>`;
+                return;
+            }
+
+            let htmlCards = '';
+
+            for (const [name, details] of entries) {
+                let svgMarkup = details.svg;
+
+                // Handle URL/path resolution if the svg field points to a URL instead of raw markup
+                if (svgMarkup && !svgMarkup.trim().startsWith('<svg')) {
+                    try {
+                        const svgRes = await fetch(svgMarkup);
+                        if (svgRes.ok) svgMarkup = await svgRes.text();
+                    } catch (e) {
+                        svgMarkup = '<svg viewBox="0 0 24 24"><text x="0" y="15" fill="red" font-size="10">Error</text></svg>';
+                    }
+                }
+
+                const versionBadge = details.version ? `<span class="icon-version">v${details.version}</span>` : '';
+
+                htmlCards += `
+                    <div class="icon-card" data-name="${name}" onclick="copySnippet('${name}')">
+                        <div class="icon-preview">${svgMarkup}</div>
+                        <span class="icon-name">ci-${name}</span>
+                        ${versionBadge}
+                    </div>
+                `;
+            }
+
+            grid.innerHTML = htmlCards;
+        }
+
+        function filterIcons() {
+            const query = document.getElementById('search').value.toLowerCase();
+            const cards = document.querySelectorAll('.icon-card');
+            
+            cards.forEach(card => {
+                const name = card.getAttribute('data-name');
+                if (name.includes(query)) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        function copySnippet(name) {
+            const code = `<i class="ci ci-${name}"></i>`;
+            navigator.clipboard.writeText(code);
+            showToast(`Copied: ${code}`);
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            toast.textContent = msg;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2000);
+        }
+
+        loadIcons();
+    </script>
+</body>
+</html>
