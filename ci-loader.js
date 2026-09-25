@@ -3,8 +3,7 @@
   const STORAGE_PREFIX = 'ci_icon_';
   const VERSION_PREFIX = 'ci_ver_';
 
-  // 1. INSTANT PAINT (Offline-First)
-  // Renders cached icons immediately from localStorage with zero latency.
+  // STEP 1: INSTANT PAINT (Offline-First)
   function applyInstantPaint() {
     const icons = document.querySelectorAll('.ci');
     let cssRules = '';
@@ -32,16 +31,13 @@
     }
   }
 
-  // Execute instant paint on script parse
   applyInstantPaint();
 
-  // 2. GRANULAR BACKGROUND SYNC
-  // Checks only the icons present on the current page against svgs.json metadata.
+  // STEP 2: GRANULAR NON-BLOCKING BACKGROUND SYNC
   async function granularSync() {
-    if (!navigator.onLine) return; // Exit gracefully if offline
+    if (!navigator.onLine) return;
 
     try {
-      // Find unique icon names currently used in DOM
       const icons = document.querySelectorAll('.ci');
       const usedIconNames = new Set();
       icons.forEach(el => {
@@ -54,58 +50,49 @@
 
       if (usedIconNames.size === 0) return;
 
-      // Fetch lightweight metadata index (svgs.json)
       const res = await fetch(`${CDN_BASE_URL}svgs/svgs.json`);
       if (!res.ok) return;
-      const data = await res.json();
-      
-      // Create a lookup map for remote versions
-      const remoteVersions = {};
-      data.icons.forEach(item => {
-        remoteVersions[item.name] = item.version;
-      });
+      const iconsMap = await res.json();
 
-      // Determine which specific icons are missing or have outdated versions
-      const iconsToUpdate = [];
-      usedIconNames.forEach(name => {
-        const remoteVer = remoteVersions[name] || 1;
-        const localVer = parseInt(localStorage.getItem(VERSION_PREFIX + name) || '0', 10);
+      let updated = false;
+
+      for (const name of usedIconNames) {
+        if (!iconsMap[name]) continue;
+        const remoteData = iconsMap[name];
+        const remoteVer = remoteData.version || '1.0.0';
+        const localVer = localStorage.getItem(VERSION_PREFIX + name);
         const hasData = localStorage.getItem(STORAGE_PREFIX + name);
 
-        if (!hasData || remoteVer > localVer) {
-          iconsToUpdate.push({ name, version: remoteVer });
-        }
-      });
+        if (!hasData || remoteVer !== localVer) {
+          let svgMarkup = remoteData.svg;
 
-      // Fetch and update ONLY the outdated or missing icons concurrently
-      if (iconsToUpdate.length > 0) {
-        await Promise.all(
-          iconsToUpdate.map(async ({ name, version }) => {
+          // If svg property is a URL/path instead of markup, fetch it
+          if (svgMarkup && !svgMarkup.trim().startsWith('<svg')) {
             try {
-              const svgRes = await fetch(`${CDN_BASE_URL}svgs/${name}.svg`);
-              if (svgRes.ok) {
-                const svgText = await svgRes.text();
-                const encoded = encodeURIComponent(svgText.trim());
-                
-                // Save granular cache and individual version pointer
-                localStorage.setItem(STORAGE_PREFIX + name, encoded);
-                localStorage.setItem(VERSION_PREFIX + name, version);
-              }
-            } catch (err) {
-              console.warn(`Failed to update icon: ${name}`, err);
+              const svgRes = await fetch(svgMarkup);
+              if (svgRes.ok) svgMarkup = await svgRes.text();
+            } catch (e) {
+              continue;
             }
-          })
-        );
+          }
 
-        // Re-apply styles with the newly updated icon data
+          if (svgMarkup) {
+            const encoded = encodeURIComponent(svgMarkup.trim());
+            localStorage.setItem(STORAGE_PREFIX + name, encoded);
+            localStorage.setItem(VERSION_PREFIX + name, remoteVer);
+            updated = true;
+          }
+        }
+      }
+
+      if (updated) {
         applyInstantPaint();
       }
     } catch (error) {
-      console.warn('Network sync skipped. Running purely on local cache.', error);
+      console.warn('Background sync skipped. Running on cache.', error);
     }
   }
 
-  // Non-blocking execution using requestIdleCallback or fallback
   if ('requestIdleCallback' in window) {
     requestIdleCallback(() => granularSync());
   } else {
