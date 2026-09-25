@@ -1,9 +1,8 @@
-/* Base Custom Icon Class */
 .ci {
   display: inline-block;
   width: 1em;
   height: 1em;
-  background-color: currentColor; /* Inherits text/icon color */
+  background-color: currentColor;
   vertical-align: -0.125em;
   -webkit-mask-size: contain;
   mask-size: contain;
