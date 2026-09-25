@@ -1,136 +1,690 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CI Icons Explorer</title>
+    <title>CI Icons</title>
+    <!-- Dynamic Favicon SVG -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%236366f1' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M5 3a2 2 0 0 0-2 2'/><path d='M19 3a2 2 0 0 1 2 2'/><path d='M21 19a2 2 0 0 1-2 2'/><path d='M5 21a2 2 0 0 1-2-2'/><path d='M9 3h1'/><path d='M9 21h1'/><path d='M14 3h1'/><path d='M14 21h1'/><path d='M3 9v1'/><path d='M21 9v1'/><path d='M3 14v1'/><path d='M21 14v1'/></svg>">
     
-    <link rel="stylesheet" href="ci-icons.css">
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"> </script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        inconsolata: ['Inconsolata', 'monospace'],
+                    },
+                    colors: {
+                        glassDark: 'rgba(20, 20, 25, 0.75)',
+                        glassLight: 'rgba(255, 255, 255, 0.85)',
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Google Fonts Inconsolata -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata:400,700&display=swap">
+    <!-- FontAwesome for UI icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
-        :root { --bg: #09090b; --card: #18181b; --text: #f4f4f5; --muted: #a1a1aa; --accent: #6366f1; --border: #27272a; }
-        body { font-family: system-ui, -apple-system, sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 0; }
-        header { text-align: center; padding: 50px 20px 20px; border-bottom: 1px solid var(--border); }
-        header h1 { font-size: 2.2rem; margin: 0 0 10px; background: linear-gradient(to right, #818cf8, #c084fc); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        header p { color: var(--muted); }
+        body {
+            font-family: 'Inconsolata', monospace, system-ui, sans-serif;
+        }
+        /* Ultra Glassmorphism & Ambient Glow FX */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.04);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .dark .glass-card {
+            background: rgba(18, 18, 24, 0.65);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+        }
+        .glass-card:hover {
+            border-color: rgba(99, 102, 241, 0.4);
+            box-shadow: 0 16px 40px -10px rgba(99, 102, 241, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            transform: translateY(-4px);
+        }
         
-        .container { max-width: 1200px; margin: 0 auto; padding: 30px 20px; }
-        .search-bar { margin-bottom: 30px; display: flex; justify-content: center; }
-        input#search { width: 100%; max-width: 450px; padding: 12px 16px; background: var(--card); border: 1px solid var(--border); border-radius: 8px; color: var(--text); font-size: 1rem; outline: none; }
-        input#search:focus { border-color: var(--accent); }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid rgba(0, 0, 0, 0.06);
+        }
+        .dark .glass-panel {
+            background: rgba(12, 12, 16, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Ambient Glow Background FX */
+        .bg-fx-1 { position: absolute; width: 500px; height: 500px; border-radius: 50%; background: radial-gradient(circle, rgba(99,102,241,0.2) 0%, rgba(0,0,0,0) 70%); filter: blur(80px); pointer-events: none; z-index: -1; }
+        .bg-fx-2 { position: absolute; width: 450px; height: 450px; border-radius: 50%; background: radial-gradient(circle, rgba(168,85,247,0.18) 0%, rgba(0,0,0,0) 70%); filter: blur(90px); pointer-events: none; z-index: -1; }
+        .bg-fx-3 { position: absolute; width: 400px; height: 400px; border-radius: 50%; background: radial-gradient(circle, rgba(236,72,153,0.12) 0%, rgba(0,0,0,0) 70%); filter: blur(100px); pointer-events: none; z-index: -1; }
         
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px; }
-        .icon-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 20px; display: flex; flex-direction: column; align-items: center; cursor: pointer; transition: 0.2s; position: relative; }
-        .icon-card:hover { border-color: var(--accent); transform: translateY(-2px); }
-        
-        .icon-preview { width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; margin-bottom: 12px; color: var(--text); }
-        .icon-preview svg { width: 100%; height: 100%; fill: currentColor; }
-        
-        .icon-name { font-size: 0.95rem; font-weight: 500; }
-        .icon-version { font-size: 0.7rem; color: var(--muted); background: rgba(255,255,255,0.05); padding: 2px 6px; border-radius: 4px; margin-top: 6px; }
-        
-        .toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(100px); background: #22c55e; color: #fff; padding: 10px 20px; border-radius: 8px; font-weight: 500; transition: 0.3s; opacity: 0; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
-        .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+        .bg-grid {
+            background-image: radial-gradient(rgba(128, 128, 128, 0.12) 1px, transparent 1px);
+            background-size: 32px 32px;
+        }
+
+        /* Webflow Navbar Custom Styling Elements */
+        .grid.is--nav {
+            display: grid;
+            grid-template-columns: auto 1fr auto;
+            align-items: center;
+            width: 100%;
+            gap: 2rem;
+        }
+        .nav_logo {
+            display: inline-block;
+            width: 36px;
+            height: 36px;
+        }
+        .menu_link {
+            position: relative;
+            text-decoration: none;
+            overflow: hidden;
+            padding: 0.5rem 1rem;
+            border-radius: 12px;
+            transition: background 0.2s;
+        }
+        .menu_link:hover {
+            background: rgba(128, 128, 128, 0.1);
+        }
+        .menu_p {
+            margin: 0;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: lowercase;
+            letter-spacing: 0.05em;
+        }
+        .menu_button {
+            padding: 0.5rem 1.25rem;
+            border-radius: 9999px;
+            background: #6366f1;
+            color: white;
+            text-decoration: none;
+            transition: all 0.2s;
+            box-shadow: 0 4px 14px rgba(99, 102, 241, 0.3);
+        }
+        .menu_button:hover {
+            background: #4f46e5;
+            transform: translateY(-1px);
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: rgba(150, 150, 150, 0.2); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: rgba(150, 150, 150, 0.4); }
     </style>
 </head>
-<body>
+<body class="bg-[#f8fafc] dark:bg-[#070709] text-slate-800 dark:text-zinc-100 min-h-screen flex flex-col justify-between selection:bg-indigo-500 selection:text-white transition-colors duration-300">
 
-    <header>
-        <h1>CI Icons Library</h1>
-        <p>Click any card to copy its integration tag.</p>
-    </header>
+    <!-- Ambient Glow FX Layers -->
+    <div class="fixed top-10 left-1/4 bg-fx-1"></div>
+    <div class="fixed bottom-20 right-1/4 bg-fx-2"></div>
+    <div class="fixed top-1/2 right-10 bg-fx-3"></div>
+    <div class="fixed inset-0 bg-grid opacity-75 pointer-events-none -z-10"></div>
 
-    <div class="container">
-        <div class="search-bar">
-            <input type="text" id="search" placeholder="Search icons..." oninput="filterIcons()">
+    <!-- Main Wrapper -->
+    <div class="flex-grow flex flex-col">
+        
+        <!-- Webflow-Inspired Custom Navigation Header -->
+        <header class="sticky top-0 z-40 glass-panel border-b border-slate-200/60 dark:border-zinc-800/80 px-6 py-3.5">
+            <div class="max-w-7xl mx-auto grid.is--nav grid items-center">
+                <!-- Logo -->
+                <div class="grid_item is--nav-logo flex items-center">
+                    <a href="/" aria-current="page" class="nav_logo w-inline-block w--current flex items-center justify-center rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 shadow-lg shadow-indigo-500/20">
+                        <div class="brand_svg w-embed w-5 h-5 flex items-center justify-center text-white">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 778.48 835" width="16" height="16"><g id="Layer_2" data-name="Layer 2"><g id="Layer_1-2" data-name="Layer 1"><polygon fill="none" stroke="#EFEFEF" stroke-linecap="round" stroke-linejoin="round" stroke-width="50" points="13.5 282.37 13.5 821.5 764.98 821.5 764.98 282.37 390.2 13.5 13.5 282.37"></polygon><line fill="none" stroke="#EFEFEF" stroke-linecap="round" stroke-linejoin="round" stroke-width="50" x1="389.82" y1="219.83" x2="389.82" y2="737.85"></line><line fill="none" stroke="#EFEFEF" stroke-linecap="round" stroke-linejoin="round" stroke-width="50" x1="573.58" y1="295.69" x2="207.28" y2="661.99"></line><line fill="none" stroke="#EFEFEF" stroke-linecap="round" stroke-linejoin="round" stroke-width="50" x1="206.07" y1="295.69" x2="572.36" y2="661.99"></line><line fill="none" stroke="#EFEFEF" stroke-linecap="round" stroke-linejoin="round" stroke-width="50" x1="648.62" y1="475.93" x2="130.6" y2="475.93"></line></g></g></svg>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- Navigation Links / Controls -->
+                <div class="grid_item is--menu hidden md:flex items-center space-x-1 justify-center">
+                    <a href="#" onclick="resetApp(); return false;" class="menu_link w-inline-block"><p class="menu_p">all icons</p></a>
+                    <a href="#" onclick="openSetupModal(); return false;" class="menu_link w-inline-block"><p class="menu_p">quickstart</p></a>
+                    <a href="https://github.com" target="_blank" class="menu_link w-inline-block"><p class="menu_p">repository</p></a>
+                </div>
+
+                <!-- Right Action Cluster: Theme Switcher & Setup -->
+                <div class="flex items-center space-x-3 justify-end">
+                    <div class="hidden lg:flex items-center space-x-2 px-3 py-1 rounded-xl bg-slate-200/50 dark:bg-zinc-900/60 border border-slate-300/50 dark:border-zinc-800 text-[11px] opacity-80">
+                        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                        <span id="iconCountBadge">Loading...</span>
+                    </div>
+
+                    <!-- Setup Code Button -->
+                    <button onclick="openSetupModal()" class="hidden sm:flex px-3.5 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold shadow-lg shadow-indigo-600/30 transition items-center space-x-2">
+                        <i class="fa-solid fa-code"></i>
+                        <span>Setup Code</span>
+                    </button>
+
+                    <!-- Redesigned Minimal & Polished Mode Switcher -->
+                    <button onclick="toggleTheme()" aria-label="Toggle Theme" class="relative w-10 h-10 rounded-xl bg-slate-200/80 dark:bg-zinc-900 border border-slate-300 dark:border-zinc-800 flex items-center justify-center text-slate-700 dark:text-zinc-200 hover:scale-105 active:scale-95 transition-all shadow-sm group overflow-hidden">
+                        <!-- Sun Icon for Dark Mode (click to switch to light) -->
+                        <i id="sunIcon" class="fa-solid fa-sun text-sm absolute transition-all duration-300 transform scale-0 opacity-0 dark:scale-100 dark:opacity-100 text-amber-400"></i>
+                        <!-- Moon Icon for Light Mode (click to switch to dark) -->
+                        <i id="moonIcon" class="fa-solid fa-moon text-sm absolute transition-all duration-300 transform scale-100 opacity-100 dark:scale-0 dark:opacity-0 text-indigo-600"></i>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Container -->
+        <main class="max-w-7xl mx-auto px-4 sm:px-6 py-8 w-full flex-grow">
+            
+            <!-- Hero Banner -->
+            <div class="text-center max-w-2xl mx-auto mb-10 space-y-3">
+                <h2 class="text-3xl sm:text-4xl font-bold tracking-tight bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 bg-clip-text text-transparent">Explore High-Performance Icons</h2>
+                <p class="text-sm opacity-70">Search through our curated collection of vector assets. Click any icon card to inspect details, copy integration tags, or share instantly.</p>
+            </div>
+
+            <!-- Search & Dynamic Category Dropdown Panel -->
+            <div class="mb-8 space-y-4">
+                <div class="flex flex-col md:flex-row gap-4 items-center justify-between">
+                    <!-- Search Input -->
+                    <div class="relative w-full md:max-w-xl">
+                        <span class="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none opacity-50">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </span>
+                        <input type="text" id="searchInput" oninput="handleSearch()" placeholder="Search icons by name, category, or version..." 
+                            class="w-full pl-11 pr-10 py-3 bg-white/50 dark:bg-zinc-900/70 border border-slate-300 dark:border-zinc-800 focus:border-indigo-500 rounded-2xl text-sm outline-none transition shadow-inner backdrop-blur-md">
+                        <button id="clearSearchBtn" onclick="clearSearch()" class="absolute inset-y-0 right-0 pr-4 flex items-center opacity-40 hover:opacity-100 hidden">
+                            <i class="fa-solid fa-circle-xmark"></i>
+                        </button>
+                    </div>
+
+                    <!-- Dynamic Category Button Dropdown Selector -->
+                    <div class="relative w-full md:w-auto">
+                        <button onclick="toggleCategoryDropdown()" id="categoryDropdownBtn" class="w-full md:w-56 px-4 py-3 rounded-2xl bg-white/60 dark:bg-zinc-900/80 border border-slate-300 dark:border-zinc-800 text-xs font-semibold flex items-center justify-between shadow-sm hover:border-indigo-500/50 transition">
+                            <span class="flex items-center gap-2 truncate">
+                                <i class="fa-solid fa-filter text-indigo-500"></i>
+                                <span id="selectedCategoryLabel">All Categories</span>
+                            </span>
+                            <i class="fa-solid fa-chevron-down text-[10px] opacity-60 transition-transform duration-200" id="categoryChevron"></i>
+                        </button>
+
+                        <!-- Dropdown Menu Options -->
+                        <div id="categoryDropdownMenu" class="absolute right-0 mt-2 w-full md:w-56 rounded-2xl glass-panel shadow-2xl border border-slate-300 dark:border-zinc-800 p-2 z-30 hidden transform opacity-0 scale-95 transition-all duration-200">
+                            <div id="categoryOptionsList" class="space-y-1 max-h-60 overflow-y-auto">
+                                <!-- Populated dynamically from JSON categories -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Icon Grid -->
+            <div id="iconGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
+                <!-- Dynamically populated -->
+            </div>
+
+            <!-- Not Found State with Website Favicon & Clear Message -->
+            <div id="emptyState" class="hidden flex flex-col items-center justify-center py-24 text-center">
+                <div class="w-16 h-16 rounded-2xl bg-slate-200/80 dark:bg-zinc-900 border border-slate-300 dark:border-zinc-800 flex items-center justify-center text-indigo-500 dark:text-indigo-400 mb-4 text-2xl shadow-inner">
+                    <!-- Website Favicon Icon -->
+                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d='M5 3a2 2 0 0 0-2 2'/><path d='M19 3a2 2 0 0 1 2 2'/><path d='M21 19a2 2 0 0 1-2 2'/><path d='M5 21a2 2 0 0 1-2-2'/><path d='M9 3h1'/><path d='M9 21h1'/><path d='M14 3h1'/><path d='M14 21h1'/><path d='M3 9v1'/><path d='M21 9v1'/><path d='M3 14v1'/><path d='M21 14v1'/></svg>
+                </div>
+                <h3 class="text-base font-bold mb-1">Icon Not Found</h3>
+                <p class="text-xs opacity-60 max-w-xs mb-6">We couldn't locate any icons matching your search criteria. Try modifying your query or selecting another category.</p>
+                <button onclick="resetSearch()" class="px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold shadow-lg shadow-indigo-600/30 transition">Reset Filters</button>
+            </div>
+        </main>
+    </div>
+
+    <!-- Footer -->
+    <footer class="mt-20 border-t border-slate-200 dark:border-zinc-800/80 py-6 px-6 text-center text-xs opacity-60 glass-panel">
+        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2">
+            <p>© <span id="currentYear"></span> CI Icons Explorer. All rights reserved.</p>
+            <p class="flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+                <span>System Operational • Loaded from svgs/svgs.json</span>
+            </p>
         </div>
+    </footer>
 
-        <div class="grid" id="iconGrid">
-            <!-- Dynamically populated -->
+    <!-- Icon Detail Modal -->
+    <div id="iconModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm opacity-0 pointer-events-none transition-all duration-300">
+        <div class="glass-panel w-full max-w-lg rounded-3xl shadow-2xl overflow-hidden transform scale-95 transition-all duration-300" id="modalContainer">
+            <!-- Modal Header -->
+            <div class="flex items-center justify-between px-6 py-4 border-b border-slate-200 dark:border-zinc-800/80">
+                <div class="flex items-center space-x-3">
+                    <span id="modalCategory" class="px-2.5 py-1 rounded-lg text-[10px] font-bold uppercase tracking-wider bg-indigo-500/20 text-indigo-500 dark:text-indigo-400 border border-indigo-500/30">Category</span>
+                    <h3 id="modalTitle" class="font-bold text-base">ci-icon</h3>
+                </div>
+                <button onclick="closeModal()" class="w-8 h-8 rounded-xl bg-slate-200/80 dark:bg-zinc-800 hover:bg-slate-300 dark:hover:bg-zinc-700 flex items-center justify-center opacity-70 hover:opacity-100 transition">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <!-- Modal Body -->
+            <div class="p-6 space-y-6">
+                <!-- Preview Canvas -->
+                <div class="flex items-center gap-6 p-6 rounded-2xl bg-slate-100 dark:bg-zinc-950/60 border border-slate-200 dark:border-zinc-800/80">
+                    <div id="modalLargeSvg" class="w-20 h-20 rounded-2xl bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 flex items-center justify-center p-4 shadow-inner">
+                        <!-- Large Icon -->
+                    </div>
+                    <div class="space-y-2">
+                        <div class="flex items-center gap-2">
+                            <span id="modalVersion" class="text-xs px-2.5 py-1 rounded-md bg-slate-200 dark:bg-zinc-800 font-mono">v1.0</span>
+                            <span class="text-xs px-2.5 py-1 rounded-md bg-emerald-500/10 text-emerald-500 dark:text-emerald-400 border border-emerald-500/20">Vector Ready</span>
+                        </div>
+                        <p class="text-xs opacity-60">Click any action below to copy snippets or share directly.</p>
+                    </div>
+                </div>
+
+                <!-- Code Snippets & Actions -->
+                <div class="space-y-4">
+                    <!-- CI Tag -->
+                    <div class="space-y-1">
+                        <div class="flex items-center justify-between text-xs opacity-70 font-semibold px-1">
+                            <span>Integration Tag</span>
+                            <button onclick="copySnippet('tag')" class="text-indigo-500 dark:text-indigo-400 hover:underline flex items-center gap-1">
+                                <i class="fa-regular fa-copy"></i><span>Copy Tag</span>
+                            </button>
+                        </div>
+                        <div class="p-3 rounded-xl bg-slate-200/60 dark:bg-zinc-950 border border-slate-300 dark:border-zinc-800 font-mono text-xs overflow-x-auto" id="snippetTag">
+                            &lt;i class="ci ci-icon"&gt;&lt;/i&gt;
+                        </div>
+                    </div>
+
+                    <!-- Raw SVG Markup -->
+                    <div class="space-y-1">
+                        <div class="flex items-center justify-between text-xs opacity-70 font-semibold px-1">
+                            <span>Raw SVG Markup</span>
+                            <button onclick="copySnippet('svg')" class="text-indigo-500 dark:text-indigo-400 hover:underline flex items-center gap-1">
+                                <i class="fa-regular fa-copy"></i><span>Copy SVG</span>
+                            </button>
+                        </div>
+                        <div class="p-3 rounded-xl bg-slate-200/60 dark:bg-zinc-950 border border-slate-300 dark:border-zinc-800 font-mono text-xs opacity-70 max-h-24 overflow-y-auto" id="snippetSvg">
+                            &lt;svg viewBox="0 0 24 24"&gt;...&lt;/svg&gt;
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="flex items-center justify-between px-6 py-4 border-t border-slate-200 dark:border-zinc-800/80 bg-slate-50 dark:bg-zinc-900/50">
+                <button onclick="shareIconLink()" class="px-4 py-2 rounded-xl bg-slate-200 dark:bg-zinc-800 hover:bg-slate-300 dark:hover:bg-zinc-700 text-xs font-semibold transition flex items-center gap-2">
+                    <i class="fa-solid fa-share-nodes"></i>
+                    <span>Share Link</span>
+                </button>
+                <button onclick="closeModal()" class="px-5 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold shadow-lg shadow-indigo-600/30 transition">
+                    Done
+                </button>
+            </div>
         </div>
     </div>
 
-    <div class="toast" id="toast">Copied to clipboard!</div>
+    <!-- Setup Code Modal -->
+    <div id="setupModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm opacity-0 pointer-events-none transition-all duration-300">
+        <div class="glass-panel w-full max-w-2xl rounded-3xl shadow-2xl overflow-hidden transform scale-95 transition-all duration-300" id="setupContainer">
+            <!-- Header -->
+            <div class="flex items-center justify-between px-6 py-4 border-b border-slate-200 dark:border-zinc-800/80">
+                <h3 class="font-bold text-base flex items-center gap-2">
+                    <i class="fa-solid fa-book-open text-indigo-500"></i>
+                    <span>CI Icons Quickstart Setup Guide</span>
+                </h3>
+                <button onclick="closeSetupModal()" class="w-8 h-8 rounded-xl bg-slate-200/80 dark:bg-zinc-800 hover:bg-slate-300 dark:hover:bg-zinc-700 flex items-center justify-center opacity-70 hover:opacity-100 transition">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <!-- Body -->
+            <div class="p-6 space-y-5 max-h-[70vh] overflow-y-auto">
+                <div>
+                    <h4 class="text-xs font-bold uppercase tracking-wider text-indigo-500 dark:text-indigo-400 mb-2">1. Include Stylesheet</h4>
+                    <p class="text-xs opacity-70 mb-2">Add the core stylesheet link inside your HTML `<head>` tag:</p>
+                    <div class="p-3 rounded-xl bg-slate-200/60 dark:bg-zinc-950 border border-slate-300 dark:border-zinc-800 font-mono text-xs text-indigo-600 dark:text-indigo-300 overflow-x-auto">
+                        &lt;link rel="stylesheet" href="ci-icons.css"&gt;
+                    </div>
+                </div>
+
+                <div>
+                    <h4 class="text-xs font-bold uppercase tracking-wider text-indigo-500 dark:text-indigo-400 mb-2">2. Usage Example</h4>
+                    <p class="text-xs opacity-70 mb-2">Place an `<i>` tag anywhere in your markup with custom styling:</p>
+                    <div class="p-3 rounded-xl bg-slate-200/60 dark:bg-zinc-950 border border-slate-300 dark:border-zinc-800 font-mono text-xs text-indigo-600 dark:text-indigo-300 overflow-x-auto">
+                        &lt;i class="ci ci-user" style="color: #2563eb;"&gt;&lt;/i&gt;
+                    </div>
+                </div>
+
+                <div>
+                    <h4 class="text-xs font-bold uppercase tracking-wider text-indigo-500 dark:text-indigo-400 mb-2">3. Smart Loader Script</h4>
+                    <p class="text-xs opacity-70 mb-2">Add the smart loader script at the end of your body to enable per-icon lazy checking & background updating:</p>
+                    <div class="p-3 rounded-xl bg-slate-200/60 dark:bg-zinc-950 border border-slate-300 dark:border-zinc-800 font-mono text-xs text-indigo-600 dark:text-indigo-300 overflow-x-auto">
+                        &lt;script src="ci-loader.js" defer&gt;&lt;/script&gt;
+                    </div>
+                </div>
+            </div>
+            <!-- Footer -->
+            <div class="flex items-center justify-end px-6 py-4 border-t border-slate-200 dark:border-zinc-800/80 bg-slate-50 dark:bg-zinc-900/50">
+                <button onclick="closeSetupModal()" class="px-5 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold shadow-lg shadow-indigo-600/30 transition">
+                    Got it
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed bottom-6 left-1/2 -translate-x-1/2 translate-y-20 opacity-0 transition-all duration-300 z-50 flex items-center space-x-3 px-5 py-3 rounded-2xl bg-white/90 dark:bg-zinc-900/90 border border-slate-300 dark:border-white/10 backdrop-blur-xl shadow-2xl text-xs font-semibold">
+        <div id="toastIcon" class="w-5 h-5 rounded-full bg-emerald-500/20 text-emerald-500 flex items-center justify-center text-[10px]">
+            <i class="fa-solid fa-check"></i>
+        </div>
+        <span id="toastMessage">Action completed successfully!</span>
+    </div>
 
     <script>
-        let iconsMap = {};
+        let iconsData = {};
+        let currentCategory = 'all';
+        let activeIconName = null;
+        let isDropdownOpen = false;
 
-        async function loadIcons() {
+        // Initialize Application (Strictly loading from svgs/svgs.json without fallback mockup icons)
+        window.addEventListener('DOMContentLoaded', async () => {
+            document.getElementById('currentYear').textContent = new Date().getFullYear();
+            
             try {
                 const res = await fetch('svgs/svgs.json');
-                iconsMap = await res.json();
-                renderGrid(iconsMap);
+                if (res.ok) {
+                    iconsData = await res.json();
+                } else {
+                    iconsData = {};
+                }
             } catch (err) {
-                console.error('Error loading svgs.json', err);
+                iconsData = {};
+            }
+
+            buildCategoryDropdownOptions();
+            renderGrid(iconsData);
+            updateCount(Object.keys(iconsData).length);
+
+            // Check URL query parameters for ?icon=name
+            const urlParams = new URLSearchParams(window.location.search);
+            const queryIcon = urlParams.get('icon');
+            if (queryIcon && iconsData[queryIcon]) {
+                openModal(queryIcon);
+            }
+
+            // Close dropdown on outside click
+            window.addEventListener('click', (e) => {
+                const dropdownBtn = document.getElementById('categoryDropdownBtn');
+                const dropdownMenu = document.getElementById('categoryDropdownMenu');
+                if (isDropdownOpen && !dropdownBtn.contains(e.target) && !dropdownMenu.contains(e.target)) {
+                    toggleCategoryDropdown();
+                }
+            });
+        });
+
+        // Polished Theme Switcher Toggle
+        function toggleTheme() {
+            const html = document.documentElement;
+            if (html.classList.contains('dark')) {
+                html.classList.remove('dark');
+            } else {
+                html.classList.add('dark');
             }
         }
 
+        // Category Dropdown Toggle
+        function toggleCategoryDropdown() {
+            isDropdownOpen = !isDropdownOpen;
+            const menu = document.getElementById('categoryDropdownMenu');
+            const chevron = document.getElementById('categoryChevron');
+            
+            if (isDropdownOpen) {
+                menu.classList.remove('hidden');
+                setTimeout(() => {
+                    menu.classList.remove('opacity-0', 'scale-95');
+                    menu.classList.add('opacity-100', 'scale-100');
+                    chevron.classList.add('rotate-180');
+                }, 10);
+            } else {
+                menu.classList.remove('opacity-100', 'scale-100');
+                menu.classList.add('opacity-0', 'scale-95');
+                chevron.classList.remove('rotate-180');
+                setTimeout(() => {
+                    menu.classList.add('hidden');
+                }, 200);
+            }
+        }
+
+        // Build Dynamic Category Options from JSON
+        function buildCategoryDropdownOptions() {
+            const categories = new Set();
+            for (const details of Object.values(iconsData)) {
+                if (details.category) categories.add(details.category);
+            }
+
+            const container = document.getElementById('categoryOptionsList');
+            let html = `
+                <button onclick="selectCategory('all', 'All Categories')" class="w-full text-left px-3 py-2 rounded-xl text-xs font-semibold hover:bg-slate-200/60 dark:hover:bg-zinc-800 transition flex items-center justify-between">
+                    <span>All Categories</span>
+                    <span class="text-[10px] opacity-50 font-mono">${Object.keys(iconsData).length}</span>
+                </button>
+            `;
+            
+            for (const cat of categories) {
+                const count = Object.values(iconsData).filter(d => d.category === cat).length;
+                html += `
+                    <button onclick="selectCategory('${cat}', '${cat.charAt(0).toUpperCase() + cat.slice(1)}')" class="w-full text-left px-3 py-2 rounded-xl text-xs font-semibold hover:bg-slate-200/60 dark:hover:bg-zinc-800 transition flex items-center justify-between capitalize">
+                        <span>${cat}</span>
+                        <span class="text-[10px] opacity-50 font-mono">${count}</span>
+                    </button>
+                `;
+            }
+            container.innerHTML = html;
+        }
+
+        function selectCategory(cat, label) {
+            currentCategory = cat;
+            document.getElementById('selectedCategoryLabel').textContent = label;
+            toggleCategoryDropdown();
+            filterAndRender();
+        }
+
+        // Render Grid
         async function renderGrid(data) {
             const grid = document.getElementById('iconGrid');
+            const emptyState = document.getElementById('emptyState');
             const entries = Object.entries(data);
 
             if (entries.length === 0) {
-                grid.innerHTML = `<p style="grid-column: 1/-1; text-align: center; color: var(--muted);">No icons found.</p>`;
+                grid.innerHTML = '';
+                emptyState.classList.remove('hidden');
                 return;
             }
 
-            let htmlCards = '';
+            emptyState.classList.add('hidden');
+            let html = '';
 
             for (const [name, details] of entries) {
                 let svgMarkup = details.svg;
 
-                // Handle URL/path resolution if the svg field points to a URL instead of raw markup
+                // Handle URL SVGs
                 if (svgMarkup && !svgMarkup.trim().startsWith('<svg')) {
                     try {
-                        const svgRes = await fetch(svgMarkup);
-                        if (svgRes.ok) svgMarkup = await svgRes.text();
+                        const res = await fetch(svgMarkup);
+                        if (res.ok) svgMarkup = await res.text();
                     } catch (e) {
-                        svgMarkup = '<svg viewBox="0 0 24 24"><text x="0" y="15" fill="red" font-size="10">Error</text></svg>';
+                        svgMarkup = `<svg viewBox="0 0 24 24"><text x="2" y="15" fill="red" font-size="4">Error</text></svg>`;
                     }
                 }
 
-                const versionBadge = details.version ? `<span class="icon-version">v${details.version}</span>` : '';
+                const versionTag = details.version ? `<span class="text-[10px] opacity-60 font-mono">v${details.version}</span>` : '';
 
-                htmlCards += `
-                    <div class="icon-card" data-name="${name}" onclick="copySnippet('${name}')">
-                        <div class="icon-preview">${svgMarkup}</div>
-                        <span class="icon-name">ci-${name}</span>
-                        ${versionBadge}
+                html += `
+                    <div class="glass-card rounded-2xl p-4 flex flex-col items-center justify-between cursor-pointer group" onclick="openModal('${name}')">
+                        <div class="w-10 h-10 flex items-center justify-center opacity-80 group-hover:opacity-100 group-hover:scale-110 transition duration-300">
+                            ${svgMarkup}
+                        </div>
+                        <div class="mt-3 text-center w-full truncate">
+                            <span class="block text-xs font-semibold truncate group-hover:text-indigo-400 transition">ci-${name}</span>
+                            <div class="mt-1 flex items-center justify-center gap-2">
+                                ${versionTag}
+                            </div>
+                        </div>
                     </div>
                 `;
             }
 
-            grid.innerHTML = htmlCards;
+            grid.innerHTML = html;
         }
 
-        function filterIcons() {
-            const query = document.getElementById('search').value.toLowerCase();
-            const cards = document.querySelectorAll('.icon-card');
-            
-            cards.forEach(card => {
-                const name = card.getAttribute('data-name');
-                if (name.includes(query)) {
-                    card.style.display = 'flex';
-                } else {
-                    card.style.display = 'none';
+        // Search Handler
+        function handleSearch() {
+            const query = document.getElementById('searchInput').value.toLowerCase().trim();
+            const clearBtn = document.getElementById('clearSearchBtn');
+
+            if (query.length > 0) clearBtn.classList.remove('hidden');
+            else clearBtn.classList.add('hidden');
+
+            filterAndRender();
+        }
+
+        function clearSearch() {
+            document.getElementById('searchInput').value = '';
+            document.getElementById('clearSearchBtn').classList.add('hidden');
+            filterAndRender();
+        }
+
+        function resetSearch() {
+            document.getElementById('searchInput').value = '';
+            document.getElementById('clearSearchBtn').classList.add('hidden');
+            currentCategory = 'all';
+            document.getElementById('selectedCategoryLabel').textContent = 'All Categories';
+            filterAndRender();
+        }
+
+        function resetApp() {
+            resetSearch();
+            window.history.replaceState({}, document.title, window.location.pathname);
+        }
+
+        function filterAndRender() {
+            const query = document.getElementById('searchInput').value.toLowerCase().trim();
+            const filtered = {};
+
+            for (const [name, details] of Object.entries(iconsData)) {
+                const matchesCat = (currentCategory === 'all' || details.category === currentCategory);
+                const matchesQuery = name.toLowerCase().includes(query) || (details.version && details.version.includes(query)) || (details.category && details.category.toLowerCase().includes(query));
+
+                if (matchesCat && matchesQuery) {
+                    filtered[name] = details;
                 }
-            });
+            }
+
+            renderGrid(filtered);
+            updateCount(Object.keys(filtered).length);
         }
 
-        function copySnippet(name) {
-            const code = `<i class="ci ci-${name}"></i>`;
-            navigator.clipboard.writeText(code);
-            showToast(`Copied: ${code}`);
+        function updateCount(count) {
+            document.getElementById('iconCountBadge').textContent = `${count} Icons Ready`;
         }
 
-        function showToast(msg) {
+        // Modal Controls
+        async function openModal(name) {
+            activeIconName = name;
+            const details = iconsData[name];
+            if (!details) return;
+
+            document.getElementById('modalTitle').textContent = `ci-${name}`;
+            document.getElementById('modalCategory').textContent = details.category || 'general';
+            document.getElementById('modalVersion').textContent = `v${details.version || '1.0'}`;
+
+            let svgMarkup = details.svg;
+            if (svgMarkup && !svgMarkup.trim().startsWith('<svg')) {
+                try {
+                    const res = await fetch(svgMarkup);
+                    if (res.ok) svgMarkup = await res.text();
+                } catch(e) {
+                    svgMarkup = '<svg viewBox="0 0 24 24"><text x="0" y="15" fill="red">Error</text></svg>';
+                }
+            }
+
+            document.getElementById('modalLargeSvg').innerHTML = svgMarkup;
+            document.getElementById('snippetTag').textContent = `<i class="ci ci-${name}"></i>`;
+            document.getElementById('snippetSvg').textContent = svgMarkup;
+
+            const newUrl = `${window.location.pathname}?icon=${name}`;
+            window.history.replaceState({icon: name}, '', newUrl);
+
+            const modal = document.getElementById('iconModal');
+            const container = document.getElementById('modalContainer');
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+            container.classList.remove('scale-95');
+            container.classList.add('scale-100');
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('iconModal');
+            const container = document.getElementById('modalContainer');
+            modal.classList.add('opacity-0', 'pointer-events-none');
+            container.classList.remove('scale-100');
+            container.classList.add('scale-95');
+
+            window.history.replaceState({}, document.title, window.location.pathname);
+        }
+
+        function copySnippet(type) {
+            let text = '';
+            if (type === 'tag') text = `<i class="ci ci-${activeIconName}"></i>`;
+            if (type === 'svg') text = document.getElementById('snippetSvg').textContent;
+
+            navigator.clipboard ? navigator.clipboard.writeText(text) : copyFallback(text);
+            showToast(`Copied ${type.toUpperCase()} snippet successfully!`);
+        }
+
+        function copyFallback(text) {
+            const textarea = document.createElement('textarea');
+            textarea.value = text;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textarea);
+        }
+
+        function shareIconLink() {
+            const shareUrl = `${window.location.origin}${window.location.pathname}?icon=${activeIconName}`;
+            navigator.clipboard ? navigator.clipboard.writeText(shareUrl) : copyFallback(shareUrl);
+            showToast(`Shareable link copied to clipboard!`);
+        }
+
+        // Setup Modal Controls
+        function openSetupModal() {
+            const modal = document.getElementById('setupModal');
+            const container = document.getElementById('setupContainer');
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+            container.classList.remove('scale-95');
+            container.classList.add('scale-100');
+        }
+
+        function closeSetupModal() {
+            const modal = document.getElementById('setupModal');
+            const container = document.getElementById('setupContainer');
+            modal.classList.add('opacity-0', 'pointer-events-none');
+            container.classList.remove('scale-100');
+            container.classList.add('scale-95');
+        }
+
+        // Toast Notification
+        function showToast(message) {
             const toast = document.getElementById('toast');
-            toast.textContent = msg;
-            toast.classList.add('show');
-            setTimeout(() => toast.classList.remove('show'), 2000);
+            document.getElementById('toastMessage').textContent = message;
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            setTimeout(() => {
+                toast.classList.add('translate-y-20', 'opacity-0');
+            }, 2500);
         }
-
-        loadIcons();
     </script>
 </body>
 </html>
