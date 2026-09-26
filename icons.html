@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CI Icons - Explorer</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Dotted Background -->
+  <svg class="bg-pattern" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+    <defs><pattern id="grid" width="30" height="30" patternUnits="userSpaceOnUse"><circle cx="2" cy="2" r="1" fill="var(--pattern-color)"></circle></pattern></defs>
+    <rect width="100%" height="100%" fill="url(#grid)"></rect>
+  </svg>
+
+  <!-- Floating Glass Nav -->
+  <nav class="floating-glass-nav">
+    <div class="nav-left">
+      <a href="icons.html" class="nav-brand"><div class="brand-logo"></div>CI Icons</a>
+    </div>
+    <div class="nav-right">
+      <a href="icons.html" class="active">Icons</a>
+      <a href="setup.html">Setup</a>
+      <button id="theme-toggle" class="theme-toggle" aria-label="Toggle Mode">
+        <svg id="theme-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+        </svg>
+      </button>
+    </div>
+  </nav>
+
+  <main>
+    <h1 class="page-title">Icon Explorer</h1>
+
+    <!-- Pure Glass Toolbar -->
+    <div class="glass-toolbar">
+      <input type="text" id="searchInput" class="glass-input" placeholder="Search icons (e.g., home)...">
+      
+      <select id="categorySelect" class="glass-select">
+        <option value="all">All Categories</option>
+        <option value="ui">User Interface</option>
+        <option value="system">System</option>
+      </select>
+
+      <select id="sortSelect" class="glass-select">
+        <option value="name-asc">Sort: Name (A-Z)</option>
+        <option value="name-desc">Sort: Name (Z-A)</option>
+        <option value="version">Sort: Version</option>
+      </select>
+
+      <select id="limitSelect" class="glass-select">
+        <option value="10">10 per page</option>
+        <option value="20" selected>20 per page</option>
+        <option value="30">30 per page</option>
+      </select>
+    </div>
+
+    <!-- Icon Grid -->
+    <div class="icon-grid" id="iconGrid"></div>
+
+    <!-- Pagination -->
+    <div class="pagination" id="pagination"></div>
+  </main>
+
+  <script>
+    // --- Theme Toggle Logic ---
+    const toggleBtn = document.getElementById('theme-toggle');
+    const body = document.body;
+    const themeIcon = document.getElementById('theme-icon');
+    toggleBtn.addEventListener('click', () => {
+      body.classList.toggle('dark-mode');
+      themeIcon.innerHTML = body.classList.contains('dark-mode') 
+        ? `<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>` 
+        : `<circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>`;
+    });
+
+    // --- Icon Explorer Logic ---
+    let iconsData = [];
+    let filteredIcons = [];
+    let currentPage = 1;
+    let itemsPerPage = 20;
+
+    // Fetch JSON or fallback to mock if running locally without a server
+    async function initIcons() {
+      try {
+        const response = await fetch('svgs.json');
+        if (!response.ok) throw new Error("File not found");
+        const json = await response.json();
+        parseData(json);
+      } catch (error) {
+        console.warn("Could not fetch svgs.json. Using fallback data for preview.");
+        const fallbackJSON = {
+          "home": { "version": "1.0.0", "svg": "<svg viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'><path d='M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z'/></svg>" },
+          "settings": { "version": "1.0.0", "svg": "<svg viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'><path d='M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z'/></svg>" }
+        };
+        // Generate mock icons to demonstrate pagination
+        for(let i=1; i<=45; i++) fallbackJSON[`user-${i}`] = { version: `1.0.${i}`, svg: `<svg viewBox='0 0 24 24'><circle cx='12' cy='8' r='4'/><path d='M12 14c-6.1 0-8 4-8 4v2h16v-2s-1.9-4-8-4z'/></svg>`};
+        parseData(fallbackJSON);
+      }
+    }
+
+    function parseData(json) {
+      iconsData = Object.keys(json).map(key => ({
+        name: key,
+        version: json[key].version,
+        svg: json[key].svg
+      }));
+      applyFilters();
+    }
+
+    // DOM Elements
+    const searchInput = document.getElementById('searchInput');
+    const sortSelect = document.getElementById('sortSelect');
+    const limitSelect = document.getElementById('limitSelect');
+    const iconGrid = document.getElementById('iconGrid');
+    const pagination = document.getElementById('pagination');
+
+    // Event Listeners
+    searchInput.addEventListener('input', () => { currentPage = 1; applyFilters(); });
+    sortSelect.addEventListener('change', () => { currentPage = 1; applyFilters(); });
+    limitSelect.addEventListener('change', (e) => { itemsPerPage = parseInt(e.target.value); currentPage = 1; applyFilters(); });
+
+    function applyFilters() {
+      const query = searchInput.value.toLowerCase();
+      const sort = sortSelect.value;
+      
+      // Filter
+      filteredIcons = iconsData.filter(icon => icon.name.toLowerCase().includes(query));
+      
+      // Sort
+      filteredIcons.sort((a, b) => {
+        if(sort === 'name-asc') return a.name.localeCompare(b.name);
+        if(sort === 'name-desc') return b.name.localeCompare(a.name);
+        if(sort === 'version') return b.version.localeCompare(a.version); // Highest version first
+      });
+
+      renderGrid();
+      renderPagination();
+    }
+
+    function renderGrid() {
+      iconGrid.innerHTML = '';
+      const start = (currentPage - 1) * itemsPerPage;
+      const end = start + itemsPerPage;
+      const paginatedItems = filteredIcons.slice(start, end);
+
+      if(paginatedItems.length === 0) {
+        iconGrid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: var(--text-muted);">No icons found.</p>';
+        return;
+      }
+
+      paginatedItems.forEach(icon => {
+        const card = document.createElement('div');
+        card.className = 'icon-card';
+        card.innerHTML = `
+          ${icon.svg}
+          <div class="icon-name">${icon.name}</div>
+          <div class="icon-version">v${icon.version}</div>
+        `;
+        // Click to copy name (Bonus feature)
+        card.addEventListener('click', () => {
+          navigator.clipboard.writeText(`ci-${icon.name}`);
+          const originalText = card.querySelector('.icon-name').innerText;
+          card.querySelector('.icon-name').innerText = 'Copied!';
+          setTimeout(() => card.querySelector('.icon-name').innerText = originalText, 1000);
+        });
+        iconGrid.appendChild(card);
+      });
+    }
+
+    function renderPagination() {
+      pagination.innerHTML = '';
+      const totalPages = Math.ceil(filteredIcons.length / itemsPerPage);
+      if(totalPages <= 1) return;
+
+      // Prev Button
+      const prevBtn = document.createElement('button');
+      prevBtn.className = 'glass-btn';
+      prevBtn.innerHTML = '←';
+      prevBtn.disabled = currentPage === 1;
+      prevBtn.onclick = () => { currentPage--; renderGrid(); renderPagination(); };
+      pagination.appendChild(prevBtn);
+
+      // Page Numbers
+      for(let i = 1; i <= totalPages; i++) {
+        const pageBtn = document.createElement('button');
+        pageBtn.className = `glass-btn ${i === currentPage ? 'active' : ''}`;
+        pageBtn.innerText = i;
+        pageBtn.onclick = () => { currentPage = i; renderGrid(); renderPagination(); };
+        pagination.appendChild(pageBtn);
+      }
+
+      // Next Button
+      const nextBtn = document.createElement('button');
+      nextBtn.className = 'glass-btn';
+      nextBtn.innerHTML = '→';
+      nextBtn.disabled = currentPage === totalPages;
+      nextBtn.onclick = () => { currentPage++; renderGrid(); renderPagination(); };
+      pagination.appendChild(nextBtn);
+    }
+
+    // Initialize
+    initIcons();
+  </script>
+</body>
+</html>

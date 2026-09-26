@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CI Icons - Setup</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Dotted Background -->
+  <svg class="bg-pattern" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+    <defs><pattern id="grid" width="30" height="30" patternUnits="userSpaceOnUse"><circle cx="2" cy="2" r="1" fill="var(--pattern-color)"></circle></pattern></defs>
+    <rect width="100%" height="100%" fill="url(#grid)"></rect>
+  </svg>
+
+  <!-- Floating Glass Nav -->
+  <nav class="floating-glass-nav">
+    <div class="nav-left">
+      <a href="icons.html" class="nav-brand"><div class="brand-logo"></div>CI Icons</a>
+    </div>
+    <div class="nav-right">
+      <a href="icons.html">Icons</a>
+      <a href="setup.html" class="active">Setup</a>
+      <button id="theme-toggle" class="theme-toggle" aria-label="Toggle Mode">
+        <svg id="theme-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+        </svg>
+      </button>
+    </div>
+  </nav>
+
+  <main>
+    <div class="setup-container">
+      <h1 class="page-title">Installation Guide</h1>
+      
+      <div class="glass-card">
+        <h2>1. Include Stylesheet</h2>
+        <p style="color: var(--text-muted); margin-bottom: 1rem;">Add the core stylesheet link inside your HTML <code>&lt;head&gt;</code> tag. This sets up the base CSS variables and initial scaling.</p>
+        <div class="glass-code">
+          &lt;link rel="stylesheet" href="ci-icons.css"&gt;
+        </div>
+      </div>
+
+      <div class="glass-card">
+        <h2>2. Usage Example</h2>
+        <p style="color: var(--text-muted); margin-bottom: 1rem;">Place an <code>&lt;i&gt;</code> tag anywhere in your markup with the specific icon name. You can use standard inline styles for colors and sizes.</p>
+        <div class="glass-code">
+          &lt;i class="ci ci-user" style="color: #2563eb;"&gt;&lt;/i&gt;
+        </div>
+      </div>
+
+      <div class="glass-card">
+        <h2>3. Smart Loader Script</h2>
+        <p style="color: var(--text-muted); margin-bottom: 1rem;">Add the smart loader script at the end of your body tag. This powers the per-icon lazy checking and background updating features.</p>
+        <div class="glass-code">
+          &lt;script src="ci-loader.js" defer&gt;&lt;/script&gt;
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <script>
+    // --- Theme Toggle Logic ---
+    const toggleBtn = document.getElementById('theme-toggle');
+    const body = document.body;
+    const themeIcon = document.getElementById('theme-icon');
+    toggleBtn.addEventListener('click', () => {
+      body.classList.toggle('dark-mode');
+      themeIcon.innerHTML = body.classList.contains('dark-mode') 
+        ? `<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>` 
+        : `<circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>`;
+    });
+  </script>
+</body>
+</html>
