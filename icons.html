@@ -687,6 +687,16 @@
     showToast('HTML snippet copied to clipboard!', '#333');
   };
 
+  function copySvgCode(svgText) {
+    try {
+      navigator.clipboard.writeText(svgText).then(() => {
+        showToast('SVG code copied to clipboard!', '#333');
+      });
+    } catch (error) {
+      showToast('Failed to copy SVG code', '#e74c3c');
+    }
+  }
+
   function copySvgBase64(svgText) {
     try {
       const base64Data = 'data:image/svg+xml;base64,' + btoa(unescape(encodeURIComponent(svgText)));
