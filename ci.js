@@ -87,7 +87,7 @@
 
       if (usedIconNames.size === 0) return;
 
-      const res = await fetch(`${CDN_BASE_URL}/svgs.json`);
+      const res = await fetch(`${CDN_BASE_URL}svgs.json`);
       if (!res.ok) return;
       const iconsMap = await res.json();
 
