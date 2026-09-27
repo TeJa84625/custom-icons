@@ -337,7 +337,7 @@
     sizeSliderCtrl.setFromValue(24);
 
     try {
-      const response = await fetch('save/svgs.json');
+      const response = await fetch('svgs.json');
       if (!response.ok) throw new Error("File not found");
       const json = await response.json();
       parseData(json);
