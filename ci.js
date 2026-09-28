@@ -1,102 +1,61 @@
 (function (global) {
   'use strict';
 
-  function getUsedIconNames() {
-    const icons = document.querySelectorAll('.ci');
-    const usedIconNames = new Set();
+  const CDN_BASE_URL = 'https://ci-icons.vercel.app/';
+  const cache = new Map();
+
+  async function renderIcon(el) {
+    let name = '';
+    el.classList.forEach(cls => {
+      if (cls.startsWith('ci-') && cls !== 'ci' && !/^(ci-xs|ci-sm|ci-lg|ci-xl|ci-2xl|ci-spin)$/.test(cls)) {
+        name = cls.slice(3);
+      }
+    });
+
+    if (!name) return;
+
+    let svg = cache.get(name);
+    if (!svg) {
+      try {
+        const res = await fetch(`${CDN_BASE_URL}svgs/${name}.svg`);
+        if (!res.ok) return;
+        svg = await res.text();
+        cache.set(name, svg);
+      } catch {
+        return;
+      }
+    }
+
+    const doc = new DOMParser().parseFromString(svg, 'image/svg+xml');
+    const svgEl = doc.querySelector('svg');
+    if (!svgEl) return;
+
+    svgEl.setAttribute('width', '1em');
+    svgEl.setAttribute('height', '1em');
+    svgEl.style.cssText += 'fill:currentColor;stroke:currentColor;';
+    svgEl.setAttribute('class', el.className);
     
-    icons.forEach(el => {
-      el.classList.forEach(cls => {
-        if (cls.startsWith('ci-') && cls !== 'ci' && !cls.startsWith('ci-xs') && !cls.startsWith('ci-sm') && !cls.startsWith('ci-lg') && !cls.startsWith('ci-xl') && !cls.startsWith('ci-2xl') && cls !== 'ci-spin') {
-          usedIconNames.add(cls.replace('ci-', ''));
-        }
-      });
-    });
-
-    return Array.from(usedIconNames);
+    el.replaceWith(svgEl);
   }
 
-  function applyInstantPaint() {
-    if (!global.CILoader) return;
+  const scan = () => document.querySelectorAll('.ci').forEach(renderIcon);
 
-    const icons = document.querySelectorAll('.ci');
-    if (!icons.length) return;
-
-    let cssRules = '';
-    const styleId = 'ci-instant-styles';
-    let styleTag = document.getElementById(styleId);
-
-    if (!styleTag) {
-      styleTag = document.createElement('style');
-      styleTag.id = styleId;
-      document.head.appendChild(styleTag);
-    }
-
-    icons.forEach(el => {
-      el.classList.forEach(cls => {
-        if (cls.startsWith('ci-') && cls !== 'ci') {
-          const iconName = cls.replace('ci-', '');
-          const cachedSvg = global.CILoader.get(iconName);
-
-          if (cachedSvg) {
-            cssRules += `.${cls} { -webkit-mask-image: url("data:image/svg+xml;utf8,${cachedSvg}") !important; mask-image: url("data:image/svg+xml;utf8,${cachedSvg}") !important; }\n`;
-          }
-        }
-      });
-    });
-
-    if (cssRules && styleTag.textContent !== cssRules) {
-      styleTag.textContent += cssRules;
-    }
-  }
-
-  async function renderAndSync() {
-    applyInstantPaint();
-    const usedIcons = getUsedIconNames();
-    if (usedIcons.length > 0 && global.CILoader) {
-      const updated = await global.CILoader.sync(usedIcons);
-      if (updated) {
-        applyInstantPaint();
-      }
-    }
-  }
-
-  function setupObserver() {
-    const observer = new MutationObserver((mutations) => {
-      let shouldRepaint = false;
-      for (const mutation of mutations) {
-        if (mutation.addedNodes.length) {
-          shouldRepaint = true;
-          break;
+  new MutationObserver(muts => {
+    for (const mut of muts) {
+      for (const node of mut.addedNodes) {
+        if (node.nodeType === 1) {
+          if (node.classList?.contains('ci')) renderIcon(node);
+          node.querySelectorAll?.('.ci').forEach(renderIcon);
         }
       }
-      if (shouldRepaint) {
-        applyInstantPaint();
-      }
-    });
-
-    observer.observe(document.body, { childList: true, subtree: true });
-  }
+    }
+  }).observe(document.body, { childList: true, subtree: true });
 
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => {
-      applyInstantPaint();
-      setupObserver();
-    });
+    document.addEventListener('DOMContentLoaded', scan);
   } else {
-    applyInstantPaint();
-    setupObserver();
+    scan();
   }
 
-  if ('requestIdleCallback' in window) {
-    requestIdleCallback(() => renderAndSync());
-  } else {
-    window.addEventListener('load', () => setTimeout(renderAndSync, 1200));
-  }
-
-  global.CI = {
-    render: applyInstantPaint,
-    sync: renderAndSync
-  };
-
+  global.CI = { render: scan };
 })(typeof window !== 'undefined' ? window : this);
