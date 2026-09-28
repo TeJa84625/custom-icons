@@ -4,9 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>CI Icons - Setup</title>
-  <link rel="icon" type="image/svg+xml"
-    href="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjRweCIgaGVpZ2h0PSIyNHB4IiB2aWV3Qm94PSIwIDAgMjQgMjQiIHJvbGU9ImltZyIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNMS45MjcgMjMuOTM1YTIuNCAyLjQgMCAwIDEtMS44ODItMS44ODMgMi40IDIuNCAwIDAgMSAyLjgyLTIuODIgMi40IDIuNCAwIDAgMSAxLjg4MiAxLjg4MiAyLjQgMi40IDAgMCAxLTIuODIgMi44MnpNMjEuMTM1IDQuNzY4YTIuNCAyLjQgMCAwIDEtMS44ODItMS44ODIgMi40IDIuNCAwIDAgMSAyLjgyLTIuODIgMi40IDIuNCAwIDAgMSAxLjg4MiAxLjg4MiAyLjQgMi40IDAgMCAxLTIuODIgMi44MnpNMTIuMDIxIDYuMDFjMS4xNDcgMCAyLjIxOS4zMjQgMy4xMy44ODNsMi41ODUtMi41ODVBOS41ODMgOS41ODMgMCAwIDAgNC4zMjggMTcuNzE2bDIuNTg2LTIuNTg2YTUuOTkgNS45OSAwIDAgMSA1LjEwNy05LjEyem01LjEwNyAyLjg2YTUuOTkgNS45OSAwIDAgMS04LjIzNyA4LjIzN2wtMi41ODYgMi41ODVBOS41ODMgOS41ODMgMCAwIDAgMTkuNzEzIDYuMjg0eiIvPjwvc3ZnPg==">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="ci.css">
+  <script src="ci.js" defer></script>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -52,32 +53,158 @@
 
   <main>
     <div class="setup-container">
-      <h1 class="page-title">Installation Guide</h1>
-      
+      <h1 class="page-title">CI Icons Documentation &amp; Installation Guide</h1>
+      <p style="color: var(--text-muted); text-align: center; margin-bottom: 2rem;">A lightweight, lightning-fast,
+        mask-based SVG icon utility library with zero layout shift and offline caching support.</p>
+  
+      <!-- 1. INCLUDE STYLESHEET -->
       <div class="glass-card">
-        <h2>1. Include Stylesheet</h2>
-        <p style="color: var(--text-muted); margin-bottom: 1rem;">Add the core stylesheet link inside your HTML <code>&lt;head&gt;</code> tag. This sets up the base CSS variables and initial scaling.</p>
+        <h2>
+          1. Include the Stylesheet
+        </h2>
+        <p style="color: var(--text-muted); margin-bottom: 1rem;">Add the core <code>ci.css</code> stylesheet, <code>ci.js</code> script inside your
+          HTML <code>&lt;head&gt;</code>. This establishes baseline dimensions, CSS custom properties, sizing multipliers,
+          rotations, color modifiers, and keyframe animations.</p>
         <div class="glass-code">
           &lt;link rel="stylesheet" href="https://ci-icons.vercel.app/ci.css"&gt;
         </div>
-      </div>
-
-      <div class="glass-card">
-        <h2>2. Usage Example</h2>
-        <p style="color: var(--text-muted); margin-bottom: 1rem;">Place an <code>&lt;i&gt;</code> tag anywhere in your markup with the specific icon name. You can use standard inline styles for colors and sizes.</p>
-        <div class="glass-code">
-          &lt;i class="ci ci-user" style="color: #2563eb;"&gt;&lt;/i&gt;
-        </div>
-      </div>
-
-      <div class="glass-card">
-        <h2>3. Smart Loader Script</h2>
-        <p style="color: var(--text-muted); margin-bottom: 1rem;">Add the smart loader script at the end of your body tag. This powers the per-icon lazy checking and background updating features.</p>
         <div class="glass-code">
           &lt;script src="https://ci-icons.vercel.app/ci.js" defer&gt;&lt;/script&gt;
         </div>
       </div>
+  
+      <!-- 2. BASIC & ADVANCED USAGE -->
+      <div class="glass-card">
+        <h2>
+          2. Basic &amp; Advanced Icon Usage
+        </h2>
+        <p style="color: var(--text-muted); margin-bottom: 1rem;">Place an <code>&lt;i&gt;</code> tag with the base
+          <code>ci</code> class and a specific icon name (e.g., <code>ci-user</code>). You can combine multiple utility
+          modifiers for sizes, colors, shadows, and animations:</p>
+        <div class="glass-code" style="margin-bottom: 1rem;">
+          &lt;i class="ci ci-user ci-lg ci-primary ci-shake ci-shadow"&gt;&lt;/i&gt;
+        </div>
+        <p style="color: var(--text-muted); font-size: 0.85rem;"><em>Tip: Icons automatically inherit text color
+            (<code>currentColor</code>), making them style seamlessly with buttons, links, and text headings.</em></p>
+      </div>
+  
+      <!-- 3. RUNTIME & OFFLINE LOADER SCRIPTS -->
+      <div class="glass-card">
+        <h2>
+          3. Smart Loader Scripts (Offline Caching) [Optional]
+        </h2>
+        <p style="color: var(--text-muted); margin-bottom: 1rem;">Add your loader scripts at the end of your
+          <code>&lt;body&gt;</code> tag:</p>
 
+  
+        <div>
+          <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 0.5rem;">Stores icon SVGs directly into
+            <code>localStorage</code>. This allows icons to render instantly and work seamlessly even when the user is
+            <strong>completely offline</strong>, while auto-syncing updates from the cloud when online.</p>
+          <div class="glass-code">
+            &lt;script src="https://ci-icons.vercel.app/ci-loader.js" defer&gt;&lt;/script&gt;
+          </div>
+        </div>
+      </div>
+  
+      <!-- 4. STYLES & UTILITY REFERENCE -->
+      <div class="glass-card">
+        <h2>
+          4. Complete Style &amp; Modifier Reference
+        </h2>
+        <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Combine any of the following modifier classes with
+          your <code>.ci .ci-[name]</code> element:</p>
+  
+        <!-- Sizing Reference -->
+        <div style="margin-bottom: 1.5rem;">
+          <h3
+            style="color: var(--text-main); font-size: 1rem; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem;">
+            <i class="ci ci-square-dimensions" style="font-size: 1em;"></i> Sizing Utilities
+          </h3>
+          <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 0.5rem;">Scale icons relative to the
+            current font size:</p>
+          <ul
+            style="color: var(--text-muted); font-size: 0.9rem; padding-left: 1.25rem; display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 0.4rem;">
+            <li><code>.ci-xxs</code> (0.5em)</li>
+            <li><code>.ci-2xs</code> (0.625em)</li>
+            <li><code>.ci-xs</code> (0.75em)</li>
+            <li><code>.ci-sm</code> (0.875em)</li>
+            <li><code>.ci-lg</code> (1.33em)</li>
+            <li><code>.ci-xl</code> (1.5em)</li>
+            <li><code>.ci-2xl</code> (2em)</li>
+            <li><code>.ci-3xl</code> (2.5em)</li>
+            <li><code>.ci-4xl</code> (3em)</li>
+            <li><code>.ci-fw</code> (Fixed width alignment)</li>
+          </ul>
+        </div>
+  
+        <!-- Colors Reference -->
+        <div style="margin-bottom: 1.5rem;">
+          <h3
+            style="color: var(--text-main); font-size: 1rem; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem;">
+            <i class="ci ci-paint-bucket" style="font-size: 1em;"></i> Color Modifiers
+          </h3>
+          <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 0.5rem;">Semantic &amp; vibrant
+            predefined color classes:</p>
+          <ul
+            style="color: var(--text-muted); font-size: 0.9rem; padding-left: 1.25rem; display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 0.4rem;">
+            <li><code>.ci-primary</code></li>
+            <li><code>.ci-secondary</code></li>
+            <li><code>.ci-success</code></li>
+            <li><code>.ci-danger</code></li>
+            <li><code>.ci-warning</code></li>
+            <li><code>.ci-info</code></li>
+            <li><code>.ci-light</code> / <code>.ci-dark</code></li>
+            <li><code>.ci-red</code>, <code>.ci-blue</code></li>
+            <li><code>.ci-green</code>, <code>.ci-yellow</code></li>
+            <li><code>.ci-purple</code>, <code>.ci-pink</code></li>
+            <li><code>.ci-indigo</code>, <code>.ci-teal</code>, <code>.ci-orange</code></li>
+          </ul>
+        </div>
+  
+        <!-- Animations Reference -->
+        <div style="margin-bottom: 1.5rem;">
+          <h3
+            style="color: var(--text-main); font-size: 1rem; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem;">
+            <i class="ci ci-wand-sparkles" style="font-size: 1em;"></i> Animations &amp; States
+          </h3>
+          <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 0.5rem;">Bring your icons to life with
+            built-in keyframes:</p>
+          <ul
+            style="color: var(--text-muted); font-size: 0.9rem; padding-left: 1.25rem; display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 0.4rem;">
+            <li><code>.ci-spin</code> (Continuous 360 ° spin)</li>
+            <li><code>.ci-pulse</code> (Breathing opacity/scale)</li>
+            <li><code>.ci-bounce</code> (Vertical jumping effect)</li>
+            <li><code>.ci-beat</code> (Pulsing heartbeat scale)</li>
+            <li><code>.ci-fade</code> (Smooth entry fade - in)</li>
+            <li><code>.ci-shake</code> (Vibrating error alert)</li>
+            <li><code>.ci-flash</code> (Blinking indicator)</li>
+            <li><code>.ci-float</code> (Gentle floating motion)</li>
+            <li><code>.ci-glow</code> (Dynamic shadow glow)</li>
+          </ul>
+        </div>
+  
+        <!-- Transforms & Shadows Reference -->
+        <div>
+          <h3
+            style="color: var(--text-main); font-size: 1rem; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem;">
+            <i class="ci ci-refresh-ccw"></i> Transforms &amp; Depth Shadows
+          </h3>
+          <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 0.5rem;">Adjust alignment, orientation,
+            and mask-aware drop shadows:</p>
+          <ul
+            style="color: var(--text-muted); font-size: 0.9rem; padding-left: 1.25rem; display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 0.4rem;">
+            <li><code>.ci-rotate-90</code> / <code>180</code> / <code>270</code></li>
+            <li><code>.ci-flip-horizontal</code> / <code>.ci-flip-vertical</code></li>
+            <li><code>.ci-align-baseline</code> / <code>-top</code> / <code>-bottom</code> / <code>-middle</code></li>
+            <li><code>.ci-shadow-sm</code>, <code>.ci-shadow</code>, <code>.ci-shadow-lg</code></li>
+            <li><code>.ci-interactive</code> (Hover zoom cursor pointer)</li>
+            <li><code>.ci-disabled</code> (Dimmed, unclickable state)</li>
+          </ul>
+        </div>
+  
+      </div>
+  
     </div>
   </main>
 

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+</head>
+
+<body>
+    <script>
+        const defaultFallbackSvg = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" role="img"><path d="M1.927 23.935a2.4 2.4 0 0 1-1.882-1.883 2.4 2.4 0 0 1 2.82-2.82 2.4 2.4 0 0 1 1.882 1.882 2.4 2.4 0 0 1-2.82 2.82zM21.135 4.768a2.4 2.4 0 0 1-1.882-1.882 2.4 2.4 0 0 1 2.82-2.82 2.4 2.4 0 0 1 1.882 1.882 2.4 2.4 0 0 1-2.82 2.82zM12.021 6.01c1.147 0 2.219.324 3.13.883l2.585-2.585A9.583 9.583 0 0 0 4.328 17.716l2.586-2.586a5.99 5.99 0 0 1 5.107-9.12zm5.107 2.86a5.99 5.99 0 0 1-8.237 8.237l-2.586 2.585A9.583 9.583 0 0 0 19.713 6.284z" fill="#000000"/></svg>';
+
+        function normalizeColor(color) {
+            if (!color) return '';
+            color = color.trim();
+            // Check if it looks like a hex code without '#' (3, 4, 6, or 8 hex characters)
+            const isHex = /^[0-9A-Fa-f]{3,8}$/.test(color);
+            if (isHex) {
+                return '#' + color;
+            }
+            return color;
+        }
+
+        function applyColor(svgString, rawColorCode) {
+            const colorCode = normalizeColor(rawColorCode);
+            if (!colorCode) return svgString;
+            try {
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(svgString, 'image/svg+xml');
+                const svgElement = doc.querySelector('svg');
+                if (svgElement) {
+                    svgElement.setAttribute('stroke', colorCode);
+                    const elements = svgElement.querySelectorAll('[stroke]');
+                    elements.forEach(el => {
+                        const currentStroke = el.getAttribute('stroke');
+                        if (currentStroke && currentStroke.toLowerCase() !== 'none') {
+                            el.setAttribute('stroke', colorCode);
+                        }
+                    });
+                    return new XMLSerializer().serializeToString(svgElement);
+                }
+            } catch (e) {
+                // Fallback regex replacement if DOMParser fails
+                return svgString.replace(/stroke="[^"]*"/g, `stroke="${colorCode}"`);
+            }
+            return svgString;
+        }
+
+        async function renderIcon() {
+            const hash = window.location.hash ? window.location.hash.substring(1) : '';
+            const parts = hash.split('#');
+            const iconName = parts[0] ? decodeURIComponent(parts[0]) : '';
+            const colorCode = parts[1] ? decodeURIComponent(parts[1]) : '';
+
+            let finalSvg = defaultFallbackSvg;
+
+            if (iconName) {
+                try {
+                    const response = await fetch('svgs.json');
+                    if (response.ok) {
+                        const data = await response.json();
+                        if (data[iconName] && data[iconName].svg) {
+                            finalSvg = data[iconName].svg;
+                        }
+                    }
+                } catch (e) {
+                    // Keep default fallback on network/fetch error
+                }
+            }
+
+            // Apply custom color code with correct normalization
+            if (colorCode) {
+                finalSvg = applyColor(finalSvg, colorCode);
+            }
+
+            document.body.innerHTML = finalSvg;
+        }
+
+        renderIcon();
+    </script>
+</body>
+
+</html>

@@ -124,6 +124,22 @@
   animation: ci-fade 0.3s ease-in-out forwards;
 }
 
+.ci-shake {
+  animation: ci-shake 0.8s ease-in-out infinite;
+}
+
+.ci-flash {
+  animation: ci-flash 1.5s ease-in-out infinite;
+}
+
+.ci-float {
+  animation: ci-float 3s ease-in-out infinite;
+}
+
+.ci-glow {
+  animation: ci-glow 2s ease-in-out infinite;
+}
+
 .ci-container {
   display: inline-flex;
   align-items: center;
@@ -137,6 +153,90 @@
 
 .ci-container:hover {
   background-color: var(--ci-bg-hover, rgba(0, 0, 0, 0.05));
+}
+
+.ci-primary {
+  color: var(--ci-primary, #3b82f6);
+}
+
+.ci-secondary {
+  color: var(--ci-secondary, #64748b);
+}
+
+.ci-success {
+  color: var(--ci-success, #22c55e);
+}
+
+.ci-danger {
+  color: var(--ci-danger, #ef4444);
+}
+
+.ci-warning {
+  color: var(--ci-warning, #f59e0b);
+}
+
+.ci-info {
+  color: var(--ci-info, #06b6d4);
+}
+
+.ci-light {
+  color: var(--ci-light, #f8fafc);
+}
+
+.ci-dark {
+  color: var(--ci-dark, #0f172a);
+}
+
+.ci-muted {
+  color: var(--ci-muted, #94a3b8);
+}
+
+.ci-red {
+  color: #dc2626;
+}
+
+.ci-blue {
+  color: #2563eb;
+}
+
+.ci-green {
+  color: #16a34a;
+}
+
+.ci-yellow {
+  color: #ca8a04;
+}
+
+.ci-purple {
+  color: #9333ea;
+}
+
+.ci-pink {
+  color: #db2777;
+}
+
+.ci-indigo {
+  color: #4f46e5;
+}
+
+.ci-teal {
+  color: #0d9488;
+}
+
+.ci-orange {
+  color: #ea580c;
+}
+
+.ci-shadow-sm {
+  filter: drop-shadow(0 1px 1px rgb(0 0 0 / 0.05));
+}
+
+.ci-shadow {
+  filter: drop-shadow(0 4px 3px rgb(0 0 0 / 0.07));
+}
+
+.ci-shadow-lg {
+  filter: drop-shadow(0 10px 8px rgb(0 0 0 / 0.04));
 }
 
 @keyframes ci-spin {
@@ -207,5 +307,59 @@
   to {
     opacity: 1;
     transform: scale(1);
+  }
+}
+
+@keyframes ci-shake {
+
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+
+  20%,
+  60% {
+    transform: translateX(-3px);
+  }
+
+  40%,
+  80% {
+    transform: translateX(3px);
+  }
+}
+
+@keyframes ci-flash {
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.2;
+  }
+}
+
+@keyframes ci-float {
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+@keyframes ci-glow {
+
+  0%,
+  100% {
+    filter: drop-shadow(0 0 2px currentColor);
+  }
+
+  50% {
+    filter: drop-shadow(0 0 8px currentColor);
   }
 }

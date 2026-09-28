@@ -5,10 +5,201 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>CI Icons - Explorer</title>
-  <link rel="icon" type="image/svg+xml"
-    href="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjRweCIgaGVpZ2h0PSIyNHB4IiB2aWV3Qm94PSIwIDAgMjQgMjQiIHJvbGU9ImltZyIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNMS45MjcgMjMuOTM1YTIuNCAyLjQgMCAwIDEtMS44ODItMS44ODMgMi40IDIuNCAwIDAgMSAyLjgyLTIuODIgMi40IDIuNCAwIDAgMSAxLjg4MiAxLjg4MiAyLjQgMi40IDAgMCAxLTIuODIgMi44MnpNMjEuMTM1IDQuNzY4YTIuNCAyLjQgMCAwIDEtMS44ODItMS44ODIgMi40IDIuNCAwIDAgMSAyLjgyLTIuODIgMi40IDIuNCAwIDAgMSAxLjg4MiAxLjg4MiAyLjQgMi40IDAgMCAxLTIuODIgMi44MnpNMTIuMDIxIDYuMDFjMS4xNDcgMCAyLjIxOS4zMjQgMy4xMy44ODNsMi41ODUtMi41ODVBOS41ODMgOS41ODMgMCAwIDAgNC4zMjggMTcuNzE2bDIuNTg2LTIuNTg2YTUuOTkgNS45OSAwIDAgMSA1LjEwNy05LjEyem01LjEwNyAyLjg2YTUuOTkgNS45OSAwIDAgMS04LjIzNyA4LjIzN2wtMi41ODYgMi41ODVBOS41ODMgOS41ODMgMCAwIDAgMTkuNzEzIDYuMjg0eiIvPjwvc3ZnPg==">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
+  <style>
+    /* Side-by-Side Header Layout */
+    .header-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      margin-bottom: 1.8rem;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    /* Total Icons Badge with Pulsing Live Dot */
+    .total-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      background: rgba(59, 130, 246, 0.15);
+      color: #3b82f6;
+      border: 1px solid rgba(59, 130, 246, 0.3);
+      padding: 4px 14px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+
+    .live-pulse-dot {
+      width: 7px;
+      height: 7px;
+      background-color: #10b981;
+      border-radius: 50%;
+      box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+      animation: pulse-animation 1.6s infinite;
+    }
+
+    @keyframes pulse-animation {
+      0% {
+        transform: scale(0.95);
+        box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+      }
+
+      70% {
+        transform: scale(1);
+        box-shadow: 0 0 0 6px rgba(16, 185, 129, 0);
+      }
+
+      100% {
+        transform: scale(0.95);
+        box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
+      }
+    }
+
+    /* Search Input Wrapper with Clear Button */
+    .search-input-wrapper {
+      position: relative;
+      flex: 1;
+      min-width: 220px;
+      display: flex;
+      align-items: center;
+    }
+
+    .search-input-wrapper input {
+      width: 100%;
+      padding-right: 30px;
+    }
+
+    .search-clear-btn {
+      position: absolute;
+      right: 10px;
+      background: none;
+      border: none;
+      color: var(--text-muted, #999);
+      font-size: 16px;
+      cursor: pointer;
+      display: none;
+      padding: 2px 6px;
+      border-radius: 50%;
+    }
+
+    .search-clear-btn:hover {
+      color: var(--text-primary, #333);
+    }
+
+    /* Source library tag on cards */
+    .icon-source-tag {
+      font-size: 0.68rem;
+      opacity: 0.55;
+      text-transform: lowercase;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 100%;
+    }
+
+    /* Animated Tag Badges */
+    .animated-badge {
+      font-size: 0.62rem;
+      background: rgba(236, 72, 153, 0.2);
+      color: #ec4899;
+      border: 1px solid rgba(236, 72, 153, 0.4);
+      padding: 1px 6px;
+      border-radius: 10px;
+      font-weight: 600;
+      text-transform: uppercase;
+      margin-top: 2px;
+    }
+
+    .animated-dot-compact {
+      position: absolute;
+      top: 4px;
+      right: 4px;
+      width: 6px;
+      height: 6px;
+      background-color: #ec4899;
+      border-radius: 50%;
+    }
+
+    /* Compact Mode Grid Enhancements */
+    .icon-grid.compact-mode {
+      grid-template-columns: repeat(auto-fill, minmax(56px, 1fr)) !important;
+      gap: 8px !important;
+    }
+
+    .icon-card.compact-tile {
+      padding: 6px !important;
+      min-height: 56px !important;
+      aspect-ratio: 1 / 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .icon-card.compact-tile .icon-name,
+    .icon-card.compact-tile .icon-version,
+    .icon-card.compact-tile .icon-source-tag,
+    .icon-card.compact-tile .animated-badge {
+      display: none !important;
+    }
+
+    .icon-card.compact-tile .svg-container {
+      min-height: unset !important;
+      width: 100%;
+      height: 100%;
+    }
+
+    /* Toggle Switch Component */
+    .view-toggle-container {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.82rem;
+      font-weight: 500;
+      user-select: none;
+      cursor: pointer;
+    }
+
+    .switch-input {
+      display: none;
+    }
+
+    .switch-slider {
+      position: relative;
+      width: 36px;
+      height: 20px;
+      background-color: rgba(255, 255, 255, 0.2);
+      border-radius: 20px;
+      transition: background-color 0.2s ease;
+      cursor: pointer;
+    }
+
+    .switch-slider::before {
+      content: "";
+      position: absolute;
+      width: 14px;
+      height: 14px;
+      left: 3px;
+      bottom: 3px;
+      background-color: #fff;
+      border-radius: 50%;
+      transition: transform 0.2s ease;
+    }
+
+    .switch-input:checked+.switch-slider {
+      background-color: #3b82f6;
+    }
+
+    .switch-input:checked+.switch-slider::before {
+      transform: translateX(16px);
+    }
+  </style>
 </head>
 
 <body>
@@ -76,23 +267,38 @@
   </nav>
 
   <main>
-    <h1 class="page-title">Icon Explorer</h1>
+    <!-- Side-by-Side Header Section with Live Pulsing Dot -->
+    <div class="header-container">
+      <h1 class="page-title" style="margin: 0;">Icon Explorer</h1>
+      <span id="totalIconsBadge" class="total-badge">
+        <span class="live-pulse-dot"></span>
+        <span id="totalCountText">302,713 icons</span>
+      </span>
+    </div>
 
     <!-- Pure Glass Toolbar -->
     <div class="glass-toolbar" style="flex-direction: column; align-items: stretch;">
-      <div style="display: flex; gap: 10px; width: 100%; flex-wrap: wrap;">
-        <input type="text" id="searchInput" class="glass-input" placeholder="Search icons..."
-          style="flex: 1; min-width: 200px;">
+      <div style="display: flex; gap: 10px; width: 100%; flex-wrap: wrap; align-items: center;">
 
-        <select id="categorySelect" class="glass-select">
-          <option value="all">All Categories</option>
-        </select>
+        <!-- Search Input Wrapper with Clear Button -->
+        <div class="search-input-wrapper">
+          <input type="text" id="searchInput" class="glass-input" placeholder="Search icons...">
+          <button id="searchClearBtn" class="search-clear-btn" title="Clear Search">&times;</button>
+        </div>
+
+        <!-- Filterable Category Dropdown -->
+        <div style="display: flex; gap: 6px; align-items: center;">
+          <select id="categorySelect" class="glass-select">
+            <option value="all">All Sets</option>
+          </select>
+        </div>
 
         <select id="sortSelect" class="glass-select">
           <option value="name-asc">Sort: Name (A-Z)</option>
           <option value="name-desc">Sort: Name (Z-A)</option>
           <option value="version">Sort: Version</option>
         </select>
+
       </div>
 
       <div class="filter-controls">
@@ -131,10 +337,18 @@
           <span id="sizeValue" class="slider-value">24px</span>
         </div>
 
+        <!-- Compact View Switch -->
+        <label class="view-toggle-container" title="Hide icon titles and version info for a high-density icon grid">
+          <span>Compact Grid</span>
+          <input type="checkbox" id="compactModeToggle" class="switch-input">
+          <span class="switch-slider"></span>
+        </label>
+
         <select id="limitSelect" class="glass-select" style="margin-left: auto;">
-          <option value="20">20 per page</option>
-          <option value="50" selected>50 per page</option>
+          <option value="50">50 per page</option>
           <option value="100">100 per page</option>
+          <option value="200" selected>200 per page</option>
+          <option value="500">500 per page</option>
         </select>
       </div>
     </div>
@@ -157,309 +371,559 @@
     </div>
   </div>
 
-<script>
-  // --- Theme & Intelligent Default Color Logic ---
-  const toggleBtn = document.getElementById('theme-toggle');
-  const body = document.body;
-  const themeIcon = document.getElementById('theme-icon');
-  const colorPicker = document.getElementById('colorPicker');
-  const hexInput = document.getElementById('hexInput');
+  <script>
+    // --- Theme & Intelligent Default Color Logic ---
+    const toggleBtn = document.getElementById('theme-toggle');
+    const body = document.body;
+    const themeIcon = document.getElementById('theme-icon');
+    const colorPicker = document.getElementById('colorPicker');
+    const hexInput = document.getElementById('hexInput');
 
-  function updateThemeDefaults(isDark) {
-    themeIcon.innerHTML = isDark
-      ? `<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>`
-      : `<circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>`;
-  }
-
-  // Load saved theme preference on startup
-  const savedTheme = localStorage.getItem('theme');
-  if (savedTheme === 'dark') {
-    body.classList.add('dark-mode');
-    updateThemeDefaults(true);
-  } else {
-    updateThemeDefaults(false);
-  }
-
-  function showToast(message, color = '#333') {
-    const existingToast = document.getElementById('custom-toast');
-    if (existingToast) {
-      existingToast.remove();
+    function updateThemeDefaults(isDark) {
+      themeIcon.innerHTML = isDark
+        ? `<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>`
+        : `<circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>`;
     }
-    const toast = document.createElement('div');
-    toast.id = 'custom-toast';
-    toast.textContent = message;
-    Object.assign(toast.style, {
-      position: 'fixed',
-      top: '20px',
-      right: '20px',
-      backgroundColor: color,
-      color: '#fff',
-      padding: '10px 18px',
-      borderRadius: '6px',
-      boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
-      zIndex: '9999',
-      fontSize: '14px',
-      fontFamily: 'sans-serif',
-      opacity: '0',
-      transition: 'opacity 0.3s ease, transform 0.3s ease',
-      transform: 'translateY(-10px)'
+
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark') {
+      body.classList.add('dark-mode');
+      updateThemeDefaults(true);
+    } else {
+      updateThemeDefaults(false);
+    }
+
+    function showToast(message, color = '#333') {
+      const existingToast = document.getElementById('custom-toast');
+      if (existingToast) existingToast.remove();
+
+      const toast = document.createElement('div');
+      toast.id = 'custom-toast';
+      toast.textContent = message;
+      Object.assign(toast.style, {
+        position: 'fixed',
+        top: '20px',
+        right: '20px',
+        backgroundColor: color,
+        color: '#fff',
+        padding: '10px 18px',
+        borderRadius: '6px',
+        boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
+        zIndex: '9999',
+        fontSize: '14px',
+        fontFamily: 'sans-serif',
+        opacity: '0',
+        transition: 'opacity 0.3s ease, transform 0.3s ease',
+        transform: 'translateY(-10px)'
+      });
+      document.body.appendChild(toast);
+      requestAnimationFrame(() => {
+        toast.style.opacity = '1';
+        toast.style.transform = 'translateY(0)';
+      });
+      setTimeout(() => {
+        toast.style.opacity = '0';
+        toast.style.transform = 'translateY(-10px)';
+        setTimeout(() => toast.remove(), 300);
+      }, 2000);
+    }
+
+    toggleBtn.addEventListener('click', () => {
+      const isDark = body.classList.toggle('dark-mode');
+      updateThemeDefaults(isDark);
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
     });
-    document.body.appendChild(toast);
-    requestAnimationFrame(() => {
-      toast.style.opacity = '1';
-      toast.style.transform = 'translateY(0)';
-    });
-    setTimeout(() => {
-      toast.style.opacity = '0';
-      toast.style.transform = 'translateY(-10px)';
-      setTimeout(() => toast.remove(), 300);
-    }, 2000);
-  }
 
-  toggleBtn.addEventListener('click', () => {
-    const isDark = body.classList.toggle('dark-mode');
-    updateThemeDefaults(isDark);
-    // Save theme to localStorage
-    localStorage.setItem('theme', isDark ? 'dark' : 'light');
-  });
-
-  colorPicker.addEventListener('input', (e) => {
-    const val = e.target.value;
-    hexInput.value = val;
-    localStorage.setItem('iconColor', val); // Save color
-    renderGrid();
-  });
-
-  hexInput.addEventListener('input', (e) => {
-    let val = e.target.value;
-    if (!val.startsWith('#')) val = '#' + val;
-    if (/^#[0-9A-Fa-f]{6}$/.test(val)) {
-      colorPicker.value = val;
-      localStorage.setItem('iconColor', val); // Save color
+    colorPicker.addEventListener('input', (e) => {
+      const val = e.target.value;
+      hexInput.value = val;
+      localStorage.setItem('iconColor', val);
       renderGrid();
-    }
-  });
-
-  // --- State Variables ---
-  let iconsData = [];
-  let filteredIcons = [];
-  let currentPage = 1;
-  let itemsPerPage = 50;
-  let outlineWidthVal = 2;
-  let iconSizeVal = 24;
-
-  // Load saved color preference from localStorage or fallback
-  let savedColor = localStorage.getItem('iconColor') || '#3b82f6';
-
-  // Controls Elements
-  const searchInput = document.getElementById('searchInput');
-  const categorySelect = document.getElementById('categorySelect');
-  const sortSelect = document.getElementById('sortSelect');
-  const limitSelect = document.getElementById('limitSelect');
-  const iconGrid = document.getElementById('iconGrid');
-  const paginationBar = document.getElementById('paginationBar');
-
-  // Modal Elements
-  const iconModal = document.getElementById('iconModal');
-  const closeModalBtn = document.getElementById('closeModal');
-  const modalBody = document.getElementById('modalBody');
-
-  // --- Generic Maxuiux Slider Factory ---
-  function setupSlider(sliderId, progressId, thumbId, valueId, min, max, step, onUpdate) {
-    const slider = document.getElementById(sliderId);
-    const progress = document.getElementById(progressId);
-    const thumb = document.getElementById(thumbId);
-    const valueText = document.getElementById(valueId);
-
-    let isDragging = false;
-    let sliderRect = slider.getBoundingClientRect();
-
-    const updateByPercent = (percent) => {
-      percent = Math.max(0, Math.min(100, percent));
-      const px = (percent / 100) * sliderRect.width;
-      progress.style.width = `${percent}%`;
-      thumb.style.left = `${px}px`;
-
-      let rawVal = min + (percent / 100) * (max - min);
-      let val = Math.round(rawVal / step) * step;
-      if (step < 1) val = parseFloat(val.toFixed(1));
-
-      onUpdate(val, valueText);
-    };
-
-    const setFromValue = (val) => {
-      const percent = ((val - min) / (max - min)) * 100;
-      sliderRect = slider.getBoundingClientRect();
-      const px = (percent / 100) * sliderRect.width;
-      progress.style.width = `${percent}%`;
-      thumb.style.left = `${px}px`;
-      onUpdate(val, valueText);
-    };
-
-    const getPercent = (clientX) => ((clientX - sliderRect.left) / sliderRect.width) * 100;
-
-    thumb.addEventListener('mousedown', () => { isDragging = true; sliderRect = slider.getBoundingClientRect(); thumb.classList.add('active'); });
-    thumb.addEventListener('touchstart', () => { isDragging = true; sliderRect = slider.getBoundingClientRect(); thumb.classList.add('active'); }, { passive: true });
-
-    document.addEventListener('mousemove', (e) => { if (isDragging) updateByPercent(getPercent(e.clientX)); });
-    document.addEventListener('mouseup', () => { isDragging = false; thumb.classList.remove('active'); });
-    document.addEventListener('touchmove', (e) => { if (isDragging) updateByPercent(getPercent(e.touches[0].clientX)); }, { passive: true });
-    document.addEventListener('touchend', () => { isDragging = false; thumb.classList.remove('active'); });
-
-    slider.addEventListener('mousedown', (e) => {
-      sliderRect = slider.getBoundingClientRect();
-      updateByPercent(getPercent(e.clientX));
     });
 
-    return { setFromValue };
-  }
+    hexInput.addEventListener('input', (e) => {
+      let val = e.target.value;
+      if (!val.startsWith('#')) val = '#' + val;
+      if (/^#[0-9A-Fa-f]{6}$/.test(val)) {
+        colorPicker.value = val;
+        localStorage.setItem('iconColor', val);
+        renderGrid();
+      }
+    });
 
-  // Initialize Outline Slider (1px to 3px)
-  const outlineSliderCtrl = setupSlider('outlineSlider', 'outlineProgress', 'outlineThumb', 'outlineValue', 1, 3, 0.5, (val, textElem) => {
-    outlineWidthVal = val;
-    textElem.innerText = val + 'px';
-    renderGrid();
-  });
+    function generate3CharHash(str) {
+      let hash = 5381;
+      for (let i = 0; i < str.length; i++) {
+        hash = (hash * 33) ^ str.charCodeAt(i);
+      }
+      const chars = '0123456789abcdefghijklmnopqrstuvwxyz';
+      let absHash = Math.abs(hash);
+      let result = '';
+      for (let i = 0; i < 3; i++) {
+        result += chars[absHash % chars.length];
+        absHash = Math.floor(absHash / chars.length);
+      }
+      return result;
+    }
 
-  // Initialize Size Slider (12px to 256px)
-  const sizeSliderCtrl = setupSlider('sizeSlider', 'sizeProgress', 'sizeThumb', 'sizeValue', 12, 256, 2, (val, textElem) => {
-    iconSizeVal = val;
-    textElem.innerText = val + 'px';
-    renderGrid();
-  });
+    // --- State Variables ---
+    let indexData = [];
+    const hashMap = new Map();
+    const loadedFilesCache = new Map();
+    let iconsData = [];
+    let filteredIcons = [];
+    let currentPage = 1;
+    let itemsPerPage = 200;
+    let outlineWidthVal = 2;
+    let iconSizeVal = 24;
 
-  // Initial load setup
-  async function initIcons() {
-    colorPicker.value = savedColor;
-    hexInput.value = savedColor;
+    // Persistent Compact Grid state
+    let isCompactMode = localStorage.getItem('compactMode') === 'true';
 
-    outlineSliderCtrl.setFromValue(2);
-    sizeSliderCtrl.setFromValue(24);
+    let savedColor = localStorage.getItem('iconColor') || '#3b82f6';
 
-    try {
-      const response = await fetch('svgs.json');
-      if (!response.ok) throw new Error("File not found");
-      const json = await response.json();
-      parseData(json);
-    } catch (error) {
-      console.warn("Could not fetch svgs.json. Using fallback sample data.");
-      const fallbackJSON = {
-        "text-quote": {
-          "version": "0.0.1",
-          "category": "Text formatting",
-          "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#ffffff\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M17 5H3\"></path><path d=\"M21 12H8\"></path><path d=\"M21 19H8\"></path><path d=\"M3 12v7\"></path></svg>"
-        },
-        "text-search": {
-          "version": "0.0.1",
-          "category": "Text formatting",
-          "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#ffffff\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M21 5H3\"></path><path d=\"M10 12H3\"></path><path d=\"M10 19H3\"></path><circle cx=\"17\" cy=\"15\" r=\"3\"></circle><path d=\"m21 19-1.9-1.9\"></path></svg>"
-        },
-        "home": {
-          "version": "1.0.0",
-          "category": "System",
-          "svg": "<svg viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg' stroke='#ffffff' stroke-width='2' fill='none'><path d='M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z'/></svg>"
-        }
+    // Controls Elements
+    const searchInput = document.getElementById('searchInput');
+    const searchClearBtn = document.getElementById('searchClearBtn');
+    const categorySelect = document.getElementById('categorySelect');
+    const sortSelect = document.getElementById('sortSelect');
+    const limitSelect = document.getElementById('limitSelect');
+    const iconGrid = document.getElementById('iconGrid');
+    const paginationBar = document.getElementById('paginationBar');
+    const compactModeToggle = document.getElementById('compactModeToggle');
+    const totalCountText = document.getElementById('totalCountText');
+
+    // Modal Elements
+    const iconModal = document.getElementById('iconModal');
+    const closeModalBtn = document.getElementById('closeModal');
+    const modalBody = document.getElementById('modalBody');
+
+    // Set initial compact toggle state
+    compactModeToggle.checked = isCompactMode;
+    compactModeToggle.addEventListener('change', (e) => {
+      isCompactMode = e.target.checked;
+      localStorage.setItem('compactMode', isCompactMode);
+      renderGrid();
+    });
+
+    // Search Clear Button handler
+    searchInput.addEventListener('input', () => {
+      searchClearBtn.style.display = searchInput.value ? 'block' : 'none';
+      currentPage = 1;
+      applyFilters();
+    });
+
+    searchClearBtn.addEventListener('click', () => {
+      searchInput.value = '';
+      searchClearBtn.style.display = 'none';
+      currentPage = 1;
+      applyFilters();
+    });
+
+    // --- Generic Maxuiux Slider Factory ---
+    function setupSlider(sliderId, progressId, thumbId, valueId, min, max, step, onUpdate) {
+      const slider = document.getElementById(sliderId);
+      const progress = document.getElementById(progressId);
+      const thumb = document.getElementById(thumbId);
+      const valueText = document.getElementById(valueId);
+
+      let isDragging = false;
+      let sliderRect = slider.getBoundingClientRect();
+
+      const updateByPercent = (percent) => {
+        percent = Math.max(0, Math.min(100, percent));
+        const px = (percent / 100) * sliderRect.width;
+        progress.style.width = `${percent}%`;
+        thumb.style.left = `${px}px`;
+
+        let rawVal = min + (percent / 100) * (max - min);
+        let val = Math.round(rawVal / step) * step;
+        if (step < 1) val = parseFloat(val.toFixed(1));
+
+        onUpdate(val, valueText);
       };
-      for (let i = 1; i <= 45; i++) fallbackJSON[`user-${i}`] = { version: `1.0.${i}`, category: "User", svg: `<svg viewBox='0 0 24 24'><circle cx='12' cy='8' r='4'/><path d='M12 14c-6.1 0-8 4-8 4v2h16v-2s-1.9-4-8-4z'/></svg>` };
-      parseData(fallbackJSON);
-    }
-  }
 
-  function parseData(json) {
-    iconsData = Object.keys(json).map(key => ({
-      name: key,
-      version: json[key].version || "1.0.0",
-      category: json[key].category || "Uncategorized",
-      svg: json[key].svg
-    }));
+      const setFromValue = (val) => {
+        const percent = ((val - min) / (max - min)) * 100;
+        sliderRect = slider.getBoundingClientRect();
+        const px = (percent / 100) * sliderRect.width;
+        progress.style.width = `${percent}%`;
+        thumb.style.left = `${px}px`;
+        onUpdate(val, valueText);
+      };
 
-    const categories = [...new Set(iconsData.map(i => i.category))].sort();
-    categorySelect.innerHTML = '<option value="all">All Categories</option>';
-    categories.forEach(cat => {
-      const option = document.createElement('option');
-      option.value = cat;
-      option.innerText = cat;
-      categorySelect.appendChild(option);
-    });
+      const getPercent = (clientX) => ((clientX - sliderRect.left) / sliderRect.width) * 100;
 
-    applyFilters();
-    checkUrlHash();
-  }
+      thumb.addEventListener('mousedown', () => { isDragging = true; sliderRect = slider.getBoundingClientRect(); thumb.classList.add('active'); });
+      thumb.addEventListener('touchstart', () => { isDragging = true; sliderRect = slider.getBoundingClientRect(); thumb.classList.add('active'); }, { passive: true });
 
-  // Event Listeners for Filters
-  searchInput.addEventListener('input', () => { currentPage = 1; applyFilters(); });
-  categorySelect.addEventListener('change', () => { currentPage = 1; applyFilters(); });
-  sortSelect.addEventListener('change', () => { currentPage = 1; applyFilters(); });
-  limitSelect.addEventListener('change', (e) => { itemsPerPage = parseInt(e.target.value); currentPage = 1; applyFilters(); });
+      document.addEventListener('mousemove', (e) => { if (isDragging) updateByPercent(getPercent(e.clientX)); });
+      document.addEventListener('mouseup', () => { isDragging = false; thumb.classList.remove('active'); });
+      document.addEventListener('touchmove', (e) => { if (isDragging) updateByPercent(getPercent(e.touches[0].clientX)); }, { passive: true });
+      document.addEventListener('touchend', () => { isDragging = false; thumb.classList.remove('active'); });
 
-  function applyFilters() {
-    const query = searchInput.value.toLowerCase();
-    const selectedCategory = categorySelect.value;
-    const sort = sortSelect.value;
+      slider.addEventListener('mousedown', (e) => {
+        sliderRect = slider.getBoundingClientRect();
+        updateByPercent(getPercent(e.clientX));
+      });
 
-    filteredIcons = iconsData.filter(icon => {
-      const matchesQuery = icon.name.toLowerCase().includes(query);
-      const matchesCategory = selectedCategory === 'all' || icon.category === selectedCategory;
-      return matchesQuery && matchesCategory;
-    });
-
-    filteredIcons.sort((a, b) => {
-      if (sort === 'name-asc') return a.name.localeCompare(b.name);
-      if (sort === 'name-desc') return b.name.localeCompare(a.name);
-      if (sort === 'version') return b.version.localeCompare(a.version);
-    });
-
-    renderGrid();
-    renderPaginationBar();
-  }
-
-  function formatSvgString(svgString, customSize, customColor, customOutline) {
-    let modified = svgString;
-    modified = modified.replace(/width="[^"]*"/, `width="${customSize}"`).replace(/height="[^"]*"/, `height="${customSize}"`);
-    if (!modified.includes('width=')) {
-      modified = modified.replace('<svg', `<svg width="${customSize}" height="${customSize}"`);
-    }
-    modified = modified.replace(/stroke="[^"]*"/g, `stroke="${customColor}"`);
-    modified = modified.replace(/stroke-width="[^"]*"/g, `stroke-width="${customOutline}"`);
-    return modified;
-  }
-
-  function renderGrid() {
-    iconGrid.innerHTML = '';
-    const start = (currentPage - 1) * itemsPerPage;
-    const end = start + itemsPerPage;
-    const paginatedItems = filteredIcons.slice(start, end);
-
-    if (paginatedItems.length === 0) {
-      iconGrid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: var(--text-muted); padding: 2rem;">No icons found..</p>';
-      return;
+      return { setFromValue };
     }
 
-    paginatedItems.forEach(icon => {
-      const card = document.createElement('div');
-      card.className = 'icon-card';
-      // Grid preview capped at 24px max for layout consistency
-      const gridDisplaySize = Math.min(iconSizeVal, 24);
-      const previewSvg = formatSvgString(icon.svg, gridDisplaySize, colorPicker.value, outlineWidthVal);
+    const outlineSliderCtrl = setupSlider('outlineSlider', 'outlineProgress', 'outlineThumb', 'outlineValue', 0.5, 3, 0.5, (val, textElem) => {
+      outlineWidthVal = val;
+      textElem.innerText = val + 'px';
+      renderGrid();
+    });
 
-      card.innerHTML = `
+    const sizeSliderCtrl = setupSlider('sizeSlider', 'sizeProgress', 'sizeThumb', 'sizeValue', 12, 256, 2, (val, textElem) => {
+      iconSizeVal = val;
+      textElem.innerText = val + 'px';
+      renderGrid();
+    });
+
+    async function loadSvgFile(fileName) {
+      if (loadedFilesCache.has(fileName)) {
+        return loadedFilesCache.get(fileName);
+      }
+      try {
+        const res = await fetch(`save/${fileName}`);
+        if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+        const data = await res.json();
+        loadedFilesCache.set(fileName, data);
+        return data;
+      } catch (e) {
+        console.error(`Error loading save/${fileName}:`, e);
+        return null;
+      }
+    }
+
+    async function initIcons() {
+      colorPicker.value = savedColor;
+      hexInput.value = savedColor;
+
+      outlineSliderCtrl.setFromValue(2);
+      sizeSliderCtrl.setFromValue(24);
+
+      try {
+        const response = await fetch('save/svgs.json');
+        if (!response.ok) throw new Error("Index file save/svgs.json not found");
+        const masterIndex = await response.json();
+        indexData = masterIndex.indices || [];
+
+        if (masterIndex.totalSvgs) {
+          totalCountText.innerText = `${masterIndex.totalSvgs.toLocaleString()} icons`;
+        }
+
+        categorySelect.innerHTML = '<option value="all">All Sets</option>';
+        indexData.forEach(item => {
+          const option = document.createElement('option');
+          option.value = item.file;
+          const displayName = item.file.replace('.json', '');
+          option.innerText = `${displayName} (${item.count})`;
+          categorySelect.appendChild(option);
+
+          const fileTag = item.file.replace('.json', '');
+          const fileHash = generate3CharHash(`author_cat_${fileTag}`);
+          hashMap.set(fileHash, item.file);
+        });
+
+        const initialHash = window.location.hash.substring(1);
+        if (initialHash) {
+          await handleDirectHashRoute(initialHash);
+        }
+
+        const allFiles = indexData.map(i => i.file);
+        loadFilesAndMerge(allFiles);
+
+      } catch (error) {
+        console.warn("Could not load save/svgs.json. Loading fallback mock data.", error);
+        categorySelect.innerHTML = '<option value="all">Sample Set</option>';
+        totalCountText.innerText = '1 icon';
+        const fallbackJSON = {
+          info: {
+            name: "Sample Collection",
+            total: 1,
+            author: { name: "Sample Author", url: "https://example.com" },
+            license: { title: "MIT", spdx: "MIT", url: "https://opensource.org/licenses/MIT" }
+          },
+          icons: {
+            "live-16-filled": {
+              "version": "0.0.1",
+              "category": "Social",
+              "animated": true,
+              "svg": `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2A10 10 0 0 0 2 12a10 10 0 0 0 10 10 10 10 0 0 0 10-10A10 10 0 0 0 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg>`
+            }
+          }
+        };
+        loadedFilesCache.set("sample.json", fallbackJSON);
+        processIconsFromFiles(["sample.json"]);
+      }
+    }
+
+    async function handleDirectHashRoute(hashParam) {
+      const parts = hashParam.split('-');
+      const hashPrefix = parts[0];
+      const targetFile = hashMap.get(hashPrefix);
+
+      if (targetFile) {
+        const fileData = await loadSvgFile(targetFile);
+        if (fileData) {
+          processIconsFromFiles([targetFile]);
+          const targetIcon = iconsData.find(i => i.id.toLowerCase() === hashParam.toLowerCase());
+          if (targetIcon) {
+            openModal(targetIcon);
+          }
+        }
+      }
+    }
+
+    async function loadFilesAndMerge(files) {
+      if (iconsData.length === 0) {
+        iconGrid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: var(--text-muted); padding: 2rem;">Loading icon collections...</p>';
+      }
+      await Promise.all(files.map(file => loadSvgFile(file)));
+      processIconsFromFiles(files);
+    }
+
+    function processIconsFromFiles(files) {
+      const newIcons = [];
+
+      files.forEach(fileName => {
+        const fileData = loadedFilesCache.get(fileName);
+        if (!fileData || !fileData.icons) return;
+
+        const info = fileData.info || {};
+        const fileIcons = fileData.icons;
+        const fileTag = fileName.replace('.json', '');
+
+        const hashPrefix = generate3CharHash(`author_cat_${fileTag}`);
+
+        Object.keys(fileIcons).forEach(key => {
+          const uniqueId = `${hashPrefix}-${key}`;
+          const iconObj = fileIcons[key];
+
+          // Detect Animated Status
+          const isAnimated = (typeof iconObj === 'object') && (iconObj.animated === true || iconObj.animated === "true");
+
+          if (!iconsData.some(i => i.id === uniqueId)) {
+            newIcons.push({
+              id: uniqueId,
+              hash: hashPrefix,
+              name: key,
+              sourceSet: fileTag,
+              version: (typeof iconObj === 'object' && iconObj.version) ? iconObj.version : "1.0.0",
+              category: (typeof iconObj === 'object' && iconObj.category) || info.category || info.name || "General",
+              animated: isAnimated,
+              svg: (typeof iconObj === 'object' && iconObj.svg) ? iconObj.svg : iconObj,
+              fileSource: fileName,
+              info: info
+            });
+          }
+        });
+      });
+
+      iconsData = [...iconsData, ...newIcons];
+      applyFilters();
+    }
+
+    categorySelect.addEventListener('change', () => {
+      currentPage = 1;
+      applyFilters();
+    });
+
+    sortSelect.addEventListener('change', () => { currentPage = 1; applyFilters(); });
+    limitSelect.addEventListener('change', (e) => { itemsPerPage = parseInt(e.target.value); currentPage = 1; applyFilters(); });
+
+    function getSearchRank(icon, query) {
+      if (!query) return 0;
+      const name = icon.name.toLowerCase();
+      const source = icon.sourceSet.toLowerCase();
+
+      if (name === query) return 1;
+
+      const boundaryRegex = new RegExp(`(^|[-_/${'\\s'}])` + escapeRegex(query) + `([-_/${'\\s'}]|$)`);
+      if (boundaryRegex.test(name)) return 2;
+
+      if (name.startsWith(query)) return 3;
+
+      if (name.includes(query)) return 4;
+
+      if (source.includes(query)) return 5;
+
+      return 99;
+    }
+
+    function escapeRegex(str) {
+      return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    }
+
+    function applyFilters() {
+      const query = searchInput.value.trim().toLowerCase();
+      const selectedCategory = categorySelect.value;
+      const sort = sortSelect.value;
+
+      let baseSet = iconsData;
+
+      // Fixed Category Filtering without page hanging
+      if (selectedCategory !== 'all') {
+        baseSet = iconsData.filter(i => i.fileSource === selectedCategory);
+      }
+
+      if (!query) {
+        filteredIcons = [...baseSet];
+        filteredIcons.sort((a, b) => {
+          if (sort === 'name-asc') return a.name.localeCompare(b.name);
+          if (sort === 'name-desc') return b.name.localeCompare(a.name);
+          if (sort === 'version') return b.version.localeCompare(a.version);
+        });
+      } else {
+        filteredIcons = baseSet
+          .map(icon => ({ icon, rank: getSearchRank(icon, query) }))
+          .filter(item => item.rank < 99)
+          .sort((a, b) => {
+            if (a.rank !== b.rank) return a.rank - b.rank;
+            if (sort === 'name-asc') return a.icon.name.localeCompare(b.icon.name);
+            if (sort === 'name-desc') return b.icon.name.localeCompare(a.icon.name);
+            if (sort === 'version') return b.icon.version.localeCompare(a.icon.version);
+            return 0;
+          })
+          .map(item => item.icon);
+      }
+
+      renderGrid();
+      renderPaginationBar();
+    }
+
+    function formatSvgString(svgString, customSize, customColor, customOutline) {
+      try {
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(svgString, 'image/svg+xml');
+        const svgEl = doc.querySelector('svg');
+
+        if (!svgEl) return svgString;
+
+        if (!svgEl.hasAttribute('viewBox')) {
+          const w = svgEl.getAttribute('width') || 24;
+          const h = svgEl.getAttribute('height') || 24;
+          svgEl.setAttribute('viewBox', `0 0 ${parseInt(w)} ${parseInt(h)}`);
+        }
+
+        svgEl.setAttribute('width', customSize);
+        svgEl.setAttribute('height', customSize);
+
+        const rootStroke = svgEl.getAttribute('stroke');
+        const rootFill = svgEl.getAttribute('fill');
+        const isStrokedSvg = (rootStroke && rootStroke !== 'none') || svgEl.querySelectorAll('[stroke]:not([stroke="none"])').length > 0;
+
+        if (rootFill && rootFill !== 'none') {
+          svgEl.setAttribute('fill', customColor);
+        }
+        if (rootStroke && rootStroke !== 'none') {
+          svgEl.setAttribute('stroke', customColor);
+          svgEl.setAttribute('stroke-width', customOutline);
+        }
+
+        const graphicalElements = svgEl.querySelectorAll('path, circle, rect, polygon, polyline, ellipse, line');
+
+        graphicalElements.forEach(el => {
+          const fillAttr = el.getAttribute('fill');
+          const strokeAttr = el.getAttribute('stroke');
+
+          if (isStrokedSvg) {
+            el.setAttribute('stroke', customColor);
+            el.setAttribute('stroke-width', customOutline);
+            if (!fillAttr || fillAttr === 'none' || fillAttr === 'currentColor') {
+              el.setAttribute('fill', 'none');
+            }
+          } else {
+            if (fillAttr !== 'none') {
+              el.setAttribute('fill', customColor);
+            }
+            if (strokeAttr && strokeAttr !== 'none') {
+              el.setAttribute('stroke', customColor);
+              el.setAttribute('stroke-width', customOutline);
+            }
+          }
+
+          if (el.style.fill && el.style.fill !== 'none') el.style.fill = customColor;
+          if (el.style.stroke && el.style.stroke !== 'none') {
+            el.style.stroke = customColor;
+            el.style.strokeWidth = customOutline + 'px';
+          }
+        });
+
+        const hasAnyFill = svgEl.hasAttribute('fill') || svgEl.querySelectorAll('[fill]').length > 0;
+        const hasAnyStroke = svgEl.hasAttribute('stroke') || svgEl.querySelectorAll('[stroke]').length > 0;
+
+        if (!hasAnyFill && !hasAnyStroke) {
+          svgEl.setAttribute('fill', customColor);
+        }
+
+        return new XMLSerializer().serializeToString(svgEl);
+      } catch (e) {
+        console.error("SVG Formatting Error: ", e);
+        return svgString;
+      }
+    }
+
+    function renderGrid() {
+      iconGrid.innerHTML = '';
+
+      if (isCompactMode) {
+        iconGrid.classList.add('compact-mode');
+      } else {
+        iconGrid.classList.remove('compact-mode');
+      }
+
+      const start = (currentPage - 1) * itemsPerPage;
+      const end = start + itemsPerPage;
+      const paginatedItems = filteredIcons.slice(start, end);
+
+      if (paginatedItems.length === 0) {
+        iconGrid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: var(--text-muted); padding: 2rem;">No icons found.</p>';
+        return;
+      }
+
+      paginatedItems.forEach(icon => {
+        const card = document.createElement('div');
+        card.className = isCompactMode ? 'icon-card compact-tile' : 'icon-card';
+        card.title = `${icon.name} (${icon.sourceSet})`;
+
+        const gridDisplaySize = isCompactMode ? Math.min(iconSizeVal, 32) : Math.min(iconSizeVal, 48);
+        const previewSvg = formatSvgString(icon.svg, gridDisplaySize, colorPicker.value, outlineWidthVal);
+
+        const animatedTagHtml = icon.animated ? `<span class="animated-badge">animated</span>` : '';
+        const animatedDotHtml = icon.animated ? `<span class="animated-dot-compact" title="Animated Icon"></span>` : '';
+
+        if (isCompactMode) {
+          card.innerHTML = `
+          ${animatedDotHtml}
+          <div class="svg-container" style="display:flex; justify-content:center; align-items:center;">
+            ${previewSvg}
+          </div>
+        `;
+        } else {
+          card.innerHTML = `
           <div class="svg-container" style="display:flex; justify-content:center; align-items:center; min-height:52px;">
             ${previewSvg}
           </div>
           <div class="icon-name">${icon.name}</div>
+          <div class="icon-source-tag">${icon.sourceSet}</div>
+          ${animatedTagHtml}
           <div class="icon-version">v${icon.version}</div>
         `;
+        }
 
-      card.addEventListener('click', () => {
-        window.location.hash = icon.name;
+        card.addEventListener('click', () => {
+          window.location.hash = icon.id;
+        });
+
+        iconGrid.appendChild(card);
       });
+    }
 
-      iconGrid.appendChild(card);
-    });
-  }
-
-  // --- Dot Pagination Renderer with Side Arrows ---
-  function renderPaginationBar() {
+    function renderPaginationBar() {
       paginationBar.innerHTML = '';
 
       const totalPages = Math.ceil(filteredIcons.length / itemsPerPage);
@@ -483,11 +947,7 @@
       firstBtn.innerHTML = '«';
       firstBtn.title = 'First Page';
       firstBtn.disabled = currentPage === 1;
-      firstBtn.onclick = () => {
-        if (currentPage > 1) {
-          changePage(1);
-        }
-      };
+      firstBtn.onclick = () => { if (currentPage > 1) changePage(1); };
       paginationBar.appendChild(firstBtn);
 
       const prevBtn = document.createElement('button');
@@ -495,11 +955,7 @@
       prevBtn.innerHTML = '‹';
       prevBtn.title = 'Previous Page';
       prevBtn.disabled = currentPage === 1;
-      prevBtn.onclick = () => {
-        if (currentPage > 1) {
-          changePage(currentPage - 1);
-        }
-      };
+      prevBtn.onclick = () => { if (currentPage > 1) changePage(currentPage - 1); };
       paginationBar.appendChild(prevBtn);
 
       const pagesContainer = document.createElement('div');
@@ -510,13 +966,7 @@
         pageBtn.className = `page-dot ${i === currentPage ? 'active' : ''}`;
         pageBtn.innerHTML = i;
         pageBtn.title = `Page ${i}`;
-
-        pageBtn.onclick = () => {
-          if (i !== currentPage) {
-            changePage(i);
-          }
-        };
-
+        pageBtn.onclick = () => { if (i !== currentPage) changePage(i); };
         pagesContainer.appendChild(pageBtn);
       }
 
@@ -527,11 +977,7 @@
       nextBtn.innerHTML = '›';
       nextBtn.title = 'Next Page';
       nextBtn.disabled = currentPage === totalPages;
-      nextBtn.onclick = () => {
-        if (currentPage < totalPages) {
-          changePage(currentPage + 1);
-        }
-      };
+      nextBtn.onclick = () => { if (currentPage < totalPages) changePage(currentPage + 1); };
       paginationBar.appendChild(nextBtn);
 
       const lastBtn = document.createElement('button');
@@ -539,248 +985,222 @@
       lastBtn.innerHTML = '»';
       lastBtn.title = 'Last Page';
       lastBtn.disabled = currentPage === totalPages;
-      lastBtn.onclick = () => {
-        if (currentPage < totalPages) {
-          changePage(totalPages);
-        }
-      };
+      lastBtn.onclick = () => { if (currentPage < totalPages) changePage(totalPages); };
       paginationBar.appendChild(lastBtn);
     }
 
-  function changePage(page) {
-    if (page === currentPage) return;
+    function changePage(page) {
+      if (page === currentPage) return;
 
-    currentPage = page;
-    const grid = document.querySelector('.icons-grid');
-
-    if (grid) {
-      grid.classList.add('page-changing');
-
-      setTimeout(() => {
-        renderGrid();
-        renderPaginationBar();
-
-        window.scrollTo({
-          top: 0,
-          behavior: 'smooth'
-        });
-
-        requestAnimationFrame(() => {
-          const newGrid = document.querySelector('.icons-grid');
-          if (newGrid) {
-            newGrid.classList.remove('page-changing');
-            newGrid.classList.add('page-changed');
-
-            setTimeout(() => {
-              newGrid.classList.remove('page-changed');
-            }, 400);
-          }
-        });
-      }, 150);
-    } else {
+      currentPage = page;
       renderGrid();
       renderPaginationBar();
-
-      window.scrollTo({
-        top: 0,
-        behavior: 'smooth'
-      });
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
-  }
 
-  // --- Modal & URL Routing ---
-  window.addEventListener('hashchange', checkUrlHash);
+    window.addEventListener('hashchange', checkUrlHash);
 
-  function checkUrlHash() {
-    const hash = window.location.hash.substring(1);
-    if (hash) {
-      const icon = iconsData.find(i => iconMatch(i.name, hash));
-      if (icon) {
-        openModal(icon);
-      }
-    } else {
-      closeModal();
-    }
-  }
+    async function checkUrlHash() {
+      const hash = window.location.hash.substring(1);
+      if (hash) {
+        let icon = iconsData.find(i => i.id.toLowerCase() === hash.toLowerCase()) ||
+          iconsData.find(i => i.name.toLowerCase() === hash.toLowerCase());
 
-  function iconMatch(dbName, hashName) {
-    return dbName.toLowerCase() === hashName.toLowerCase();
-  }
-
-  function openModal(icon) {
-    let modalColor = colorPicker.value;
-    let modalSize = iconSizeVal;
-    let modalOutline = outlineWidthVal;
-
-    function updateModalContent() {
-      const updatedSvg = formatSvgString(icon.svg, modalSize, modalColor, modalOutline);
-      const htmlSnippet = `<i class="ci ci-${icon.name}" style="color: ${modalColor}; font-size: ${modalSize}px;"></i>`;
-
-      const previewContainer = modalBody.querySelector('#modalIconPreview');
-      if (previewContainer) previewContainer.innerHTML = updatedSvg;
-
-      const htmlBox = modalBody.querySelector('#modalHtmlSnippetBox');
-      const svgBox = modalBody.querySelector('#modalSvgSnippetBox');
-      if (htmlBox) htmlBox.textContent = htmlSnippet;
-      if (svgBox) svgBox.textContent = updatedSvg;
-
-      const downloadBtnSVG = modalBody.querySelector('#modalDownloadBtnSVG');
-      const downloadBtnPNG = modalBody.querySelector('#modalDownloadBtnPNG');
-      if (downloadBtnSVG) {
-        downloadBtnSVG.setAttribute('onclick', `downloadPrompt('${icon.name}', \`${encodeURIComponent(updatedSvg)}\`, 'svg')`);
-      }
-      if (downloadBtnPNG) {
-        downloadBtnPNG.setAttribute('onclick', `downloadPrompt('${icon.name}', \`${encodeURIComponent(updatedSvg)}\`, 'png')`);
+        if (!icon) {
+          await handleDirectHashRoute(hash);
+        } else {
+          openModal(icon);
+        }
+      } else {
+        closeModal();
       }
     }
 
-    modalBody.innerHTML = `
-          <div id="modalIconPreview" style="transform: scale(1.2); margin: 1rem 0; display:flex; justify-content:center; min-height:80px; align-items:center;">
-            ${formatSvgString(icon.svg, modalSize, modalColor, modalOutline)}
-          </div>
-          <h2 style="margin: 0; font-size: 1.3rem; font-weight: 600;">${icon.name}</h2>
-          <p style="font-size: 0.82rem; opacity: 0.7; margin: 0 0 12px 0;">Category: ${icon.category} &bull; Version: v${icon.version}</p>
+    function openModal(icon) {
+      let modalColor = colorPicker.value;
+      let modalSize = iconSizeVal;
+      let modalOutline = outlineWidthVal;
 
-          <div style="width: 100%; text-align: left; margin-top: 10px;">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2px;">
-              <label style="font-size: 0.75rem; opacity: 0.6; font-weight: 500;">HTML Snippet:</label>
-              <div style="display: flex; gap: 6px;">
-                <button class="copy-box-btn" onclick="copyCode(document.getElementById('modalHtmlSnippetBox').textContent)" title="Copy HTML">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
-                </button>
-              </div>
-            </div>
-            <div class="code-box-wrapper">
-              <div class="code-box" id="modalHtmlSnippetBox"></div>
-            </div>
-          </div>
+      const info = icon.info || {};
+      const authorName = info.author?.name || 'Unknown Author';
+      const authorUrl = info.author?.url || '#';
+      const licenseTitle = info.license?.title || info.license?.spdx || 'Unspecified License';
+      const licenseUrl = info.license?.url || '#';
 
-          <div style="width: 100%; text-align: left; margin-top: 6px;">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
-                <label style="font-size: 0.75rem; opacity: 0.6; font-weight: 500;">SVG Source Code:</label>
-                
-                <div style="display: flex; gap: 6px;">
-                    <label style="font-size: 0.75rem; opacity: 0.6; font-weight: 500; margin-top: 5px;">Copy :</label>
-                    <button class="copy-box-btn" onclick="copySvgCode(document.getElementById('modalSvgSnippetBox').textContent)" title="Copy SVG Source" style="display: flex; align-items: center; gap: 4px; padding: 2px 6px; font-size: 0.7rem; cursor: pointer;">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
-                        <span>SVG</span>
-                    </button>
-                    <button class="copy-box-btn" onclick="copySvgBase64(document.getElementById('modalSvgSnippetBox').textContent)" title="Copy Base64 Data URI" style="display: flex; align-items: center; gap: 4px; padding: 2px 6px; font-size: 0.7rem; cursor: pointer;">
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
-                      <span>URI</span>
-                  </button>
-                </div>
-            </div>
-            
-            <div class="code-box-wrapper">
-                <div class="code-box" id="modalSvgSnippetBox"></div>
-            </div>
-          </div>
+      function updateModalContent() {
+        const updatedSvg = formatSvgString(icon.svg, modalSize, modalColor, modalOutline);
 
-          <div class="modal-actions">
-            <button class="modal-btn green" onclick="">Edit</button>
-            <button id="modalDownloadBtnSVG" class="modal-btn primary">SVG</button>
-            <button id="modalDownloadBtnPNG" class="modal-btn primary">PNG</button>
-            <button class="modal-icon-btn" onclick="shareIcon('${icon.name}')" title="Share Link">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>
+        const htmlSnippet = `<i class="ci ci-${icon.id}"></i>`;
+
+        const previewContainer = modalBody.querySelector('#modalIconPreview');
+        if (previewContainer) previewContainer.innerHTML = updatedSvg;
+
+        const htmlBox = modalBody.querySelector('#modalHtmlSnippetBox');
+        const svgBox = modalBody.querySelector('#modalSvgSnippetBox');
+        if (htmlBox) htmlBox.textContent = htmlSnippet;
+        if (svgBox) svgBox.textContent = updatedSvg;
+
+        const downloadBtnSVG = modalBody.querySelector('#modalDownloadBtnSVG');
+        const downloadBtnPNG = modalBody.querySelector('#modalDownloadBtnPNG');
+        if (downloadBtnSVG) {
+          downloadBtnSVG.setAttribute('onclick', `downloadPrompt('${icon.name}', \`${encodeURIComponent(updatedSvg)}\`, 'svg')`);
+        }
+        if (downloadBtnPNG) {
+          downloadBtnPNG.setAttribute('onclick', `downloadPrompt('${icon.name}', \`${encodeURIComponent(updatedSvg)}\`, 'png')`);
+        }
+      }
+
+      modalBody.innerHTML = `
+      <div id="modalIconPreview" style="transform: scale(1.2); margin: 1rem 0; display:flex; justify-content:center; min-height:80px; align-items:center;">
+        ${formatSvgString(icon.svg, modalSize, modalColor, modalOutline)}
+      </div>
+      <h2 style="margin: 0; font-size: 1.3rem; font-weight: 600;">${icon.name}</h2>
+      <p style="font-size: 0.82rem; opacity: 0.7; margin: 0 0 6px 0;">Library: ${icon.sourceSet} &bull; Category: ${icon.category} &bull; Version: v${icon.version}</p>
+
+      <div style="width: 100%; display: flex; justify-content: space-around; background: rgba(255,255,255,0.05); padding: 8px 12px; border-radius: 8px; font-size: 0.8rem; margin-bottom: 8px;">
+        <div>
+          <span style="opacity:0.6;">Author:</span> 
+          ${authorUrl !== '#' ? `<a href="${authorUrl}" target="_blank" style="color:var(--text-color, #3b82f6); text-decoration:underline;">${authorName}</a>` : `<span>${authorName}</span>`}
+        </div>
+        <div>
+          <span style="opacity:0.6;">License:</span> 
+          ${licenseUrl !== '#' ? `<a href="${licenseUrl}" target="_blank" style="color:var(--text-color, #3b82f6); text-decoration:underline;">${licenseTitle}</a>` : `<span>${licenseTitle}</span>`}
+        </div>
+      </div>
+
+      <div style="width: 100%; text-align: left; margin-top: 6px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2px;">
+          <label style="font-size: 0.75rem; opacity: 0.6; font-weight: 500;">HTML Snippet:</label>
+          <div style="display: flex; gap: 6px;">
+            <button class="copy-box-btn" onclick="copyCode(document.getElementById('modalHtmlSnippetBox').textContent)" title="Copy HTML">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
             </button>
           </div>
-        `;
+        </div>
+        <div class="code-box-wrapper">
+          <div class="code-box" id="modalHtmlSnippetBox"></div>
+        </div>
+      </div>
 
-    updateModalContent();
-    iconModal.classList.add('active');
-  }
+      <div style="width: 100%; text-align: left; margin-top: 6px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+            <label style="font-size: 0.75rem; opacity: 0.6; font-weight: 500;">SVG Source Code:</label>
+            
+            <div style="display: flex; gap: 6px;">
+                <label style="font-size: 0.75rem; opacity: 0.6; font-weight: 500; margin-top: 5px;">Copy :</label>
+                <button class="copy-box-btn" onclick="copySvgCode(document.getElementById('modalSvgSnippetBox').textContent)" title="Copy SVG Source" style="display: flex; align-items: center; gap: 4px; padding: 2px 6px; font-size: 0.7rem; cursor: pointer;">
+                  SVG
+                </button>
+                <button class="copy-box-btn" onclick="copySvgBase64(document.getElementById('modalSvgSnippetBox').textContent)" title="Copy Base64 Data URI" style="display: flex; align-items: center; gap: 4px; padding: 2px 6px; font-size: 0.7rem; cursor: pointer;">
+                  URI
+                </button>
+            </div>
+        </div>
+        
+        <div class="code-box-wrapper">
+            <div class="code-box" id="modalSvgSnippetBox"></div>
+        </div>
+      </div>
 
-  function closeModal() {
-    iconModal.classList.remove('active');
-    if (window.location.hash) {
-      history.pushState("", document.title, window.location.pathname + window.location.search);
+      <div class="modal-actions">
+        <button class="modal-btn green" onclick="">Edit</button>
+        <button id="modalDownloadBtnSVG" class="modal-btn primary">SVG</button>
+        <button id="modalDownloadBtnPNG" class="modal-btn primary">PNG</button>
+        <button class="modal-icon-btn" onclick="shareIcon('${icon.id}')" title="Share Link">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>
+        </button>
+      </div>
+    `;
+
+      updateModalContent();
+      iconModal.classList.add('active');
     }
-  }
 
-  closeModalBtn.addEventListener('click', closeModal);
-  iconModal.addEventListener('click', (e) => {
-    if (e.target === iconModal) closeModal();
-  });
-
-  // Action Helpers
-  window.copyCode = function (text) {
-    navigator.clipboard.writeText(text);
-    showToast('HTML snippet copied to clipboard!', '#333');
-  };
-
-  function copySvgCode(svgText) {
-    try {
-      navigator.clipboard.writeText(svgText).then(() => {
-        showToast('SVG code copied to clipboard!', '#333');
-      });
-    } catch (error) {
-      showToast('Failed to copy SVG code', '#e74c3c');
+    function closeModal() {
+      iconModal.classList.remove('active');
+      if (window.location.hash) {
+        history.pushState("", document.title, window.location.pathname + window.location.search);
+      }
     }
-  }
 
-  function copySvgBase64(svgText) {
-    try {
-      const base64Data = 'data:image/svg+xml;base64,' + btoa(unescape(encodeURIComponent(svgText)));
-      navigator.clipboard.writeText(base64Data).then(() => {
-        showToast('Base64 Data URI copied!', '#333');
-      });
-    } catch (error) {
-      showToast('Failed to generate Base64', '#e74c3c');
+    closeModalBtn.addEventListener('click', closeModal);
+    iconModal.addEventListener('click', (e) => {
+      if (e.target === iconModal) closeModal();
+    });
+
+    window.copyCode = function (text) {
+      navigator.clipboard.writeText(text);
+      showToast('HTML snippet copied to clipboard!', '#333');
+    };
+
+    function copySvgCode(svgText) {
+      try {
+        navigator.clipboard.writeText(svgText).then(() => {
+          showToast('SVG code copied to clipboard!', '#333');
+        });
+      } catch (error) {
+        showToast('Failed to copy SVG code', '#e74c3c');
+      }
     }
-  }
 
-  window.downloadPrompt = function (name, encodedSvg, format = 'svg') {
-    const svg = decodeURIComponent(encodedSvg);
+    function copySvgBase64(svgText) {
+      try {
+        const base64Data = 'data:image/svg+xml;base64,' + btoa(unescape(encodeURIComponent(svgText)));
+        navigator.clipboard.writeText(base64Data).then(() => {
+          showToast('Base64 Data URI copied!', '#333');
+        });
+      } catch (error) {
+        showToast('Failed to generate Base64', '#e74c3c');
+      }
+    }
 
-    if (format.toLowerCase() === 'png') {
-      const img = new Image();
-      const svgBlob = new Blob([svg], { type: 'image/svg+xml;charset=utf-8' });
-      const URL = window.URL || window.webkitURL || window;
-      const blobURL = URL.createObjectURL(svgBlob);
+    window.downloadPrompt = function (name, encodedSvg, format = 'svg') {
+      const svg = decodeURIComponent(encodedSvg);
 
-      img.onload = function () {
-        const canvas = document.createElement('canvas');
-        canvas.width = iconSizeVal;
-        canvas.height = iconSizeVal;
-        const ctx = canvas.getContext('2d');
-        ctx.drawImage(img, 0, 0, iconSizeVal, iconSizeVal);
+      if (format.toLowerCase() === 'png') {
+        const img = new Image();
+        const svgBlob = new Blob([svg], { type: 'image/svg+xml;charset=utf-8' });
+        const URL = window.URL || window.webkitURL || window;
+        const blobURL = URL.createObjectURL(svgBlob);
 
-        const pngData = canvas.toDataURL('image/png');
+        img.onload = function () {
+          const canvas = document.createElement('canvas');
+          canvas.width = iconSizeVal;
+          canvas.height = iconSizeVal;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, iconSizeVal, iconSizeVal);
+
+          const pngData = canvas.toDataURL('image/png');
+          const a = document.createElement('a');
+          a.href = pngData;
+          a.download = `${name}-${iconSizeVal}px.png`;
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+          URL.revokeObjectURL(blobURL);
+        };
+        img.src = blobURL;
+      } else {
+        const blob = new Blob([svg], { type: 'image/svg+xml' });
+        const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
-        a.href = pngData;
-        a.download = `${name}-${iconSizeVal}px.png`;
+        a.href = url;
+        a.download = `${name}.svg`;
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
-        URL.revokeObjectURL(blobURL);
-      };
-      img.src = blobURL;
-    } else {
-      const blob = new Blob([svg], { type: 'image/svg+xml' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `${name}.svg`;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      URL.revokeObjectURL(url);
-    }
-  };
+        URL.revokeObjectURL(url);
+      }
+    };
 
-  window.shareIcon = function (name) {
-    const url = window.location.origin + window.location.pathname + '#' + name;
-    navigator.clipboard.writeText(url);
-    showToast('Direct link copied to clipboard!', '#333');
-  };
+    window.shareIcon = function (id) {
+      const url = window.location.origin + window.location.pathname + '#' + id;
+      navigator.clipboard.writeText(url);
+      showToast('Direct link copied to clipboard!', '#333');
+    };
 
-  function escapeHtml(str) {
-    return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
-  }
-
-  initIcons();
-</script>
+    initIcons();
+  </script>
 </body>
 
 </html>

@@ -1103,6 +1103,32 @@ body.dark-mode {
     0 4px 15px rgba(0, 0, 0, 0.12);
 }
 
+/* --- Mobile / Small Screen Adjustments --- */
+@media (max-width: 640px) {
+  .pagination-bar {
+    gap: 8px;
+    /* Tighter space between arrow buttons and dot container */
+    padding: 8px 12px;
+  }
+
+  .page-arrow-btn {
+    width: 28px;
+    height: 28px;
+  }
+
+  .page-dots-container {
+    gap: 3px;
+    /* Tighter space between individual page number buttons */
+  }
+
+  .page-dot {
+    min-width: 30px;
+    height: 30px;
+    padding: 0 6px;
+    font-size: 12px;
+  }
+}
+
 /* --- Theme-Aware Popup Modal --- */
 .modal-backdrop {
   display: none;

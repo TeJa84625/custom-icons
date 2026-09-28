@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CI Icons - Explorer</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <!-- Hidden Liquid Lens SVG Filter for Custom Sliders -->
+  <svg width="0" height="0" style="position:absolute;">
+    <filter id="mini-liquid-lens" x="-50%" y="-50%" width="200%" height="200%">
+      <feImage x="0" y="0" result="normalMap" xlink:href="data:image/svg+xml;utf8,
+      <svg xmlns='http://www.w3.org/2000/svg' width='300' height='300'>
+        <radialGradient id='invmap' cx='50%' cy='50%' r='75%'>
+          <stop offset='0%' stop-color='rgb(128,128,255)'/>
+          <stop offset='90%' stop-color='rgb(255,255,255)'/>
+        </radialGradient>
+        <rect width='100%' height='100%' fill='url(#invmap)'/>
+      </svg>" />
+      <feDisplacementMap in="SourceGraphic" in2="normalMap" scale="-252" xChannelSelector="R" yChannelSelector="G"
+        result="displaced" />
+      <feMerge>
+        <feMergeNode in="displaced" />
+      </feMerge>
+    </filter>
+  </svg>
+
+  <!-- Dotted Background -->
+  <svg class="bg-pattern" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <pattern id="grid" width="30" height="30" patternUnits="userSpaceOnUse">
+        <circle cx="2" cy="2" r="1" fill="var(--pattern-color)"></circle>
+      </pattern>
+    </defs>
+    <rect width="100%" height="100%" fill="url(#grid)"></rect>
+  </svg>
+
+  <!-- Floating Glass Nav -->
+  <nav class="floating-glass-nav">
+    <div class="nav-left">
+      <a href="index.html" class="nav-brand"
+        style="display: flex; align-items: center; justify-content: center; width: 40px; height: 40px;">
+        <div style="display: flex; align-items: center; justify-content: center; width: 100%; height: 100%;">
+          <svg width="24px" height="24px" viewBox="0 0 24 24" role="img" xmlns="http://www.w3.org/2000/svg">
+            <path fill="currentColor"
+              d="M1.927 23.935a2.4 2.4 0 0 1-1.882-1.883 2.4 2.4 0 0 1 2.82-2.82 2.4 2.4 0 0 1 1.882 1.882 2.4 2.4 0 0 1-2.82 2.82zM21.135 4.768a2.4 2.4 0 0 1-1.882-1.882 2.4 2.4 0 0 1 2.82-2.82 2.4 2.4 0 0 1 1.882 1.882 2.4 2.4 0 0 1-2.82 2.82zM12.021 6.01c1.147 0 2.219.324 3.13.883l2.585-2.585A9.583 9.583 0 0 0 4.328 17.716l2.586-2.586a5.99 5.99 0 0 1 5.107-9.12zm5.107 2.86a5.99 5.99 0 0 1-8.237 8.237l-2.586 2.585A9.583 9.583 0 0 0 19.713 6.284z" />
+          </svg>
+        </div>
+      </a>
+    </div>
+    <div class="nav-right">
+      <a href="icons.html" class="active">Icons</a>
+      <a href="setup.html">Setup</a>
+      <button id="theme-toggle" class="theme-toggle" aria-label="Toggle Mode">
+        <svg id="theme-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="5"></circle>
+          <line x1="12" y1="1" x2="12" y2="3"></line>
+          <line x1="12" y1="21" x2="12" y2="23"></line>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+          <line x1="1" y1="12" x2="3" y2="12"></line>
+          <line x1="21" y1="12" x2="23" y2="12"></line>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+        </svg>
+      </button>
+    </div>
+  </nav>
+
+  <main>
+    <h1 class="page-title">Icon Explorer</h1>
+
+    <!-- Pure Glass Toolbar -->
+    <div class="glass-toolbar" style="flex-direction: column; align-items: stretch;">
+      <div style="display: flex; gap: 10px; width: 100%; flex-wrap: wrap;">
+        <input type="text" id="searchInput" class="glass-input" placeholder="Search icons..."
+          style="flex: 1; min-width: 200px;">
+
+        <select id="categorySelect" class="glass-select">
+          <option value="all">All Categories</option>
+        </select>
+
+        <select id="sortSelect" class="glass-select">
+          <option value="name-asc">Sort: Name (A-Z)</option>
+          <option value="name-desc">Sort: Name (Z-A)</option>
+          <option value="version">Sort: Version</option>
+        </select>
+      </div>
+
+      <div class="filter-controls">
+        <!-- Color Picker & Hex Code Input Group -->
+        <div class="glass-control-group color-picker-wrapper">
+          <label for="colorPicker">Color:</label>
+          <input type="color" id="colorPicker" value="#3b82f6">
+          <input type="text" id="hexInput" class="hex-input" value="#3b82f6" maxlength="7">
+        </div>
+
+        <!-- Custom Maxuiux Liquid Glass Slider for Outline -->
+        <div class="glass-control-group">
+          <label>Outline:</label>
+          <div class="slider-container" id="outlineSlider">
+            <div class="slider-progress" id="outlineProgress"></div>
+            <div class="slider-thumb-glass" id="outlineThumb">
+              <div class="slider-thumb-glass-filter"></div>
+              <div class="slider-thumb-glass-overlay"></div>
+              <div class="slider-thumb-glass-specular"></div>
+            </div>
+          </div>
+          <span id="outlineValue" class="slider-value">2px</span>
+        </div>
+
+        <!-- Custom Maxuiux Liquid Glass Slider for Size (12px to 256px) -->
+        <div class="glass-control-group">
+          <label>Size:</label>
+          <div class="slider-container" id="sizeSlider">
+            <div class="slider-progress" id="sizeProgress"></div>
+            <div class="slider-thumb-glass" id="sizeThumb">
+              <div class="slider-thumb-glass-filter"></div>
+              <div class="slider-thumb-glass-overlay"></div>
+              <div class="slider-thumb-glass-specular"></div>
+            </div>
+          </div>
+          <span id="sizeValue" class="slider-value">24px</span>
+        </div>
+
+        <select id="limitSelect" class="glass-select" style="margin-left: auto;">
+          <option value="20">20 per page</option>
+          <option value="50" selected>50 per page</option>
+          <option value="100">100 per page</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Icon Grid -->
+    <div class="icon-grid" id="iconGrid"></div>
+
+    <!-- Dot Pagination Bar with Side Arrows -->
+    <div class="pagination-bar" id="paginationBar"></div>
+  </main>
+
+  <!-- Icon Detail Popup Modal -->
+  <div id="iconModal" class="modal-backdrop">
+    <div class="modal-content">
+      <button class="modal-close" id="closeModal">&times;</button>
+      <div id="modalBody"
+        style="display: flex; flex-direction: column; align-items: center; text-align: center; gap: 12px;">
+        <!-- Dynamically filled -->
+      </div>
+    </div>
+  </div>
+
+<script>
+  // --- Theme & Intelligent Default Color Logic ---
+  const toggleBtn = document.getElementById('theme-toggle');
+  const body = document.body;
+  const themeIcon = document.getElementById('theme-icon');
+  const colorPicker = document.getElementById('colorPicker');
+  const hexInput = document.getElementById('hexInput');
+
+  function updateThemeDefaults(isDark) {
+    themeIcon.innerHTML = isDark
+      ? `<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>`
+      : `<circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>`;
+  }
+
+  // Load saved theme preference on startup
+  const savedTheme = localStorage.getItem('theme');
+  if (savedTheme === 'dark') {
+    body.classList.add('dark-mode');
+    updateThemeDefaults(true);
+  } else {
+    updateThemeDefaults(false);
+  }
+
+  function showToast(message, color = '#333') {
+    const existingToast = document.getElementById('custom-toast');
+    if (existingToast) {
+      existingToast.remove();
+    }
+    const toast = document.createElement('div');
+    toast.id = 'custom-toast';
+    toast.textContent = message;
+    Object.assign(toast.style, {
+      position: 'fixed',
+      top: '20px',
+      right: '20px',
+      backgroundColor: color,
+      color: '#fff',
+      padding: '10px 18px',
+      borderRadius: '6px',
+      boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
+      zIndex: '9999',
+      fontSize: '14px',
+      fontFamily: 'sans-serif',
+      opacity: '0',
+      transition: 'opacity 0.3s ease, transform 0.3s ease',
+      transform: 'translateY(-10px)'
+    });
+    document.body.appendChild(toast);
+    requestAnimationFrame(() => {
+      toast.style.opacity = '1';
+      toast.style.transform = 'translateY(0)';
+    });
+    setTimeout(() => {
+      toast.style.opacity = '0';
+      toast.style.transform = 'translateY(-10px)';
+      setTimeout(() => toast.remove(), 300);
+    }, 2000);
+  }
+
+  toggleBtn.addEventListener('click', () => {
+    const isDark = body.classList.toggle('dark-mode');
+    updateThemeDefaults(isDark);
+    localStorage.setItem('theme', isDark ? 'dark' : 'light');
+  });
+
+  colorPicker.addEventListener('input', (e) => {
+    const val = e.target.value;
+    hexInput.value = val;
+    localStorage.setItem('iconColor', val);
+    renderGrid();
+  });
+
+  hexInput.addEventListener('input', (e) => {
+    let val = e.target.value;
+    if (!val.startsWith('#')) val = '#' + val;
+    if (/^#[0-9A-Fa-f]{6}$/.test(val)) {
+      colorPicker.value = val;
+      localStorage.setItem('iconColor', val);
+      renderGrid();
+    }
+  });
+
+  // --- State Variables ---
+  let iconsData = [];
+  let filteredIcons = [];
+  let currentPage = 1;
+  let itemsPerPage = 50;
+  let outlineWidthVal = 2;
+  let iconSizeVal = 24;
+
+  let savedColor = localStorage.getItem('iconColor') || '#3b82f6';
+
+  // Controls Elements
+  const searchInput = document.getElementById('searchInput');
+  const categorySelect = document.getElementById('categorySelect');
+  const sortSelect = document.getElementById('sortSelect');
+  const limitSelect = document.getElementById('limitSelect');
+  const iconGrid = document.getElementById('iconGrid');
+  const paginationBar = document.getElementById('paginationBar');
+
+  // Modal Elements
+  const iconModal = document.getElementById('iconModal');
+  const closeModalBtn = document.getElementById('closeModal');
+  const modalBody = document.getElementById('modalBody');
+
+  // --- Generic Maxuiux Slider Factory ---
+  function setupSlider(sliderId, progressId, thumbId, valueId, min, max, step, onUpdate) {
+    const slider = document.getElementById(sliderId);
+    const progress = document.getElementById(progressId);
+    const thumb = document.getElementById(thumbId);
+    const valueText = document.getElementById(valueId);
+
+    let isDragging = false;
+    let sliderRect = slider.getBoundingClientRect();
+
+    const updateByPercent = (percent) => {
+      percent = Math.max(0, Math.min(100, percent));
+      const px = (percent / 100) * sliderRect.width;
+      progress.style.width = `${percent}%`;
+      thumb.style.left = `${px}px`;
+
+      let rawVal = min + (percent / 100) * (max - min);
+      let val = Math.round(rawVal / step) * step;
+      if (step < 1) val = parseFloat(val.toFixed(1));
+
+      onUpdate(val, valueText);
+    };
+
+    const setFromValue = (val) => {
+      const percent = ((val - min) / (max - min)) * 100;
+      sliderRect = slider.getBoundingClientRect();
+      const px = (percent / 100) * sliderRect.width;
+      progress.style.width = `${percent}%`;
+      thumb.style.left = `${px}px`;
+      onUpdate(val, valueText);
+    };
+
+    const getPercent = (clientX) => ((clientX - sliderRect.left) / sliderRect.width) * 100;
+
+    thumb.addEventListener('mousedown', () => { isDragging = true; sliderRect = slider.getBoundingClientRect(); thumb.classList.add('active'); });
+    thumb.addEventListener('touchstart', () => { isDragging = true; sliderRect = slider.getBoundingClientRect(); thumb.classList.add('active'); }, { passive: true });
+
+    document.addEventListener('mousemove', (e) => { if (isDragging) updateByPercent(getPercent(e.clientX)); });
+    document.addEventListener('mouseup', () => { isDragging = false; thumb.classList.remove('active'); });
+    document.addEventListener('touchmove', (e) => { if (isDragging) updateByPercent(getPercent(e.touches[0].clientX)); }, { passive: true });
+    document.addEventListener('touchend', () => { isDragging = false; thumb.classList.remove('active'); });
+
+    slider.addEventListener('mousedown', (e) => {
+      sliderRect = slider.getBoundingClientRect();
+      updateByPercent(getPercent(e.clientX));
+    });
+
+    return { setFromValue };
+  }
+
+  // Initialize Outline Slider (1px to 3px)
+  const outlineSliderCtrl = setupSlider('outlineSlider', 'outlineProgress', 'outlineThumb', 'outlineValue', 0.5, 3, 0.5, (val, textElem) => {
+    outlineWidthVal = val;
+    textElem.innerText = val + 'px';
+    renderGrid();
+  });
+
+  // Initialize Size Slider (12px to 256px)
+  const sizeSliderCtrl = setupSlider('sizeSlider', 'sizeProgress', 'sizeThumb', 'sizeValue', 12, 256, 2, (val, textElem) => {
+    iconSizeVal = val;
+    textElem.innerText = val + 'px';
+    renderGrid();
+  });
+
+  // Initial load setup
+  async function initIcons() {
+    colorPicker.value = savedColor;
+    hexInput.value = savedColor;
+
+    outlineSliderCtrl.setFromValue(2);
+    sizeSliderCtrl.setFromValue(24);
+
+    try {
+      const response = await fetch('svgs.json');
+      if (!response.ok) throw new Error("File not found");
+      const json = await response.json();
+      parseData(json);
+    } catch (error) {
+      console.warn("Could not fetch svgs.json. Using fallback sample data.");
+      const fallbackJSON = {
+        "facebook": {
+          "version": "0.0.1",
+          "category": "Social",
+          "svg": `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 640 640" fill="currentColor"><path d="M576 320C576 178.6 461.4 64 320 64C178.6 64 64 178.6 64 320C64 440 146.7 540.8 258.2 568.5L258.2 398.2L205.4 398.2L205.4 320L258.2 320L258.2 286.3C258.2 199.2 297.6 158.8 383.2 158.8C399.4 158.8 427.4 162 438.9 165.2L438.9 236C432.9 235.4 422.4 235 409.3 235C367.3 235 351.1 250.9 351.1 292.2L351.1 320L434.7 320L420.3 398.2L351 398.2L351 574.1C477.8 558.8 576 450.9 576 320z"/></svg>`
+        },
+        "brand-icon": {
+          "version": "1.0.0",
+          "category": "Brand",
+          "svg": `<svg width="24px" height="24px" viewBox="0 0 24 24" role="img" xmlns="http://www.w3.org/2000/svg"><path d="M1.927 23.935a2.4 2.4 0 0 1-1.882-1.883 2.4 2.4 0 0 1 2.82-2.82 2.4 2.4 0 0 1 1.882 1.882 2.4 2.4 0 0 1-2.82 2.82zM21.135 4.768a2.4 2.4 0 0 1-1.882-1.882 2.4 2.4 0 0 1 2.82-2.82 2.4 2.4 0 0 1 1.882 1.882 2.4 2.4 0 0 1-2.82 2.82zM12.021 6.01c1.147 0 2.219.324 3.13.883l2.585-2.585A9.583 9.583 0 0 0 4.328 17.716l2.586-2.586a5.99 5.99 0 0 1 5.107-9.12zm5.107 2.86a5.99 5.99 0 0 1-8.237 8.237l-2.586 2.585A9.583 9.583 0 0 0 19.713 6.284z"/></svg>`
+        },
+        "text-quote": {
+          "version": "0.0.1",
+          "category": "Text formatting",
+          "svg": `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 5H3"></path><path d="M21 12H8"></path><path d="M21 19H8"></path><path d="M3 12v7"></path></svg>`
+        }
+      };
+      for (let i = 1; i <= 45; i++) fallbackJSON[`user-${i}`] = { version: `1.0.${i}`, category: "User", svg: `<svg viewBox='0 0 24 24'><circle cx='12' cy='8' r='4'/><path d='M12 14c-6.1 0-8 4-8 4v2h16v-2s-1.9-4-8-4z'/></svg>` };
+      parseData(fallbackJSON);
+    }
+  }
+
+  function parseData(json) {
+    iconsData = Object.keys(json).map(key => ({
+      name: key,
+      version: json[key].version || "1.0.0",
+      category: json[key].category || "Uncategorized",
+      svg: json[key].svg
+    }));
+
+    const categories = [...new Set(iconsData.map(i => i.category))].sort();
+    categorySelect.innerHTML = '<option value="all">All Categories</option>';
+    categories.forEach(cat => {
+      const option = document.createElement('option');
+      option.value = cat;
+      option.innerText = cat;
+      categorySelect.appendChild(option);
+    });
+
+    applyFilters();
+    checkUrlHash();
+  }
+
+  // Event Listeners for Filters
+  searchInput.addEventListener('input', () => { currentPage = 1; applyFilters(); });
+  categorySelect.addEventListener('change', () => { currentPage = 1; applyFilters(); });
+  sortSelect.addEventListener('change', () => { currentPage = 1; applyFilters(); });
+  limitSelect.addEventListener('change', (e) => { itemsPerPage = parseInt(e.target.value); currentPage = 1; applyFilters(); });
+
+  function applyFilters() {
+    const query = searchInput.value.toLowerCase();
+    const selectedCategory = categorySelect.value;
+    const sort = sortSelect.value;
+
+    filteredIcons = iconsData.filter(icon => {
+      const matchesQuery = icon.name.toLowerCase().includes(query);
+      const matchesCategory = selectedCategory === 'all' || icon.category === selectedCategory;
+      return matchesQuery && matchesCategory;
+    });
+
+    filteredIcons.sort((a, b) => {
+      if (sort === 'name-asc') return a.name.localeCompare(b.name);
+      if (sort === 'name-desc') return b.name.localeCompare(a.name);
+      if (sort === 'version') return b.version.localeCompare(a.version);
+    });
+
+    renderGrid();
+    renderPaginationBar();
+  }
+
+  /**
+   * Universal SVG Parser & Formatter
+   * Accurately overrides color and size across root attributes, child nodes, and inline CSS styles.
+   */
+  function formatSvgString(svgString, customSize, customColor, customOutline) {
+    try {
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(svgString, 'image/svg+xml');
+      const svgEl = doc.querySelector('svg');
+
+      if (!svgEl) return svgString;
+
+      // 1. Handle scaling & responsive dimensions
+      if (!svgEl.hasAttribute('viewBox')) {
+        const w = svgEl.getAttribute('width') || 24;
+        const h = svgEl.getAttribute('height') || 24;
+        svgEl.setAttribute('viewBox', `0 0 ${parseInt(w)} ${parseInt(h)}`);
+      }
+
+      svgEl.setAttribute('width', customSize);
+      svgEl.setAttribute('height', customSize);
+
+      // 2. Identify if the SVG uses stroke vs fill globally
+      const rootStroke = svgEl.getAttribute('stroke');
+      const rootFill = svgEl.getAttribute('fill');
+      const isStrokedSvg = (rootStroke && rootStroke !== 'none') || svgEl.querySelectorAll('[stroke]:not([stroke="none"])').length > 0;
+
+      // 3. Override Root attributes if present
+      if (rootFill && rootFill !== 'none') {
+        svgEl.setAttribute('fill', customColor);
+      }
+      if (rootStroke && rootStroke !== 'none') {
+        svgEl.setAttribute('stroke', customColor);
+        svgEl.setAttribute('stroke-width', customOutline);
+      }
+
+      // 4. Traverse & update all graphical child elements
+      const graphicalElements = svgEl.querySelectorAll('path, circle, rect, polygon, polyline, ellipse, line');
+
+      graphicalElements.forEach(el => {
+        const fillAttr = el.getAttribute('fill');
+        const strokeAttr = el.getAttribute('stroke');
+
+        if (isStrokedSvg) {
+          el.setAttribute('stroke', customColor);
+          el.setAttribute('stroke-width', customOutline);
+          if (!fillAttr || fillAttr === 'none' || fillAttr === 'currentColor') {
+            el.setAttribute('fill', 'none');
+          }
+        } else {
+          if (fillAttr !== 'none') {
+            el.setAttribute('fill', customColor);
+          }
+          if (strokeAttr && strokeAttr !== 'none') {
+            el.setAttribute('stroke', customColor);
+            el.setAttribute('stroke-width', customOutline);
+          }
+        }
+
+        // Clean inline CSS styles
+        if (el.style.fill && el.style.fill !== 'none') el.style.fill = customColor;
+        if (el.style.stroke && el.style.stroke !== 'none') {
+          el.style.stroke = customColor;
+          el.style.strokeWidth = customOutline + 'px';
+        }
+      });
+
+      // 5. Fallback: If no explicit fill or stroke was found anywhere, apply default fill
+      const hasAnyFill = svgEl.hasAttribute('fill') || svgEl.querySelectorAll('[fill]').length > 0;
+      const hasAnyStroke = svgEl.hasAttribute('stroke') || svgEl.querySelectorAll('[stroke]').length > 0;
+
+      if (!hasAnyFill && !hasAnyStroke) {
+        svgEl.setAttribute('fill', customColor);
+      }
+
+      return new XMLSerializer().serializeToString(svgEl);
+    } catch (e) {
+      console.error("SVG Formatting Error: ", e);
+      return svgString;
+    }
+  }
+
+  function renderGrid() {
+    iconGrid.innerHTML = '';
+    const start = (currentPage - 1) * itemsPerPage;
+    const end = start + itemsPerPage;
+    const paginatedItems = filteredIcons.slice(start, end);
+
+    if (paginatedItems.length === 0) {
+      iconGrid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: var(--text-muted); padding: 2rem;">No icons found..</p>';
+      return;
+    }
+
+    paginatedItems.forEach(icon => {
+      const card = document.createElement('div');
+      card.className = 'icon-card';
+      
+      // Dynamic grid preview capped up to 48px max
+      const gridDisplaySize = Math.min(iconSizeVal, 48);
+      const previewSvg = formatSvgString(icon.svg, gridDisplaySize, colorPicker.value, outlineWidthVal);
+
+      card.innerHTML = `
+          <div class="svg-container" style="display:flex; justify-content:center; align-items:center; min-height:52px;">
+            ${previewSvg}
+          </div>
+          <div class="icon-name">${icon.name}</div>
+          <div class="icon-version">v${icon.version}</div>
+        `;
+
+      card.addEventListener('click', () => {
+        window.location.hash = icon.name;
+      });
+
+      iconGrid.appendChild(card);
+    });
+  }
+
+  // --- Dot Pagination Renderer with Side Arrows ---
+  function renderPaginationBar() {
+      paginationBar.innerHTML = '';
+
+      const totalPages = Math.ceil(filteredIcons.length / itemsPerPage);
+      if (totalPages <= 1) return;
+
+      let startPage;
+      if (totalPages <= 3) {
+        startPage = 1;
+      } else if (currentPage === 1 || currentPage === 2) {
+        startPage = 1;
+      } else if (currentPage === totalPages || currentPage === totalPages - 1) {
+        startPage = totalPages - 2;
+      } else {
+        startPage = currentPage - 1;
+      }
+
+      const endPage = Math.min(startPage + 2, totalPages);
+
+      const firstBtn = document.createElement('button');
+      firstBtn.className = 'page-arrow-btn';
+      firstBtn.innerHTML = '«';
+      firstBtn.title = 'First Page';
+      firstBtn.disabled = currentPage === 1;
+      firstBtn.onclick = () => { if (currentPage > 1) changePage(1); };
+      paginationBar.appendChild(firstBtn);
+
+      const prevBtn = document.createElement('button');
+      prevBtn.className = 'page-arrow-btn';
+      prevBtn.innerHTML = '‹';
+      prevBtn.title = 'Previous Page';
+      prevBtn.disabled = currentPage === 1;
+      prevBtn.onclick = () => { if (currentPage > 1) changePage(currentPage - 1); };
+      paginationBar.appendChild(prevBtn);
+
+      const pagesContainer = document.createElement('div');
+      pagesContainer.className = 'page-dots-container';
+
+      for (let i = startPage; i <= endPage; i++) {
+        const pageBtn = document.createElement('button');
+        pageBtn.className = `page-dot ${i === currentPage ? 'active' : ''}`;
+        pageBtn.innerHTML = i;
+        pageBtn.title = `Page ${i}`;
+        pageBtn.onclick = () => { if (i !== currentPage) changePage(i); };
+        pagesContainer.appendChild(pageBtn);
+      }
+
+      paginationBar.appendChild(pagesContainer);
+
+      const nextBtn = document.createElement('button');
+      nextBtn.className = 'page-arrow-btn';
+      nextBtn.innerHTML = '›';
+      nextBtn.title = 'Next Page';
+      nextBtn.disabled = currentPage === totalPages;
+      nextBtn.onclick = () => { if (currentPage < totalPages) changePage(currentPage + 1); };
+      paginationBar.appendChild(nextBtn);
+
+      const lastBtn = document.createElement('button');
+      lastBtn.className = 'page-arrow-btn';
+      lastBtn.innerHTML = '»';
+      lastBtn.title = 'Last Page';
+      lastBtn.disabled = currentPage === totalPages;
+      lastBtn.onclick = () => { if (currentPage < totalPages) changePage(totalPages); };
+      paginationBar.appendChild(lastBtn);
+    }
+
+  function changePage(page) {
+    if (page === currentPage) return;
+
+    currentPage = page;
+    const grid = document.querySelector('.icons-grid');
+
+    if (grid) {
+      grid.classList.add('page-changing');
+
+      setTimeout(() => {
+        renderGrid();
+        renderPaginationBar();
+
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+
+        requestAnimationFrame(() => {
+          const newGrid = document.querySelector('.icons-grid');
+          if (newGrid) {
+            newGrid.classList.remove('page-changing');
+            newGrid.classList.add('page-changed');
+
+            setTimeout(() => {
+              newGrid.classList.remove('page-changed');
+            }, 400);
+          }
+        });
+      }, 150);
+    } else {
+      renderGrid();
+      renderPaginationBar();
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  }
+
+  // --- Modal & URL Routing ---
+  window.addEventListener('hashchange', checkUrlHash);
+
+  function checkUrlHash() {
+    const hash = window.location.hash.substring(1);
+    if (hash) {
+      const icon = iconsData.find(i => iconMatch(i.name, hash));
+      if (icon) {
+        openModal(icon);
+      }
+    } else {
+      closeModal();
+    }
+  }
+
+  function iconMatch(dbName, hashName) {
+    return dbName.toLowerCase() === hashName.toLowerCase();
+  }
+
+  function openModal(icon) {
+    let modalColor = colorPicker.value;
+    let modalSize = iconSizeVal;
+    let modalOutline = outlineWidthVal;
+
+    function updateModalContent() {
+      const updatedSvg = formatSvgString(icon.svg, modalSize, modalColor, modalOutline);
+      const htmlSnippet = `<i class="ci ci-${icon.name}" style="color: ${modalColor}; font-size: ${modalSize}px;"></i>`;
+
+      const previewContainer = modalBody.querySelector('#modalIconPreview');
+      if (previewContainer) previewContainer.innerHTML = updatedSvg;
+
+      const htmlBox = modalBody.querySelector('#modalHtmlSnippetBox');
+      const svgBox = modalBody.querySelector('#modalSvgSnippetBox');
+      if (htmlBox) htmlBox.textContent = htmlSnippet;
+      if (svgBox) svgBox.textContent = updatedSvg;
+
+      const downloadBtnSVG = modalBody.querySelector('#modalDownloadBtnSVG');
+      const downloadBtnPNG = modalBody.querySelector('#modalDownloadBtnPNG');
+      if (downloadBtnSVG) {
+        downloadBtnSVG.setAttribute('onclick', `downloadPrompt('${icon.name}', \`${encodeURIComponent(updatedSvg)}\`, 'svg')`);
+      }
+      if (downloadBtnPNG) {
+        downloadBtnPNG.setAttribute('onclick', `downloadPrompt('${icon.name}', \`${encodeURIComponent(updatedSvg)}\`, 'png')`);
+      }
+    }
+
+    modalBody.innerHTML = `
+          <div id="modalIconPreview" style="transform: scale(1.2); margin: 1rem 0; display:flex; justify-content:center; min-height:80px; align-items:center;">
+            ${formatSvgString(icon.svg, modalSize, modalColor, modalOutline)}
+          </div>
+          <h2 style="margin: 0; font-size: 1.3rem; font-weight: 600;">${icon.name}</h2>
+          <p style="font-size: 0.82rem; opacity: 0.7; margin: 0 0 12px 0;">Category: ${icon.category} &bull; Version: v${icon.version}</p>
+
+          <div style="width: 100%; text-align: left; margin-top: 10px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2px;">
+              <label style="font-size: 0.75rem; opacity: 0.6; font-weight: 500;">HTML Snippet:</label>
+              <div style="display: flex; gap: 6px;">
+                <button class="copy-box-btn" onclick="copyCode(document.getElementById('modalHtmlSnippetBox').textContent)" title="Copy HTML">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                </button>
+              </div>
+            </div>
+            <div class="code-box-wrapper">
+              <div class="code-box" id="modalHtmlSnippetBox"></div>
+            </div>
+          </div>
+
+          <div style="width: 100%; text-align: left; margin-top: 6px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                <label style="font-size: 0.75rem; opacity: 0.6; font-weight: 500;">SVG Source Code:</label>
+                
+                <div style="display: flex; gap: 6px;">
+                    <label style="font-size: 0.75rem; opacity: 0.6; font-weight: 500; margin-top: 5px;">Copy :</label>
+                    <button class="copy-box-btn" onclick="copySvgCode(document.getElementById('modalSvgSnippetBox').textContent)" title="Copy SVG Source" style="display: flex; align-items: center; gap: 4px; padding: 2px 6px; font-size: 0.7rem; cursor: pointer;">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                        <span>SVG</span>
+                    </button>
+                    <button class="copy-box-btn" onclick="copySvgBase64(document.getElementById('modalSvgSnippetBox').textContent)" title="Copy Base64 Data URI" style="display: flex; align-items: center; gap: 4px; padding: 2px 6px; font-size: 0.7rem; cursor: pointer;">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
+                      <span>URI</span>
+                  </button>
+                </div>
+            </div>
+            
+            <div class="code-box-wrapper">
+                <div class="code-box" id="modalSvgSnippetBox"></div>
+            </div>
+          </div>
+
+          <div class="modal-actions">
+            <button class="modal-btn green" onclick="">Edit</button>
+            <button id="modalDownloadBtnSVG" class="modal-btn primary">SVG</button>
+            <button id="modalDownloadBtnPNG" class="modal-btn primary">PNG</button>
+            <button class="modal-icon-btn" onclick="shareIcon('${icon.name}')" title="Share Link">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>
+            </button>
+          </div>
+        `;
+
+    updateModalContent();
+    iconModal.classList.add('active');
+  }
+
+  function closeModal() {
+    iconModal.classList.remove('active');
+    if (window.location.hash) {
+      history.pushState("", document.title, window.location.pathname + window.location.search);
+    }
+  }
+
+  closeModalBtn.addEventListener('click', closeModal);
+  iconModal.addEventListener('click', (e) => {
+    if (e.target === iconModal) closeModal();
+  });
+
+  // Action Helpers
+  window.copyCode = function (text) {
+    navigator.clipboard.writeText(text);
+    showToast('HTML snippet copied to clipboard!', '#333');
+  };
+
+  function copySvgCode(svgText) {
+    try {
+      navigator.clipboard.writeText(svgText).then(() => {
+        showToast('SVG code copied to clipboard!', '#333');
+      });
+    } catch (error) {
+      showToast('Failed to copy SVG code', '#e74c3c');
+    }
+  }
+
+  function copySvgBase64(svgText) {
+    try {
+      const base64Data = 'data:image/svg+xml;base64,' + btoa(unescape(encodeURIComponent(svgText)));
+      navigator.clipboard.writeText(base64Data).then(() => {
+        showToast('Base64 Data URI copied!', '#333');
+      });
+    } catch (error) {
+      showToast('Failed to generate Base64', '#e74c3c');
+    }
+  }
+
+  window.downloadPrompt = function (name, encodedSvg, format = 'svg') {
+    const svg = decodeURIComponent(encodedSvg);
+
+    if (format.toLowerCase() === 'png') {
+      const img = new Image();
+      const svgBlob = new Blob([svg], { type: 'image/svg+xml;charset=utf-8' });
+      const URL = window.URL || window.webkitURL || window;
+      const blobURL = URL.createObjectURL(svgBlob);
+
+      img.onload = function () {
+        const canvas = document.createElement('canvas');
+        canvas.width = iconSizeVal;
+        canvas.height = iconSizeVal;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, iconSizeVal, iconSizeVal);
+
+        const pngData = canvas.toDataURL('image/png');
+        const a = document.createElement('a');
+        a.href = pngData;
+        a.download = `${name}-${iconSizeVal}px.png`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(blobURL);
+      };
+      img.src = blobURL;
+    } else {
+      const blob = new Blob([svg], { type: 'image/svg+xml' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `${name}.svg`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
+  };
+
+  window.shareIcon = function (name) {
+    const url = window.location.origin + window.location.pathname + '#' + name;
+    navigator.clipboard.writeText(url);
+    showToast('Direct link copied to clipboard!', '#333');
+  };
+
+  function escapeHtml(str) {
+    return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+  }
+
+  initIcons();
+</script>
+</body>
+
+</html>

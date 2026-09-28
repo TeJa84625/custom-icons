@@ -1,0 +1,746 @@
+{
+  "totalFiles": 185,
+  "totalSvgs": 302713,
+  "indices": [
+    {
+      "file": "academicons.json",
+      "count": 158
+    },
+    {
+      "file": "akar-icons.json",
+      "count": 458
+    },
+    {
+      "file": "ant-design.json",
+      "count": 848
+    },
+    {
+      "file": "arcticons.json",
+      "count": 14996
+    },
+    {
+      "file": "at-icons.json",
+      "count": 619
+    },
+    {
+      "file": "basil.json",
+      "count": 496
+    },
+    {
+      "file": "bi.json",
+      "count": 2084
+    },
+    {
+      "file": "bitcoin-icons.json",
+      "count": 330
+    },
+    {
+      "file": "boxicons.json",
+      "count": 3768
+    },
+    {
+      "file": "brandico.json",
+      "count": 45
+    },
+    {
+      "file": "bx.json",
+      "count": 1609
+    },
+    {
+      "file": "bxl.json",
+      "count": 299
+    },
+    {
+      "file": "bxs.json",
+      "count": 665
+    },
+    {
+      "file": "bytesize.json",
+      "count": 102
+    },
+    {
+      "file": "carbon.json",
+      "count": 2714
+    },
+    {
+      "file": "catppuccin.json",
+      "count": 659
+    },
+    {
+      "file": "cbi.json",
+      "count": 1664
+    },
+    {
+      "file": "charm.json",
+      "count": 262
+    },
+    {
+      "file": "ci.json",
+      "count": 715
+    },
+    {
+      "file": "cib.json",
+      "count": 830
+    },
+    {
+      "file": "cif.json",
+      "count": 199
+    },
+    {
+      "file": "cil.json",
+      "count": 562
+    },
+    {
+      "file": "circle-flags.json",
+      "count": 731
+    },
+    {
+      "file": "circum.json",
+      "count": 288
+    },
+    {
+      "file": "clarity.json",
+      "count": 1105
+    },
+    {
+      "file": "codex.json",
+      "count": 78
+    },
+    {
+      "file": "codicon.json",
+      "count": 615
+    },
+    {
+      "file": "covid.json",
+      "count": 142
+    },
+    {
+      "file": "cryptocurrency-color.json",
+      "count": 483
+    },
+    {
+      "file": "cryptocurrency.json",
+      "count": 483
+    },
+    {
+      "file": "cuida.json",
+      "count": 182
+    },
+    {
+      "file": "devicon-plain.json",
+      "count": 784
+    },
+    {
+      "file": "devicon.json",
+      "count": 1042
+    },
+    {
+      "file": "dinkie-icons.json",
+      "count": 1198
+    },
+    {
+      "file": "duo-icons.json",
+      "count": 91
+    },
+    {
+      "file": "ei.json",
+      "count": 70
+    },
+    {
+      "file": "emojione-monotone.json",
+      "count": 1403
+    },
+    {
+      "file": "emojione-v1.json",
+      "count": 1262
+    },
+    {
+      "file": "emojione.json",
+      "count": 1834
+    },
+    {
+      "file": "entypo-social.json",
+      "count": 76
+    },
+    {
+      "file": "eos-icons.json",
+      "count": 253
+    },
+    {
+      "file": "ep.json",
+      "count": 293
+    },
+    {
+      "file": "f7.json",
+      "count": 1253
+    },
+    {
+      "file": "fa7-brands.json",
+      "count": 608
+    },
+    {
+      "file": "fa7-regular.json",
+      "count": 272
+    },
+    {
+      "file": "fa7-solid.json",
+      "count": 2000
+    },
+    {
+      "file": "fad.json",
+      "count": 155
+    },
+    {
+      "file": "famicons.json",
+      "count": 1342
+    },
+    {
+      "file": "fe.json",
+      "count": 255
+    },
+    {
+      "file": "file-icons.json",
+      "count": 930
+    },
+    {
+      "file": "flag.json",
+      "count": 542
+    },
+    {
+      "file": "flagpack.json",
+      "count": 256
+    },
+    {
+      "file": "flowbite.json",
+      "count": 804
+    },
+    {
+      "file": "fluent-color.json",
+      "count": 890
+    },
+    {
+      "file": "fluent-emoji-flat.json",
+      "count": 3174
+    },
+    {
+      "file": "fluent-emoji-high-contrast.json",
+      "count": 1594
+    },
+    {
+      "file": "fluent.json",
+      "count": 19992
+    },
+    {
+      "file": "formkit.json",
+      "count": 144
+    },
+    {
+      "file": "fxemoji.json",
+      "count": 1034
+    },
+    {
+      "file": "game-icons.json",
+      "count": 4134
+    },
+    {
+      "file": "garden.json",
+      "count": 1027
+    },
+    {
+      "file": "gcp.json",
+      "count": 214
+    },
+    {
+      "file": "geo.json",
+      "count": 30
+    },
+    {
+      "file": "gg.json",
+      "count": 704
+    },
+    {
+      "file": "ginetex.json",
+      "count": 50
+    },
+    {
+      "file": "gis.json",
+      "count": 367
+    },
+    {
+      "file": "glyphs-poly.json",
+      "count": 863
+    },
+    {
+      "file": "glyphs.json",
+      "count": 3452
+    },
+    {
+      "file": "gravity-ui.json",
+      "count": 799
+    },
+    {
+      "file": "griddy-icons.json",
+      "count": 2010
+    },
+    {
+      "file": "gridicons.json",
+      "count": 207
+    },
+    {
+      "file": "guidance.json",
+      "count": 360
+    },
+    {
+      "file": "healthicons.json",
+      "count": 2691
+    },
+    {
+      "file": "heroicons.json",
+      "count": 1288
+    },
+    {
+      "file": "hugeicons.json",
+      "count": 5091
+    },
+    {
+      "file": "humbleicons.json",
+      "count": 287
+    },
+    {
+      "file": "ic.json",
+      "count": 10956
+    },
+    {
+      "file": "icon-park-outline.json",
+      "count": 2658
+    },
+    {
+      "file": "icon-park-solid.json",
+      "count": 1970
+    },
+    {
+      "file": "icon-park-twotone.json",
+      "count": 1947
+    },
+    {
+      "file": "icon-park.json",
+      "count": 2658
+    },
+    {
+      "file": "iconamoon.json",
+      "count": 1781
+    },
+    {
+      "file": "iconoir.json",
+      "count": 1682
+    },
+    {
+      "file": "ion.json",
+      "count": 2361
+    },
+    {
+      "file": "ix.json",
+      "count": 1490
+    },
+    {
+      "file": "jam.json",
+      "count": 940
+    },
+    {
+      "file": "lets-icons.json",
+      "count": 1544
+    },
+    {
+      "file": "line-md.json",
+      "count": 1233
+    },
+    {
+      "file": "lineicons.json",
+      "count": 962
+    },
+    {
+      "file": "logos.json",
+      "count": 2091
+    },
+    {
+      "file": "lsicon.json",
+      "count": 716
+    },
+    {
+      "file": "lucide-lab.json",
+      "count": 373
+    },
+    {
+      "file": "lucide.json",
+      "count": 1808
+    },
+    {
+      "file": "mage.json",
+      "count": 1042
+    },
+    {
+      "file": "majesticons.json",
+      "count": 1045
+    },
+    {
+      "file": "maki.json",
+      "count": 418
+    },
+    {
+      "file": "map.json",
+      "count": 167
+    },
+    {
+      "file": "marketeq.json",
+      "count": 590
+    },
+    {
+      "file": "material-icon-theme.json",
+      "count": 1174
+    },
+    {
+      "file": "material-symbols-light.json",
+      "count": 15917
+    },
+    {
+      "file": "material-symbols.json",
+      "count": 16276
+    },
+    {
+      "file": "mdi-light.json",
+      "count": 304
+    },
+    {
+      "file": "mdi.json",
+      "count": 7638
+    },
+    {
+      "file": "medical-icon.json",
+      "count": 144
+    },
+    {
+      "file": "memory.json",
+      "count": 651
+    },
+    {
+      "file": "meteocons.json",
+      "count": 450
+    },
+    {
+      "file": "meteor-icons.json",
+      "count": 408
+    },
+    {
+      "file": "mi.json",
+      "count": 180
+    },
+    {
+      "file": "mingcute.json",
+      "count": 3324
+    },
+    {
+      "file": "mynaui.json",
+      "count": 2658
+    },
+    {
+      "file": "nimbus.json",
+      "count": 140
+    },
+    {
+      "file": "nonicons.json",
+      "count": 69
+    },
+    {
+      "file": "noto-v1.json",
+      "count": 2162
+    },
+    {
+      "file": "noto.json",
+      "count": 3800
+    },
+    {
+      "file": "nrk.json",
+      "count": 245
+    },
+    {
+      "file": "octicon.json",
+      "count": 922
+    },
+    {
+      "file": "ooui.json",
+      "count": 428
+    },
+    {
+      "file": "openmoji.json",
+      "count": 4509
+    },
+    {
+      "file": "osmic.json",
+      "count": 169
+    },
+    {
+      "file": "oui.json",
+      "count": 444
+    },
+    {
+      "file": "pajamas.json",
+      "count": 414
+    },
+    {
+      "file": "pepicons-pencil.json",
+      "count": 1275
+    },
+    {
+      "file": "pepicons-pop.json",
+      "count": 1290
+    },
+    {
+      "file": "pepicons-print.json",
+      "count": 1286
+    },
+    {
+      "file": "ph.json",
+      "count": 9161
+    },
+    {
+      "file": "picon.json",
+      "count": 824
+    },
+    {
+      "file": "pinhead.json",
+      "count": 2440
+    },
+    {
+      "file": "pixel.json",
+      "count": 578
+    },
+    {
+      "file": "pixelarticons.json",
+      "count": 1169
+    },
+    {
+      "file": "prime.json",
+      "count": 313
+    },
+    {
+      "file": "proicons.json",
+      "count": 547
+    },
+    {
+      "file": "qlementine-icons.json",
+      "count": 880
+    },
+    {
+      "file": "quill.json",
+      "count": 141
+    },
+    {
+      "file": "radix-icons.json",
+      "count": 342
+    },
+    {
+      "file": "ri.json",
+      "count": 3229
+    },
+    {
+      "file": "rivet-icons.json",
+      "count": 210
+    },
+    {
+      "file": "roentgen.json",
+      "count": 574
+    },
+    {
+      "file": "selfhst.json",
+      "count": 6990
+    },
+    {
+      "file": "si.json",
+      "count": 1301
+    },
+    {
+      "file": "sidekickicons.json",
+      "count": 232
+    },
+    {
+      "file": "simple-icons.json",
+      "count": 3723
+    },
+    {
+      "file": "skill-icons.json",
+      "count": 400
+    },
+    {
+      "file": "solar.json",
+      "count": 7404
+    },
+    {
+      "file": "stash.json",
+      "count": 982
+    },
+    {
+      "file": "streamline-block.json",
+      "count": 300
+    },
+    {
+      "file": "streamline-color.json",
+      "count": 2000
+    },
+    {
+      "file": "streamline-cyber-color.json",
+      "count": 500
+    },
+    {
+      "file": "streamline-cyber.json",
+      "count": 500
+    },
+    {
+      "file": "streamline-emojis.json",
+      "count": 787
+    },
+    {
+      "file": "streamline-flex-color.json",
+      "count": 1000
+    },
+    {
+      "file": "streamline-flex.json",
+      "count": 1500
+    },
+    {
+      "file": "streamline-freehand-color.json",
+      "count": 1000
+    },
+    {
+      "file": "streamline-freehand.json",
+      "count": 1000
+    },
+    {
+      "file": "streamline-kameleon-color.json",
+      "count": 400
+    },
+    {
+      "file": "streamline-logos.json",
+      "count": 1362
+    },
+    {
+      "file": "streamline-pixel.json",
+      "count": 662
+    },
+    {
+      "file": "streamline-plump-color.json",
+      "count": 1000
+    },
+    {
+      "file": "streamline-plump.json",
+      "count": 1499
+    },
+    {
+      "file": "streamline-sharp-color.json",
+      "count": 1000
+    },
+    {
+      "file": "streamline-sharp.json",
+      "count": 1500
+    },
+    {
+      "file": "streamline-stickies-color.json",
+      "count": 200
+    },
+    {
+      "file": "streamline-ultimate-color.json",
+      "count": 998
+    },
+    {
+      "file": "streamline-ultimate.json",
+      "count": 1999
+    },
+    {
+      "file": "streamline.json",
+      "count": 3933
+    },
+    {
+      "file": "svg-spinners.json",
+      "count": 46
+    },
+    {
+      "file": "system-uicons.json",
+      "count": 430
+    },
+    {
+      "file": "tabler.json",
+      "count": 6214
+    },
+    {
+      "file": "tdesign.json",
+      "count": 2362
+    },
+    {
+      "file": "teenyicons.json",
+      "count": 1200
+    },
+    {
+      "file": "temaki.json",
+      "count": 557
+    },
+    {
+      "file": "token-branded.json",
+      "count": 4150
+    },
+    {
+      "file": "token.json",
+      "count": 1853
+    },
+    {
+      "file": "twemoji.json",
+      "count": 4169
+    },
+    {
+      "file": "typcn.json",
+      "count": 336
+    },
+    {
+      "file": "uil.json",
+      "count": 1216
+    },
+    {
+      "file": "uim.json",
+      "count": 298
+    },
+    {
+      "file": "uis.json",
+      "count": 190
+    },
+    {
+      "file": "uit.json",
+      "count": 216
+    },
+    {
+      "file": "uiw.json",
+      "count": 214
+    },
+    {
+      "file": "unjs.json",
+      "count": 63
+    },
+    {
+      "file": "vscode-icons.json",
+      "count": 1567
+    },
+    {
+      "file": "weui.json",
+      "count": 162
+    },
+    {
+      "file": "wi.json",
+      "count": 230
+    },
+    {
+      "file": "wordpress.json",
+      "count": 340
+    },
+    {
+      "file": "zondicons.json",
+      "count": 297
+    }
+  ]
+}

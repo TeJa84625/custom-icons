@@ -1,0 +1,6 @@
+https://raw.githubusercontent.com/FortAwesome/Font-Awesome/refs/heads/master/metadata/icons.json
+
+https://github.com/carbon-design-system/carbon/tree/650fcf4a8c5f86c5fdaa255d59229fe70fdb9757/packages/icons/src/svg
+
+https://icones.js.org/
+
