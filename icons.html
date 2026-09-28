@@ -460,70 +460,92 @@
 
   // --- Dot Pagination Renderer with Side Arrows ---
   function renderPaginationBar() {
-    paginationBar.innerHTML = '';
+      paginationBar.innerHTML = '';
 
-    const totalPages = Math.ceil(filteredIcons.length / itemsPerPage);
-    if (totalPages <= 1) return;
+      const totalPages = Math.ceil(filteredIcons.length / itemsPerPage);
+      if (totalPages <= 1) return;
 
-    let startPage;
-    if (totalPages <= 3) {
-      startPage = 1;
-    } else if (currentPage === 1 || currentPage === 2) {
-      startPage = 1;
-    } else if (currentPage === totalPages || currentPage === totalPages - 1) {
-      startPage = totalPages - 2;
-    } else {
-      startPage = currentPage - 1;
-    }
-
-    const endPage = Math.min(startPage + 2, totalPages);
-
-    const prevBtn = document.createElement('button');
-    prevBtn.className = 'page-arrow-btn';
-    prevBtn.innerHTML = '←';
-    prevBtn.disabled = currentPage === 1;
-
-    prevBtn.onclick = () => {
-      if (currentPage > 1) {
-        changePage(currentPage - 1);
+      let startPage;
+      if (totalPages <= 3) {
+        startPage = 1;
+      } else if (currentPage === 1 || currentPage === 2) {
+        startPage = 1;
+      } else if (currentPage === totalPages || currentPage === totalPages - 1) {
+        startPage = totalPages - 2;
+      } else {
+        startPage = currentPage - 1;
       }
-    };
 
-    paginationBar.appendChild(prevBtn);
+      const endPage = Math.min(startPage + 2, totalPages);
 
-    const pagesContainer = document.createElement('div');
-    pagesContainer.className = 'page-dots-container';
-
-    for (let i = startPage; i <= endPage; i++) {
-      const pageBtn = document.createElement('button');
-      pageBtn.className = `page-dot ${i === currentPage ? 'active' : ''}`;
-      pageBtn.innerHTML = i;
-      pageBtn.title = `Page ${i}`;
-
-      pageBtn.onclick = () => {
-        if (i !== currentPage) {
-          changePage(i);
+      const firstBtn = document.createElement('button');
+      firstBtn.className = 'page-arrow-btn';
+      firstBtn.innerHTML = '«';
+      firstBtn.title = 'First Page';
+      firstBtn.disabled = currentPage === 1;
+      firstBtn.onclick = () => {
+        if (currentPage > 1) {
+          changePage(1);
         }
       };
+      paginationBar.appendChild(firstBtn);
 
-      pagesContainer.appendChild(pageBtn);
-    }
+      const prevBtn = document.createElement('button');
+      prevBtn.className = 'page-arrow-btn';
+      prevBtn.innerHTML = '‹';
+      prevBtn.title = 'Previous Page';
+      prevBtn.disabled = currentPage === 1;
+      prevBtn.onclick = () => {
+        if (currentPage > 1) {
+          changePage(currentPage - 1);
+        }
+      };
+      paginationBar.appendChild(prevBtn);
 
-    paginationBar.appendChild(pagesContainer);
+      const pagesContainer = document.createElement('div');
+      pagesContainer.className = 'page-dots-container';
 
-    const nextBtn = document.createElement('button');
-    nextBtn.className = 'page-arrow-btn';
-    nextBtn.innerHTML = '→';
-    nextBtn.disabled = currentPage === totalPages;
+      for (let i = startPage; i <= endPage; i++) {
+        const pageBtn = document.createElement('button');
+        pageBtn.className = `page-dot ${i === currentPage ? 'active' : ''}`;
+        pageBtn.innerHTML = i;
+        pageBtn.title = `Page ${i}`;
 
-    nextBtn.onclick = () => {
-      if (currentPage < totalPages) {
-        changePage(currentPage + 1);
+        pageBtn.onclick = () => {
+          if (i !== currentPage) {
+            changePage(i);
+          }
+        };
+
+        pagesContainer.appendChild(pageBtn);
       }
-    };
 
-    paginationBar.appendChild(nextBtn);
-  }
+      paginationBar.appendChild(pagesContainer);
+
+      const nextBtn = document.createElement('button');
+      nextBtn.className = 'page-arrow-btn';
+      nextBtn.innerHTML = '›';
+      nextBtn.title = 'Next Page';
+      nextBtn.disabled = currentPage === totalPages;
+      nextBtn.onclick = () => {
+        if (currentPage < totalPages) {
+          changePage(currentPage + 1);
+        }
+      };
+      paginationBar.appendChild(nextBtn);
+
+      const lastBtn = document.createElement('button');
+      lastBtn.className = 'page-arrow-btn';
+      lastBtn.innerHTML = '»';
+      lastBtn.title = 'Last Page';
+      lastBtn.disabled = currentPage === totalPages;
+      lastBtn.onclick = () => {
+        if (currentPage < totalPages) {
+          changePage(totalPages);
+        }
+      };
+      paginationBar.appendChild(lastBtn);
+    }
 
   function changePage(page) {
     if (page === currentPage) return;
