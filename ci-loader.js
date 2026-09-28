@@ -4,12 +4,9 @@
     const CDN_BASE_URL = 'https://ci-icons.vercel.app/';
     const STORAGE_PREFIX = 'ci_icon_';
     const VERSION_PREFIX = 'ci_ver_';
-    
-    const memoryCache = new Map();
 
     function cleanAndEncodeSVG(svgString) {
         if (!svgString) return '';
-        
         let cleanSvg = svgString
         .replace(/stroke="(?!none)[^"]*"/g, 'stroke="currentColor"')
         .replace(/fill="(?!none)[^"]*"/g, 'fill="currentColor"');
@@ -19,76 +16,98 @@
         .replace(/"/g, "%22");
     }
 
-    async function granularSync(requiredNames = []) {
+    function paintIcons() {
+        const icons = document.querySelectorAll('.ci');
+        if (!icons.length) return;
+
+        let cssRules = '';
+        const styleId = 'ci-styles';
+        let styleTag = document.getElementById(styleId);
+
+        if (!styleTag) {
+        styleTag = document.createElement('style');
+        styleTag.id = styleId;
+        document.head.appendChild(styleTag);
+        }
+
+        icons.forEach(el => {
+        el.classList.forEach(cls => {
+            if (cls.startsWith('ci-') && cls !== 'ci' && !isModifierClass(cls)) {
+            const name = cls.replace('ci-', '');
+            const cached = localStorage.getItem(STORAGE_PREFIX + name);
+            if (cached) {
+                cssRules += `.${cls} { -webkit-mask-image: url("data:image/svg+xml;utf8,${cached}") !important; mask-image: url("data:image/svg+xml;utf8,${cached}") !important; }\n`;
+            }
+            }
+        });
+        });
+
+        if (cssRules) {
+        styleTag.textContent = cssRules;
+        }
+    }
+
+    function isModifierClass(cls) {
+        return (
+        cls.startsWith('ci-xs') ||
+        cls.startsWith('ci-sm') ||
+        cls.startsWith('ci-lg') ||
+        cls.startsWith('ci-xl') ||
+        cls.startsWith('ci-2xl') ||
+        cls === 'ci-spin'
+        );
+    }
+
+    async function syncWithCloud() {
+        paintIcons();
+
         if (!navigator.onLine) return;
 
         try {
-        if (requiredNames.length === 0) return;
-
         const res = await fetch(`${CDN_BASE_URL}svgs.json`);
         if (!res.ok) return;
         const iconsMap = await res.json();
+        let updated = false;
 
-        let anyUpdated = false;
-
-        for (const name of requiredNames) {
-            if (!iconsMap[name]) continue;
-            const remoteData = iconsMap[name];
+        for (const [name, remoteData] of Object.entries(iconsMap)) {
             const remoteVer = remoteData.version || '1.0.0';
-            
             const localVer = localStorage.getItem(VERSION_PREFIX + name);
             const hasData = localStorage.getItem(STORAGE_PREFIX + name);
 
             if (!hasData || remoteVer !== localVer) {
             let svgMarkup = remoteData.svg;
-
             if (svgMarkup && !svgMarkup.trim().startsWith('<svg')) {
                 try {
                 const svgRes = await fetch(svgMarkup);
                 if (svgRes.ok) svgMarkup = await svgRes.text();
-                } catch (e) {
-                continue;
-                }
+                } catch (e) { continue; }
             }
 
             if (svgMarkup) {
                 const encoded = cleanAndEncodeSVG(svgMarkup);
                 localStorage.setItem(STORAGE_PREFIX + name, encoded);
                 localStorage.setItem(VERSION_PREFIX + name, remoteVer);
-                memoryCache.set(name, encoded);
-                anyUpdated = true;
+                updated = true;
             }
             }
         }
 
-        return anyUpdated;
+        if (updated) {
+            paintIcons();
+        }
+
+        const offlineRunner = `(${paintIcons.toString()})();`;
+        localStorage.setItem('ci_cached_engine', offlineRunner);
+
         } catch (error) {
-        console.warn('Background sync failed:', error);
-        return false;
+        console.warn('CI Cloud sync skipped:', error);
         }
     }
 
-    function getIcon(name) {
-        let cached = memoryCache.get(name);
-        if (!cached) {
-        cached = localStorage.getItem(STORAGE_PREFIX + name);
-        if (cached) memoryCache.set(name, cached);
-        }
-        return cached;
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', syncWithCloud);
+    } else {
+        syncWithCloud();
     }
-
-    global.CILoader = {
-        get: getIcon,
-        sync: granularSync,
-        clearCache: () => {
-        Object.keys(localStorage).forEach(key => {
-            if (key.startsWith(STORAGE_PREFIX) || key.startsWith(VERSION_PREFIX)) {
-            localStorage.removeItem(key);
-            }
-        });
-        memoryCache.clear();
-        console.log('CI Icons storage cleared.');
-        }
-    };
 
     })(typeof window !== 'undefined' ? window : this);
