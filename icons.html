@@ -199,6 +199,29 @@
     .switch-input:checked+.switch-slider::before {
       transform: translateX(16px);
     }
+
+    .loading-state-container {
+      grid-column: 1 / -1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 3rem 1rem;
+      color: var(--text-muted, #999);
+      font-size: 1rem;
+      gap: 12px;
+    }
+
+    .loading-spinner-icon {
+      font-size: 2.5rem;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      100% {
+        transform: rotate(360deg);
+      }
+    }
   </style>
 </head>
 
@@ -272,7 +295,7 @@
       <h1 class="page-title" style="margin: 0;">Icon Explorer</h1>
       <span id="totalIconsBadge" class="total-badge">
         <span class="live-pulse-dot"></span>
-        <span id="totalCountText">302,713 icons</span>
+        <span id="totalCountText">0 icons</span>
       </span>
     </div>
 
@@ -372,6 +395,13 @@
   </div>
 
   <script>
+    // --- List of libraries to preserve original colors ---
+    const COLOR_PRESERVED_LIBRARIES = [
+      'google-color', 'flat-color-icons', 'logos', 'vscode-icons', 'cryptocurrency-color', 'emojione-v1', 'noto', 'streamline-plump-color',
+      'devicon', 'flag', 'flagpack', 'circle-flags', 'cib', 'noto-v1', 'token-branded', 'fxemoji', 'emojione', 'twemoji', 'openmoji',
+      'cryptocurrency-icons', 'color-icons', 'simple-icons', 'skill-icons', 'streamline-flex-color', 'fluent-emoji-flat'
+    ];
+
     // --- Theme & Intelligent Default Color Logic ---
     const toggleBtn = document.getElementById('theme-toggle');
     const body = document.body;
@@ -605,15 +635,18 @@
       outlineSliderCtrl.setFromValue(2);
       sizeSliderCtrl.setFromValue(24);
 
+      // Fast spinner overlay during load
+      iconGrid.innerHTML = `
+        <div class="loading-state-container">
+          <i class="ci ci-ms7-bubble-loading loading-spinner-icon"></i>
+          <span>Loading icons...</span>
+        </div>`;
+
       try {
         const response = await fetch('save/svgs.json');
         if (!response.ok) throw new Error("Index file save/svgs.json not found");
         const masterIndex = await response.json();
         indexData = masterIndex.indices || [];
-
-        if (masterIndex.totalSvgs) {
-          totalCountText.innerText = `${masterIndex.totalSvgs.toLocaleString()} icons`;
-        }
 
         categorySelect.innerHTML = '<option value="all">All Sets</option>';
         indexData.forEach(item => {
@@ -633,8 +666,10 @@
           await handleDirectHashRoute(initialHash);
         }
 
+        // Parallel direct loading for high performance
         const allFiles = indexData.map(i => i.file);
-        loadFilesAndMerge(allFiles);
+        await Promise.all(allFiles.map(file => loadSvgFile(file)));
+        processIconsFromFiles(allFiles);
 
       } catch (error) {
         console.warn("Could not load save/svgs.json. Loading fallback mock data.", error);
@@ -678,14 +713,6 @@
       }
     }
 
-    async function loadFilesAndMerge(files) {
-      if (iconsData.length === 0) {
-        iconGrid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: var(--text-muted); padding: 2rem;">Loading icon collections...</p>';
-      }
-      await Promise.all(files.map(file => loadSvgFile(file)));
-      processIconsFromFiles(files);
-    }
-
     function processIconsFromFiles(files) {
       const newIcons = [];
 
@@ -703,7 +730,6 @@
           const uniqueId = `${hashPrefix}-${key}`;
           const iconObj = fileIcons[key];
 
-          // Detect Animated Status
           const isAnimated = (typeof iconObj === 'object') && (iconObj.animated === true || iconObj.animated === "true");
 
           if (!iconsData.some(i => i.id === uniqueId)) {
@@ -724,6 +750,7 @@
       });
 
       iconsData = [...iconsData, ...newIcons];
+      totalCountText.innerText = `${iconsData.length.toLocaleString()} icons`;
       applyFilters();
     }
 
@@ -765,7 +792,6 @@
 
       let baseSet = iconsData;
 
-      // Fixed Category Filtering without page hanging
       if (selectedCategory !== 'all') {
         baseSet = iconsData.filter(i => i.fileSource === selectedCategory);
       }
@@ -795,7 +821,7 @@
       renderPaginationBar();
     }
 
-    function formatSvgString(svgString, customSize, customColor, customOutline) {
+    function formatSvgString(svgString, customSize, customColor, customOutline, sourceSet = '') {
       try {
         const parser = new DOMParser();
         const doc = parser.parseFromString(svgString, 'image/svg+xml');
@@ -812,52 +838,58 @@
         svgEl.setAttribute('width', customSize);
         svgEl.setAttribute('height', customSize);
 
-        const rootStroke = svgEl.getAttribute('stroke');
-        const rootFill = svgEl.getAttribute('fill');
-        const isStrokedSvg = (rootStroke && rootStroke !== 'none') || svgEl.querySelectorAll('[stroke]:not([stroke="none"])').length > 0;
+        const preserveOriginalColors = COLOR_PRESERVED_LIBRARIES.some(lib =>
+          sourceSet.toLowerCase().includes(lib)
+        );
 
-        if (rootFill && rootFill !== 'none') {
-          svgEl.setAttribute('fill', customColor);
-        }
-        if (rootStroke && rootStroke !== 'none') {
-          svgEl.setAttribute('stroke', customColor);
-          svgEl.setAttribute('stroke-width', customOutline);
-        }
+        if (!preserveOriginalColors) {
+          const rootStroke = svgEl.getAttribute('stroke');
+          const rootFill = svgEl.getAttribute('fill');
+          const isStrokedSvg = (rootStroke && rootStroke !== 'none') || svgEl.querySelectorAll('[stroke]:not([stroke="none"])').length > 0;
 
-        const graphicalElements = svgEl.querySelectorAll('path, circle, rect, polygon, polyline, ellipse, line');
+          if (rootFill && rootFill !== 'none') {
+            svgEl.setAttribute('fill', customColor);
+          }
+          if (rootStroke && rootStroke !== 'none') {
+            svgEl.setAttribute('stroke', customColor);
+            svgEl.setAttribute('stroke-width', customOutline);
+          }
 
-        graphicalElements.forEach(el => {
-          const fillAttr = el.getAttribute('fill');
-          const strokeAttr = el.getAttribute('stroke');
+          const graphicalElements = svgEl.querySelectorAll('path, circle, rect, polygon, polyline, ellipse, line');
 
-          if (isStrokedSvg) {
-            el.setAttribute('stroke', customColor);
-            el.setAttribute('stroke-width', customOutline);
-            if (!fillAttr || fillAttr === 'none' || fillAttr === 'currentColor') {
-              el.setAttribute('fill', 'none');
-            }
-          } else {
-            if (fillAttr !== 'none') {
-              el.setAttribute('fill', customColor);
-            }
-            if (strokeAttr && strokeAttr !== 'none') {
+          graphicalElements.forEach(el => {
+            const fillAttr = el.getAttribute('fill');
+            const strokeAttr = el.getAttribute('stroke');
+
+            if (isStrokedSvg) {
               el.setAttribute('stroke', customColor);
               el.setAttribute('stroke-width', customOutline);
+              if (!fillAttr || fillAttr === 'none' || fillAttr === 'currentColor') {
+                el.setAttribute('fill', 'none');
+              }
+            } else {
+              if (fillAttr !== 'none') {
+                el.setAttribute('fill', customColor);
+              }
+              if (strokeAttr && strokeAttr !== 'none') {
+                el.setAttribute('stroke', customColor);
+                el.setAttribute('stroke-width', customOutline);
+              }
             }
+
+            if (el.style.fill && el.style.fill !== 'none') el.style.fill = customColor;
+            if (el.style.stroke && el.style.stroke !== 'none') {
+              el.style.stroke = customColor;
+              el.style.strokeWidth = customOutline + 'px';
+            }
+          });
+
+          const hasAnyFill = svgEl.hasAttribute('fill') || svgEl.querySelectorAll('[fill]').length > 0;
+          const hasAnyStroke = svgEl.hasAttribute('stroke') || svgEl.querySelectorAll('[stroke]').length > 0;
+
+          if (!hasAnyFill && !hasAnyStroke) {
+            svgEl.setAttribute('fill', customColor);
           }
-
-          if (el.style.fill && el.style.fill !== 'none') el.style.fill = customColor;
-          if (el.style.stroke && el.style.stroke !== 'none') {
-            el.style.stroke = customColor;
-            el.style.strokeWidth = customOutline + 'px';
-          }
-        });
-
-        const hasAnyFill = svgEl.hasAttribute('fill') || svgEl.querySelectorAll('[fill]').length > 0;
-        const hasAnyStroke = svgEl.hasAttribute('stroke') || svgEl.querySelectorAll('[stroke]').length > 0;
-
-        if (!hasAnyFill && !hasAnyStroke) {
-          svgEl.setAttribute('fill', customColor);
         }
 
         return new XMLSerializer().serializeToString(svgEl);
@@ -885,13 +917,15 @@
         return;
       }
 
+      const fragment = document.createDocumentFragment();
+
       paginatedItems.forEach(icon => {
         const card = document.createElement('div');
         card.className = isCompactMode ? 'icon-card compact-tile' : 'icon-card';
         card.title = `${icon.name} (${icon.sourceSet})`;
 
         const gridDisplaySize = isCompactMode ? Math.min(iconSizeVal, 32) : Math.min(iconSizeVal, 48);
-        const previewSvg = formatSvgString(icon.svg, gridDisplaySize, colorPicker.value, outlineWidthVal);
+        const previewSvg = formatSvgString(icon.svg, gridDisplaySize, colorPicker.value, outlineWidthVal, icon.sourceSet);
 
         const animatedTagHtml = icon.animated ? `<span class="animated-badge">animated</span>` : '';
         const animatedDotHtml = icon.animated ? `<span class="animated-dot-compact" title="Animated Icon"></span>` : '';
@@ -919,8 +953,10 @@
           window.location.hash = icon.id;
         });
 
-        iconGrid.appendChild(card);
+        fragment.appendChild(card);
       });
+
+      iconGrid.appendChild(fragment);
     }
 
     function renderPaginationBar() {
@@ -1028,9 +1064,9 @@
       const licenseUrl = info.license?.url || '#';
 
       function updateModalContent() {
-        const updatedSvg = formatSvgString(icon.svg, modalSize, modalColor, modalOutline);
+        const updatedSvg = formatSvgString(icon.svg, modalSize, modalColor, modalOutline, icon.sourceSet);
 
-        const htmlSnippet = `<i class="ci ci-${icon.id}"></i>`;
+        const htmlSnippet = `<i class="ci ci-${icon.id}" style="font-size: ${modalSize}px;"></i>`;
 
         const previewContainer = modalBody.querySelector('#modalIconPreview');
         if (previewContainer) previewContainer.innerHTML = updatedSvg;
@@ -1052,7 +1088,7 @@
 
       modalBody.innerHTML = `
       <div id="modalIconPreview" style="transform: scale(1.2); margin: 1rem 0; display:flex; justify-content:center; min-height:80px; align-items:center;">
-        ${formatSvgString(icon.svg, modalSize, modalColor, modalOutline)}
+        ${formatSvgString(icon.svg, modalSize, modalColor, modalOutline, icon.sourceSet)}
       </div>
       <h2 style="margin: 0; font-size: 1.3rem; font-weight: 600;">${icon.name}</h2>
       <p style="font-size: 0.82rem; opacity: 0.7; margin: 0 0 6px 0;">Library: ${icon.sourceSet} &bull; Category: ${icon.category} &bull; Version: v${icon.version}</p>

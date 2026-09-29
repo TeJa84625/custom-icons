@@ -3,6 +3,10 @@
   "totalSvgs": 302713,
   "indices": [
     {
+      "file": "icons.json",
+      "count": 331
+    },
+    {
       "file": "academicons.json",
       "count": 158
     },
