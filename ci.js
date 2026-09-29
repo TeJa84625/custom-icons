@@ -2,7 +2,6 @@
   'use strict';
 
   const SAVE_BASE_PATH = './save/';
-  const FALLBACK_ICON_URL = './favicon.svg';
 
   const memoryCache = new Map();
   const fileCache = new Map();
@@ -10,7 +9,6 @@
   let masterIndexData = null;
   let isFetchingIndex = false;
   let fetchQueue = [];
-  let fallbackSvgEncoded = null;
 
   function generate3CharHash(str) {
     let hash = 5381;
@@ -39,112 +37,43 @@
       .replace(/"/g, "%22");
   }
 
-  async function getFallbackEncodedSVG() {
-    if (fallbackSvgEncoded) return fallbackSvgEncoded;
-    try {
-      const res = await fetch(FALLBACK_ICON_URL);
-      if (res.ok) {
-        const svgText = await res.text();
-        fallbackSvgEncoded = cleanAndEncodeSVG(svgText);
-        return fallbackSvgEncoded;
-      }
-    } catch (e) {
-      // Ignore fallback fetch errors
-    }
-    // Minimal fallback data URI if favicon.svg fails to load
-    return cleanAndEncodeSVG('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="currentColor"/></svg>');
-  }
-
-  async function ensureIndexLoaded() {
-    if (masterIndexData) return;
-    if (isFetchingIndex) {
-      return new Promise(resolve => {
-        fetchQueue.push(resolve);
-      });
-    }
-
-    isFetchingIndex = true;
-    try {
-      const res = await fetch(`${SAVE_BASE_PATH}svgs.json`);
-      if (res.ok) {
-        masterIndexData = await res.json();
-        const indexList = masterIndexData.indices || [];
-
-        indexList.forEach(item => {
-          const fileTag = item.file.replace('.json', '');
-          const hashPrefix = generate3CharHash(`author_cat_${fileTag}`);
-          hashMap.set(hashPrefix, item.file);
-        });
-      } else {
-        throw new Error('Index response not ok');
-      }
-    } catch (error) {
-      console.error('Failed to load master index, fallback active', error);
-      masterIndexData = { indices: [] }; // Prevent infinite loops
-    } finally {
-      isFetchingIndex = false;
-      while (fetchQueue.length > 0) {
-        const callback = fetchQueue.shift();
-        callback();
-      }
-    }
-  }
-
   async function applyInstantPaint() {
     const icons = document.querySelectorAll('.ci');
     if (!icons.length) return;
 
-    try {
-      await ensureIndexLoaded();
+    let cssRules = '';
+    const styleId = 'ci-instant-styles';
+    let styleTag = document.getElementById(styleId);
 
-      let cssRules = '';
-      const styleId = 'ci-instant-styles';
-      let styleTag = document.getElementById(styleId);
+    if (!styleTag) {
+      styleTag = document.createElement('style');
+      styleTag.id = styleId;
+      document.head.appendChild(styleTag);
+    }
 
-      if (!styleTag) {
-        styleTag = document.createElement('style');
-        styleTag.id = styleId;
-        document.head.appendChild(styleTag);
-      }
+    const missingIcons = new Set();
 
-      const missingIcons = new Set();
+    icons.forEach(el => {
+      el.classList.forEach(cls => {
+        if (cls.startsWith('ci-') && cls !== 'ci' && !isModifierClass(cls)) {
+          const iconIdentifier = cls.replace('ci-', '');
 
-      icons.forEach(el => {
-        el.classList.forEach(cls => {
-          if (cls.startsWith('ci-') && cls !== 'ci' && !isModifierClass(cls)) {
-            const iconIdentifier = cls.replace('ci-', '');
-
-            if (memoryCache.has(iconIdentifier)) {
-              const encoded = memoryCache.get(iconIdentifier);
-              cssRules += `.${cls} { -webkit-mask-image: url("data:image/svg+xml;utf8,${encoded}") !important; mask-image: url("data:image/svg+xml;utf8,${encoded}") !important; }\n`;
-            } else {
-              missingIcons.add(iconIdentifier);
-            }
+          if (memoryCache.has(iconIdentifier)) {
+            const encoded = memoryCache.get(iconIdentifier);
+            cssRules += `.${cls} { -webkit-mask-image: url("data:image/svg+xml;utf8,${encoded}") !important; mask-image: url("data:image/svg+xml;utf8,${encoded}") !important; }\n`;
+          } else {
+            missingIcons.add(iconIdentifier);
           }
-        });
+        }
       });
+    });
 
-      if (cssRules && styleTag.textContent !== cssRules) {
-        styleTag.textContent = cssRules;
-      }
+    if (cssRules && styleTag.textContent !== cssRules) {
+      styleTag.textContent = cssRules;
+    }
 
-      if (missingIcons.size > 0) {
-        await fetchAndProcessIcons(missingIcons);
-      }
-    } catch (e) {
-      console.error('Error during applyInstantPaint, applying fallback', e);
-      const fallback = await getFallbackEncodedSVG();
-      icons.forEach(el => {
-        el.classList.forEach(cls => {
-          if (cls.startsWith('ci-') && cls !== 'ci' && !isModifierClass(cls)) {
-            const rule = `.${cls} { -webkit-mask-image: url("data:image/svg+xml;utf8,${fallback}") !important; mask-image: url("data:image/svg+xml;utf8,${fallback}") !important; }\n`;
-            let styleTag = document.getElementById('ci-instant-styles');
-            if (styleTag && !styleTag.textContent.includes(cls)) {
-              styleTag.textContent += rule;
-            }
-          }
-        });
-      });
+    if (missingIcons.size > 0) {
+      await fetchAndProcessIcons(missingIcons);
     }
   }
 
@@ -211,68 +140,106 @@
     }
   }
 
+  async function ensureMasterIndex() {
+    if (masterIndexData) return true;
+
+    if (isFetchingIndex) {
+      return new Promise(resolve => {
+        fetchQueue.push(() => resolve(ensureMasterIndex()));
+      });
+    }
+
+    isFetchingIndex = true;
+    try {
+      const res = await fetch(`${SAVE_BASE_PATH}svgs.json`);
+      if (res.ok) {
+        masterIndexData = await res.json();
+        const indexList = masterIndexData.indices || [];
+
+        indexList.forEach(item => {
+          const fileTag = item.file.replace('.json', '');
+          const hashPrefix = generate3CharHash(`author_cat_${fileTag}`);
+          hashMap.set(hashPrefix, item.file);
+        });
+      }
+    } catch (error) {
+      // Handle network or parse error silently
+    } finally {
+      isFetchingIndex = false;
+      while (fetchQueue.length > 0) {
+        const callback = fetchQueue.shift();
+        callback();
+      }
+    }
+
+    return !!masterIndexData;
+  }
+
   async function fetchAndProcessIcons(targetIdentifiers) {
     if (!navigator.onLine) return;
-    await ensureIndexLoaded();
+
+    const loadedIndex = await ensureMasterIndex();
+    if (!loadedIndex) return;
 
     let updated = false;
-    const fallbackEncoded = await getFallbackEncodedSVG();
+
+    // Group target identifiers by their targeted files for batched loading optimization
+    const fileToIconsMap = new Map();
 
     for (const identifier of targetIdentifiers) {
       if (memoryCache.has(identifier)) continue;
 
-      let found = false;
-      try {
-        let targetFile = null;
-        let iconKey = identifier;
+      let targetFile = null;
+      let iconKey = identifier;
 
-        const dashIndex = identifier.indexOf('-');
-        if (dashIndex !== -1) {
-          const possibleHash = identifier.substring(0, dashIndex);
-          if (hashMap.has(possibleHash)) {
-            targetFile = hashMap.get(possibleHash);
-            iconKey = identifier.substring(dashIndex + 1);
-          }
+      const dashIndex = identifier.indexOf('-');
+      if (dashIndex !== -1) {
+        const possibleHash = identifier.substring(0, dashIndex);
+        if (hashMap.has(possibleHash)) {
+          targetFile = hashMap.get(possibleHash);
+          iconKey = identifier.substring(dashIndex + 1);
         }
-
-        const filesToSearch = targetFile
-          ? [targetFile]
-          : (masterIndexData && masterIndexData.indices ? masterIndexData.indices.map(i => i.file) : []);
-
-        for (const fileName of filesToSearch) {
-          const fileContent = await loadSaveFile(fileName);
-          if (!fileContent || !fileContent.icons) continue;
-
-          const iconObj = fileContent.icons[iconKey] || fileContent.icons[identifier];
-          if (iconObj) {
-            let svgMarkup = typeof iconObj === 'object' ? iconObj.svg : iconObj;
-
-            if (svgMarkup && !svgMarkup.trim().startsWith('<svg')) {
-              try {
-                const svgRes = await fetch(svgMarkup);
-                if (svgRes.ok) svgMarkup = await svgRes.text();
-              } catch (e) {
-                continue;
-              }
-            }
-
-            if (svgMarkup) {
-              const encoded = cleanAndEncodeSVG(svgMarkup);
-              memoryCache.set(identifier, encoded);
-              found = true;
-              updated = true;
-              break;
-            }
-          }
-        }
-      } catch (err) {
-        // Error handling per icon lookup
       }
 
-      // If any error occurred or icon was not found in files, default to fallback (favicon.svg)
-      if (!found) {
-        memoryCache.set(identifier, fallbackEncoded);
-        updated = true;
+      const filesToSearch = targetFile
+        ? [targetFile]
+        : (masterIndexData.indices ? masterIndexData.indices.map(i => i.file) : []);
+
+      for (const fileName of filesToSearch) {
+        if (!fileToIconsMap.has(fileName)) {
+          fileToIconsMap.set(fileName, new Set());
+        }
+        fileToIconsMap.get(fileName).add({ identifier, iconKey });
+      }
+    }
+
+    // Fetch files and extract icons concurrently or sequentially
+    for (const [fileName, items] of fileToIconsMap.entries()) {
+      const fileContent = await loadSaveFile(fileName);
+      if (!fileContent || !fileContent.icons) continue;
+
+      for (const { identifier, iconKey } of items) {
+        if (memoryCache.has(identifier)) continue;
+
+        const iconObj = fileContent.icons[iconKey] || fileContent.icons[identifier];
+        if (iconObj) {
+          let svgMarkup = typeof iconObj === 'object' ? iconObj.svg : iconObj;
+
+          if (svgMarkup && !svgMarkup.trim().startsWith('<svg')) {
+            try {
+              const svgRes = await fetch(svgMarkup);
+              if (svgRes.ok) svgMarkup = await svgRes.text();
+            } catch (e) {
+              continue;
+            }
+          }
+
+          if (svgMarkup) {
+            const encoded = cleanAndEncodeSVG(svgMarkup);
+            memoryCache.set(identifier, encoded);
+            updated = true;
+          }
+        }
       }
     }
 
@@ -311,13 +278,10 @@
   global.CI = {
     render: applyInstantPaint,
     sync: async () => {
-      try {
-        await ensureIndexLoaded();
-        if (masterIndexData && masterIndexData.indices) {
-          const allFiles = masterIndexData.indices.map(i => i.file);
-          await Promise.all(allFiles.map(f => loadSaveFile(f)));
-        }
-      } catch (e) {}
+      if (masterIndexData && masterIndexData.indices) {
+        const allFiles = masterIndexData.indices.map(i => i.file);
+        await Promise.all(allFiles.map(f => loadSaveFile(f)));
+      }
       applyInstantPaint();
     },
     clearCache: () => {
@@ -325,7 +289,6 @@
       fileCache.clear();
       hashMap.clear();
       masterIndexData = null;
-      fallbackSvgEncoded = null;
     }
   };
 
