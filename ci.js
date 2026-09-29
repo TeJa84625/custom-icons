@@ -1,7 +1,7 @@
 (function (global) {
   'use strict';
 
-  const SAVE_BASE_PATH = './save/';
+  const SAVE_BASE_PATH = 'https://ci-icons.vercel.app/save/';
 
   const memoryCache = new Map();
   const fileCache = new Map();
