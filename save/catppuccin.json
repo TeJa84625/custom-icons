@@ -1,7 +1,7 @@
 {
   "info": {
     "name": "Catppuccin Icons",
-    "total": 656,
+    "total": 659,
     "author": {
       "name": "Catppuccin",
       "url": "https://github.com/catppuccin/vscode-icons"
@@ -21,7 +21,10 @@
     ],
     "height": 16,
     "category": "Programming",
-    "palette": true
+    "palette": true,
+    "animated": false,
+    "colored": false,
+    "width edit": true
   },
   "icons": {
     "3d": {

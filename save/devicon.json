@@ -1,7 +1,7 @@
 {
   "info": {
     "name": "Devicon",
-    "total": 1036,
+    "total": 1042,
     "author": {
       "name": "konpa",
       "url": "https://github.com/devicons/devicon/tree/master"
@@ -22,7 +22,10 @@
     "height": 32,
     "displayHeight": 16,
     "category": "Programming",
-    "palette": true
+    "palette": true,
+    "animated": false,
+    "colored": true,
+    "width edit": false
   },
   "icons": {
     "aarch64": {

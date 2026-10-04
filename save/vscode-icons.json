@@ -1,7 +1,7 @@
 {
   "info": {
     "name": "VSCode Icons",
-    "total": 1562,
+    "total": 1567,
     "version": "12.19.0",
     "author": {
       "name": "Roberto Huertas",
@@ -26,7 +26,10 @@
     "tags": [
       "Has Padding"
     ],
-    "palette": true
+    "palette": true,
+    "animated": false,
+    "colored": true,
+    "width edit": false
   },
   "icons": {
     "default-file": {

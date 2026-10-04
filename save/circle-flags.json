@@ -1,7 +1,7 @@
 {
   "info": {
     "name": "Circle Flags",
-    "total": 634,
+    "total": 731,
     "version": "1.0.0",
     "author": {
       "name": "HatScripts",
@@ -23,7 +23,10 @@
     "height": 32,
     "displayHeight": 16,
     "category": "Flags / Maps",
-    "palette": true
+    "palette": true,
+    "animated": false,
+    "colored": true,
+    "width edit": false
   },
   "icons": {
     "aa": {

@@ -1,14 +1,15 @@
 {
   "info": {
     "name": "Huge Icons",
-    "total": 5065,
+    "total": 5091,
     "author": {
       "name": "Hugeicons",
       "url": "https://icon-sets.iconify.design/icon-sets/hugeicons/"
     },
     "license": {
       "title": "MIT",
-      "spdx": "MIT"
+      "spdx": "MIT",
+      "url": ""
     },
     "samples": [
       "analytics-up",

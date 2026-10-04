@@ -8,7 +8,8 @@
     },
     "license": {
       "title": "Apache 2.0",
-      "spdx": "Apache-2.0"
+      "spdx": "Apache-2.0",
+      "url": ""
     },
     "samples": [
       "nitro",

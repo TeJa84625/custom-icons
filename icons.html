@@ -126,6 +126,16 @@
       border-radius: 50%;
     }
 
+    /* Universal SVG Constraint (Fixes anomalous sizes) */
+    .svg-container svg {
+      width: 100% !important;
+      height: 100% !important;
+      max-width: 100% !important;
+      max-height: 100% !important;
+      object-fit: contain !important;
+      display: block;
+    }
+
     /* Compact Mode Grid Enhancements */
     .icon-grid.compact-mode {
       grid-template-columns: repeat(auto-fill, minmax(56px, 1fr)) !important;
@@ -147,12 +157,6 @@
     .icon-card.compact-tile .icon-source-tag,
     .icon-card.compact-tile .animated-badge {
       display: none !important;
-    }
-
-    .icon-card.compact-tile .svg-container {
-      min-height: unset !important;
-      width: 100%;
-      height: 100%;
     }
 
     /* Toggle Switch Component */
@@ -221,6 +225,18 @@
       100% {
         transform: rotate(360deg);
       }
+    }
+
+    /* Advanced Filters Container */
+    .advanced-filters {
+      display: flex;
+      gap: 16px;
+      width: 100%;
+      flex-wrap: wrap;
+      align-items: center;
+      margin-top: 8px;
+      padding-top: 10px;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
     }
   </style>
 </head>
@@ -301,30 +317,49 @@
 
     <!-- Pure Glass Toolbar -->
     <div class="glass-toolbar" style="flex-direction: column; align-items: stretch;">
-      <div style="display: flex; gap: 10px; width: 100%; flex-wrap: wrap; align-items: center;">
 
+      <!-- Primary Controls -->
+      <div style="display: flex; gap: 10px; width: 100%; flex-wrap: wrap; align-items: center;">
         <!-- Search Input Wrapper with Clear Button -->
         <div class="search-input-wrapper">
           <input type="text" id="searchInput" class="glass-input" placeholder="Search icons...">
           <button id="searchClearBtn" class="search-clear-btn" title="Clear Search">&times;</button>
         </div>
 
-        <!-- Filterable Category Dropdown -->
-        <div style="display: flex; gap: 6px; align-items: center;">
-          <select id="categorySelect" class="glass-select">
-            <option value="all">All Sets</option>
-          </select>
-        </div>
+        <select id="categorySelect" class="glass-select">
+          <option value="all">All Sets</option>
+        </select>
+
+        <select id="authorSelect" class="glass-select">
+          <option value="all">All Authors</option>
+        </select>
 
         <select id="sortSelect" class="glass-select">
           <option value="name-asc">Sort: Name (A-Z)</option>
           <option value="name-desc">Sort: Name (Z-A)</option>
           <option value="version">Sort: Version</option>
         </select>
-
       </div>
 
-      <div class="filter-controls">
+      <!-- Advanced Filters (Toggles) -->
+      <div class="advanced-filters">
+        <!-- Animated Filter Toggle -->
+        <label class="view-toggle-container" title="Show only animated icons">
+          <span>Animated Only</span>
+          <input type="checkbox" id="animatedToggle" class="switch-input">
+          <span class="switch-slider"></span>
+        </label>
+
+        <!-- Colored Filter Toggle -->
+        <label class="view-toggle-container" title="Show only colored/fixed-color icons">
+          <span>Colored Only</span>
+          <input type="checkbox" id="coloredToggle" class="switch-input">
+          <span class="switch-slider"></span>
+        </label>
+      </div>
+
+      <!-- Visualization Controls -->
+      <div class="filter-controls" style="margin-top: 8px;">
         <!-- Color Picker & Hex Code Input Group -->
         <div class="glass-control-group color-picker-wrapper">
           <label for="colorPicker">Color:</label>
@@ -332,21 +367,7 @@
           <input type="text" id="hexInput" class="hex-input" value="#3b82f6" maxlength="7">
         </div>
 
-        <!-- Custom Maxuiux Liquid Glass Slider for Outline -->
-        <div class="glass-control-group">
-          <label>Outline:</label>
-          <div class="slider-container" id="outlineSlider">
-            <div class="slider-progress" id="outlineProgress"></div>
-            <div class="slider-thumb-glass" id="outlineThumb">
-              <div class="slider-thumb-glass-filter"></div>
-              <div class="slider-thumb-glass-overlay"></div>
-              <div class="slider-thumb-glass-specular"></div>
-            </div>
-          </div>
-          <span id="outlineValue" class="slider-value">2px</span>
-        </div>
-
-        <!-- Custom Maxuiux Liquid Glass Slider for Size (12px to 256px) -->
+        <!-- Size Slider -->
         <div class="glass-control-group">
           <label>Size:</label>
           <div class="slider-container" id="sizeSlider">
@@ -379,7 +400,7 @@
     <!-- Icon Grid -->
     <div class="icon-grid" id="iconGrid"></div>
 
-    <!-- Dot Pagination Bar with Side Arrows -->
+    <!-- Dot Pagination Bar -->
     <div class="pagination-bar" id="paginationBar"></div>
   </main>
 
@@ -395,7 +416,7 @@
   </div>
 
   <script>
-    // --- List of libraries to preserve original colors ---
+    // --- List of libraries to preserve original colors (Fallback) ---
     const COLOR_PRESERVED_LIBRARIES = [
       'google-color', 'flat-color-icons', 'logos', 'vscode-icons', 'cryptocurrency-color', 'emojione-v1', 'noto', 'streamline-plump-color',
       'devicon', 'flag', 'flagpack', 'circle-flags', 'cib', 'noto-v1', 'token-branded', 'fxemoji', 'emojione', 'twemoji', 'openmoji',
@@ -481,54 +502,43 @@
       }
     });
 
-    function generate3CharHash(str) {
-      let hash = 5381;
-      for (let i = 0; i < str.length; i++) {
-        hash = (hash * 33) ^ str.charCodeAt(i);
-      }
-      const chars = '0123456789abcdefghijklmnopqrstuvwxyz';
-      let absHash = Math.abs(hash);
-      let result = '';
-      for (let i = 0; i < 3; i++) {
-        result += chars[absHash % chars.length];
-        absHash = Math.floor(absHash / chars.length);
-      }
-      return result;
-    }
-
     // --- State Variables ---
     let indexData = [];
+    let masterMetadata = new Map();
+    let allAuthors = new Set();
     const hashMap = new Map();
     const loadedFilesCache = new Map();
     let iconsData = [];
     let filteredIcons = [];
     let currentPage = 1;
     let itemsPerPage = 200;
-    let outlineWidthVal = 2;
     let iconSizeVal = 24;
 
-    // Persistent Compact Grid state
     let isCompactMode = localStorage.getItem('compactMode') === 'true';
-
     let savedColor = localStorage.getItem('iconColor') || '#3b82f6';
 
     // Controls Elements
     const searchInput = document.getElementById('searchInput');
     const searchClearBtn = document.getElementById('searchClearBtn');
+
+    // Selects & Filters
     const categorySelect = document.getElementById('categorySelect');
+    const authorSelect = document.getElementById('authorSelect');
     const sortSelect = document.getElementById('sortSelect');
     const limitSelect = document.getElementById('limitSelect');
+
+    const animatedToggle = document.getElementById('animatedToggle');
+    const coloredToggle = document.getElementById('coloredToggle');
+
     const iconGrid = document.getElementById('iconGrid');
     const paginationBar = document.getElementById('paginationBar');
     const compactModeToggle = document.getElementById('compactModeToggle');
     const totalCountText = document.getElementById('totalCountText');
 
-    // Modal Elements
     const iconModal = document.getElementById('iconModal');
     const closeModalBtn = document.getElementById('closeModal');
     const modalBody = document.getElementById('modalBody');
 
-    // Set initial compact toggle state
     compactModeToggle.checked = isCompactMode;
     compactModeToggle.addEventListener('change', (e) => {
       isCompactMode = e.target.checked;
@@ -536,7 +546,6 @@
       renderGrid();
     });
 
-    // Search Clear Button handler
     searchInput.addEventListener('input', () => {
       searchClearBtn.style.display = searchInput.value ? 'block' : 'none';
       currentPage = 1;
@@ -550,7 +559,15 @@
       applyFilters();
     });
 
-    // --- Generic Maxuiux Slider Factory ---
+    // Listeners for filters
+    categorySelect.addEventListener('change', () => { currentPage = 1; applyFilters(); });
+    authorSelect.addEventListener('change', () => { currentPage = 1; applyFilters(); });
+    sortSelect.addEventListener('change', () => { currentPage = 1; applyFilters(); });
+    limitSelect.addEventListener('change', (e) => { itemsPerPage = parseInt(e.target.value); currentPage = 1; applyFilters(); });
+    animatedToggle.addEventListener('change', () => { currentPage = 1; applyFilters(); });
+    coloredToggle.addEventListener('change', () => { currentPage = 1; applyFilters(); });
+
+    // Slider setup
     function setupSlider(sliderId, progressId, thumbId, valueId, min, max, step, onUpdate) {
       const slider = document.getElementById(sliderId);
       const progress = document.getElementById(progressId);
@@ -600,12 +617,6 @@
       return { setFromValue };
     }
 
-    const outlineSliderCtrl = setupSlider('outlineSlider', 'outlineProgress', 'outlineThumb', 'outlineValue', 0.5, 3, 0.5, (val, textElem) => {
-      outlineWidthVal = val;
-      textElem.innerText = val + 'px';
-      renderGrid();
-    });
-
     const sizeSliderCtrl = setupSlider('sizeSlider', 'sizeProgress', 'sizeThumb', 'sizeValue', 12, 256, 2, (val, textElem) => {
       iconSizeVal = val;
       textElem.innerText = val + 'px';
@@ -613,9 +624,7 @@
     });
 
     async function loadSvgFile(fileName) {
-      if (loadedFilesCache.has(fileName)) {
-        return loadedFilesCache.get(fileName);
-      }
+      if (loadedFilesCache.has(fileName)) return loadedFilesCache.get(fileName);
       try {
         const res = await fetch(`save/${fileName}`);
         if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
@@ -631,11 +640,8 @@
     async function initIcons() {
       colorPicker.value = savedColor;
       hexInput.value = savedColor;
-
-      outlineSliderCtrl.setFromValue(2);
       sizeSliderCtrl.setFromValue(24);
 
-      // Fast spinner overlay during load
       iconGrid.innerHTML = `
         <div class="loading-state-container">
           <i class="ci ci-ms7-bubble-loading loading-spinner-icon"></i>
@@ -648,6 +654,10 @@
         const masterIndex = await response.json();
         indexData = masterIndex.indices || [];
 
+        if (masterIndex.totalSvgs) {
+          totalCountText.innerText = `${masterIndex.totalSvgs.toLocaleString()} icons`;
+        }
+
         categorySelect.innerHTML = '<option value="all">All Sets</option>';
         indexData.forEach(item => {
           const option = document.createElement('option');
@@ -657,42 +667,29 @@
           categorySelect.appendChild(option);
 
           const fileTag = item.file.replace('.json', '');
-          const fileHash = generate3CharHash(`author_cat_${fileTag}`);
-          hashMap.set(fileHash, item.file);
+          // Robust key generation: Use provided key OR sanitized fileTag to prevent cross-library collisions
+          const encryptionKey = item.key || fileTag.replace(/[^a-zA-Z0-9]/g, '');
+
+          masterMetadata.set(item.file, {
+            key: encryptionKey,
+            animated: item.animated || false,
+            colored: item.colored || false,
+            isNew: item.new || false
+          });
+
+          hashMap.set(encryptionKey, item.file);
         });
 
         const initialHash = window.location.hash.substring(1);
-        if (initialHash) {
-          await handleDirectHashRoute(initialHash);
-        }
+        if (initialHash) await handleDirectHashRoute(initialHash);
 
-        // Parallel direct loading for high performance
         const allFiles = indexData.map(i => i.file);
         await Promise.all(allFiles.map(file => loadSvgFile(file)));
         processIconsFromFiles(allFiles);
 
       } catch (error) {
-        console.warn("Could not load save/svgs.json. Loading fallback mock data.", error);
-        categorySelect.innerHTML = '<option value="all">Sample Set</option>';
-        totalCountText.innerText = '1 icon';
-        const fallbackJSON = {
-          info: {
-            name: "Sample Collection",
-            total: 1,
-            author: { name: "Sample Author", url: "https://example.com" },
-            license: { title: "MIT", spdx: "MIT", url: "https://opensource.org/licenses/MIT" }
-          },
-          icons: {
-            "live-16-filled": {
-              "version": "0.0.1",
-              "category": "Social",
-              "animated": true,
-              "svg": `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2A10 10 0 0 0 2 12a10 10 0 0 0 10 10 10 10 0 0 0 10-10A10 10 0 0 0 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg>`
-            }
-          }
-        };
-        loadedFilesCache.set("sample.json", fallbackJSON);
-        processIconsFromFiles(["sample.json"]);
+        console.warn("Could not load save/svgs.json.", error);
+        totalCountText.innerText = '0 icons';
       }
     }
 
@@ -706,9 +703,7 @@
         if (fileData) {
           processIconsFromFiles([targetFile]);
           const targetIcon = iconsData.find(i => i.id.toLowerCase() === hashParam.toLowerCase());
-          if (targetIcon) {
-            openModal(targetIcon);
-          }
+          if (targetIcon) openModal(targetIcon);
         }
       }
     }
@@ -724,23 +719,30 @@
         const fileIcons = fileData.icons;
         const fileTag = fileName.replace('.json', '');
 
-        const hashPrefix = generate3CharHash(`author_cat_${fileTag}`);
+        const metadata = masterMetadata.get(fileName) || { key: fileTag.replace(/[^a-zA-Z0-9]/g, ''), animated: false, colored: false };
+        const authorName = info.author?.name || 'Unknown';
+
+        if (authorName !== 'Unknown') allAuthors.add(authorName);
 
         Object.keys(fileIcons).forEach(key => {
-          const uniqueId = `${hashPrefix}-${key}`;
+          const uniqueId = `${metadata.key}-${key}`;
           const iconObj = fileIcons[key];
 
-          const isAnimated = (typeof iconObj === 'object') && (iconObj.animated === true || iconObj.animated === "true");
+          const isIconSpecificAnimated = typeof iconObj === 'object' && (iconObj.animated === true || iconObj.animated === "true");
+          const isAnimatedFinal = metadata.animated || isIconSpecificAnimated;
+          const isColoredFinal = metadata.colored || COLOR_PRESERVED_LIBRARIES.some(lib => fileTag.toLowerCase().includes(lib));
 
           if (!iconsData.some(i => i.id === uniqueId)) {
             newIcons.push({
               id: uniqueId,
-              hash: hashPrefix,
+              hash: metadata.key,
               name: key,
               sourceSet: fileTag,
               version: (typeof iconObj === 'object' && iconObj.version) ? iconObj.version : "1.0.0",
               category: (typeof iconObj === 'object' && iconObj.category) || info.category || info.name || "General",
-              animated: isAnimated,
+              author: authorName,
+              animated: isAnimatedFinal,
+              colored: isColoredFinal,
               svg: (typeof iconObj === 'object' && iconObj.svg) ? iconObj.svg : iconObj,
               fileSource: fileName,
               info: info
@@ -751,16 +753,19 @@
 
       iconsData = [...iconsData, ...newIcons];
       totalCountText.innerText = `${iconsData.length.toLocaleString()} icons`;
+
+      const currentAuthorSelection = authorSelect.value;
+      authorSelect.innerHTML = '<option value="all">All Authors</option>';
+      Array.from(allAuthors).sort().forEach(author => {
+        const opt = document.createElement('option');
+        opt.value = author;
+        opt.innerText = author;
+        authorSelect.appendChild(opt);
+      });
+      authorSelect.value = currentAuthorSelection;
+
       applyFilters();
     }
-
-    categorySelect.addEventListener('change', () => {
-      currentPage = 1;
-      applyFilters();
-    });
-
-    sortSelect.addEventListener('change', () => { currentPage = 1; applyFilters(); });
-    limitSelect.addEventListener('change', (e) => { itemsPerPage = parseInt(e.target.value); currentPage = 1; applyFilters(); });
 
     function getSearchRank(icon, query) {
       if (!query) return 0;
@@ -768,16 +773,11 @@
       const source = icon.sourceSet.toLowerCase();
 
       if (name === query) return 1;
-
       const boundaryRegex = new RegExp(`(^|[-_/${'\\s'}])` + escapeRegex(query) + `([-_/${'\\s'}]|$)`);
       if (boundaryRegex.test(name)) return 2;
-
       if (name.startsWith(query)) return 3;
-
       if (name.includes(query)) return 4;
-
       if (source.includes(query)) return 5;
-
       return 99;
     }
 
@@ -788,12 +788,25 @@
     function applyFilters() {
       const query = searchInput.value.trim().toLowerCase();
       const selectedCategory = categorySelect.value;
+      const selectedAuthor = authorSelect.value;
       const sort = sortSelect.value;
+
+      const showAnimatedOnly = animatedToggle.checked;
+      const showColoredOnly = coloredToggle.checked;
 
       let baseSet = iconsData;
 
       if (selectedCategory !== 'all') {
-        baseSet = iconsData.filter(i => i.fileSource === selectedCategory);
+        baseSet = baseSet.filter(i => i.fileSource === selectedCategory);
+      }
+      if (selectedAuthor !== 'all') {
+        baseSet = baseSet.filter(i => i.author === selectedAuthor);
+      }
+      if (showAnimatedOnly) {
+        baseSet = baseSet.filter(i => i.animated);
+      }
+      if (showColoredOnly) {
+        baseSet = baseSet.filter(i => i.colored);
       }
 
       if (!query) {
@@ -821,76 +834,87 @@
       renderPaginationBar();
     }
 
-    function formatSvgString(svgString, customSize, customColor, customOutline, sourceSet = '') {
+    function formatSvgString(svgString, customColor, isColored, uniqueId) {
+      // 1. RAW INJECTION for Colored Flags (Preserves Animations, Layouts, and Mask references perfectly)
+      if (isColored) {
+        return svgString;
+      }
+
+      // 2. Safe DOM Manipulation for Recolor & Scalability
       try {
         const parser = new DOMParser();
         const doc = parser.parseFromString(svgString, 'image/svg+xml');
         const svgEl = doc.querySelector('svg');
-
         if (!svgEl) return svgString;
 
+        // Force scalable ViewBox if missing
         if (!svgEl.hasAttribute('viewBox')) {
-          const w = svgEl.getAttribute('width') || 24;
-          const h = svgEl.getAttribute('height') || 24;
-          svgEl.setAttribute('viewBox', `0 0 ${parseInt(w)} ${parseInt(h)}`);
+          const w = svgEl.getAttribute('width');
+          const h = svgEl.getAttribute('height');
+          const pw = parseFloat(w) || 24;
+          const ph = parseFloat(h) || 24;
+          svgEl.setAttribute('viewBox', `0 0 ${pw} ${ph}`);
         }
 
-        svgEl.setAttribute('width', customSize);
-        svgEl.setAttribute('height', customSize);
+        // Clean up explicit widths/heights so CSS sizing takes over perfectly 
+        svgEl.removeAttribute('width');
+        svgEl.removeAttribute('height');
 
-        const preserveOriginalColors = COLOR_PRESERVED_LIBRARIES.some(lib =>
-          sourceSet.toLowerCase().includes(lib)
-        );
-
-        if (!preserveOriginalColors) {
-          const rootStroke = svgEl.getAttribute('stroke');
-          const rootFill = svgEl.getAttribute('fill');
-          const isStrokedSvg = (rootStroke && rootStroke !== 'none') || svgEl.querySelectorAll('[stroke]:not([stroke="none"])').length > 0;
-
-          if (rootFill && rootFill !== 'none') {
-            svgEl.setAttribute('fill', customColor);
+        // Safe ID collision rewritter (Critical for List Views)
+        const idMap = {};
+        svgEl.querySelectorAll('[id]').forEach(el => {
+          const oldId = el.getAttribute('id');
+          if (oldId && !oldId.startsWith('ci-')) {
+            const newId = `ci-${uniqueId}-${oldId}`.replace(/[^a-zA-Z0-9-_]/g, '');
+            el.setAttribute('id', newId);
+            idMap[oldId] = newId;
           }
-          if (rootStroke && rootStroke !== 'none') {
-            svgEl.setAttribute('stroke', customColor);
-            svgEl.setAttribute('stroke-width', customOutline);
-          }
+        });
 
-          const graphicalElements = svgEl.querySelectorAll('path, circle, rect, polygon, polyline, ellipse, line');
-
-          graphicalElements.forEach(el => {
-            const fillAttr = el.getAttribute('fill');
-            const strokeAttr = el.getAttribute('stroke');
-
-            if (isStrokedSvg) {
-              el.setAttribute('stroke', customColor);
-              el.setAttribute('stroke-width', customOutline);
-              if (!fillAttr || fillAttr === 'none' || fillAttr === 'currentColor') {
-                el.setAttribute('fill', 'none');
+        // Remap url(#id) references
+        if (Object.keys(idMap).length > 0) {
+          svgEl.querySelectorAll('*').forEach(el => {
+            Array.from(el.attributes).forEach(attr => {
+              let val = attr.value;
+              if (val.includes('url(#')) {
+                Object.keys(idMap).forEach(oldId => {
+                  val = val.split(`url(#${oldId})`).join(`url(#${idMap[oldId]})`);
+                });
+                if (val !== attr.value) el.setAttribute(attr.name, val);
               }
-            } else {
-              if (fillAttr !== 'none') {
-                el.setAttribute('fill', customColor);
+              if ((attr.name === 'href' || attr.name === 'xlink:href') && val.startsWith('#')) {
+                const oldId = val.substring(1);
+                if (idMap[oldId]) el.setAttribute(attr.name, `#${idMap[oldId]}`);
               }
-              if (strokeAttr && strokeAttr !== 'none') {
-                el.setAttribute('stroke', customColor);
-                el.setAttribute('stroke-width', customOutline);
-              }
-            }
-
-            if (el.style.fill && el.style.fill !== 'none') el.style.fill = customColor;
-            if (el.style.stroke && el.style.stroke !== 'none') {
-              el.style.stroke = customColor;
-              el.style.strokeWidth = customOutline + 'px';
-            }
+            });
           });
-
-          const hasAnyFill = svgEl.hasAttribute('fill') || svgEl.querySelectorAll('[fill]').length > 0;
-          const hasAnyStroke = svgEl.hasAttribute('stroke') || svgEl.querySelectorAll('[stroke]').length > 0;
-
-          if (!hasAnyFill && !hasAnyStroke) {
-            svgEl.setAttribute('fill', customColor);
-          }
         }
+
+        // Deep Apply Color (Defaults properly to Root & Overrides)
+        svgEl.style.color = customColor;
+        const rootFill = svgEl.getAttribute('fill');
+        if (!rootFill || (rootFill !== 'none' && !rootFill.includes('url('))) {
+          svgEl.setAttribute('fill', customColor);
+        }
+
+        const applyColor = (el) => {
+          const fillAttr = el.getAttribute('fill');
+          if (fillAttr && fillAttr !== 'none' && !fillAttr.includes('url(')) {
+            el.setAttribute('fill', customColor);
+          }
+          if (el.style && el.style.fill && el.style.fill !== 'none' && !el.style.fill.includes('url(')) {
+            el.style.fill = customColor;
+          }
+
+          const strokeAttr = el.getAttribute('stroke');
+          if (strokeAttr && strokeAttr !== 'none' && !strokeAttr.includes('url(')) {
+            el.setAttribute('stroke', customColor);
+          }
+          if (el.style && el.style.stroke && el.style.stroke !== 'none' && !el.style.stroke.includes('url(')) {
+            el.style.stroke = customColor;
+          }
+        };
+        svgEl.querySelectorAll('path, circle, rect, polygon, polyline, ellipse, line, g').forEach(applyColor);
 
         return new XMLSerializer().serializeToString(svgEl);
       } catch (e) {
@@ -913,7 +937,7 @@
       const paginatedItems = filteredIcons.slice(start, end);
 
       if (paginatedItems.length === 0) {
-        iconGrid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: var(--text-muted); padding: 2rem;">No icons found.</p>';
+        iconGrid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: var(--text-muted); padding: 2rem;">No icons found matching your filters.</p>';
         return;
       }
 
@@ -924,8 +948,9 @@
         card.className = isCompactMode ? 'icon-card compact-tile' : 'icon-card';
         card.title = `${icon.name} (${icon.sourceSet})`;
 
+        // Use custom sizing in Grid via explicit CSS injection on the Wrapper
         const gridDisplaySize = isCompactMode ? Math.min(iconSizeVal, 32) : Math.min(iconSizeVal, 48);
-        const previewSvg = formatSvgString(icon.svg, gridDisplaySize, colorPicker.value, outlineWidthVal, icon.sourceSet);
+        const previewSvg = formatSvgString(icon.svg, colorPicker.value, icon.colored, icon.id);
 
         const animatedTagHtml = icon.animated ? `<span class="animated-badge">animated</span>` : '';
         const animatedDotHtml = icon.animated ? `<span class="animated-dot-compact" title="Animated Icon"></span>` : '';
@@ -933,13 +958,13 @@
         if (isCompactMode) {
           card.innerHTML = `
           ${animatedDotHtml}
-          <div class="svg-container" style="display:flex; justify-content:center; align-items:center;">
+          <div class="svg-container" style="display:flex; justify-content:center; align-items:center; width:${gridDisplaySize}px; height:${gridDisplaySize}px;">
             ${previewSvg}
           </div>
         `;
         } else {
           card.innerHTML = `
-          <div class="svg-container" style="display:flex; justify-content:center; align-items:center; min-height:52px;">
+          <div class="svg-container" style="display:flex; justify-content:center; align-items:center; width:${gridDisplaySize}px; height:${gridDisplaySize}px; min-height:52px; margin: 0 auto;">
             ${previewSvg}
           </div>
           <div class="icon-name">${icon.name}</div>
@@ -1027,7 +1052,6 @@
 
     function changePage(page) {
       if (page === currentPage) return;
-
       currentPage = page;
       renderGrid();
       renderPaginationBar();
@@ -1055,7 +1079,6 @@
     function openModal(icon) {
       let modalColor = colorPicker.value;
       let modalSize = iconSizeVal;
-      let modalOutline = outlineWidthVal;
 
       const info = icon.info || {};
       const authorName = info.author?.name || 'Unknown Author';
@@ -1064,8 +1087,7 @@
       const licenseUrl = info.license?.url || '#';
 
       function updateModalContent() {
-        const updatedSvg = formatSvgString(icon.svg, modalSize, modalColor, modalOutline, icon.sourceSet);
-
+        const updatedSvg = formatSvgString(icon.svg, modalColor, icon.colored, icon.id);
         const htmlSnippet = `<i class="ci ci-${icon.id}" style="font-size: ${modalSize}px;"></i>`;
 
         const previewContainer = modalBody.querySelector('#modalIconPreview');
@@ -1087,8 +1109,8 @@
       }
 
       modalBody.innerHTML = `
-      <div id="modalIconPreview" style="transform: scale(1.2); margin: 1rem 0; display:flex; justify-content:center; min-height:80px; align-items:center;">
-        ${formatSvgString(icon.svg, modalSize, modalColor, modalOutline, icon.sourceSet)}
+      <div id="modalIconPreview" class="svg-container" style="margin: 1rem auto; display:flex; justify-content:center; align-items:center; width:${modalSize}px; height:${modalSize}px; min-height:80px;">
+        ${formatSvgString(icon.svg, modalColor, icon.colored, icon.id)}
       </div>
       <h2 style="margin: 0; font-size: 1.3rem; font-weight: 600;">${icon.name}</h2>
       <p style="font-size: 0.82rem; opacity: 0.7; margin: 0 0 6px 0;">Library: ${icon.sourceSet} &bull; Category: ${icon.category} &bull; Version: v${icon.version}</p>

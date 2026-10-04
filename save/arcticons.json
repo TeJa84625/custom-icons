@@ -1,7 +1,7 @@
 {
   "info": {
     "name": "Arcticons",
-    "total": 14913,
+    "total": 14996,
     "author": {
       "name": "Donnnno",
       "url": "https://github.com/Arcticons-Team/Arcticons"
@@ -26,7 +26,10 @@
       "Precise Shapes",
       "Has Padding"
     ],
-    "palette": false
+    "palette": false,
+    "animated": false,
+    "colored": false,
+    "width edit": true
   },
   "icons": {
     "64": {

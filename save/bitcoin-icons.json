@@ -26,7 +26,10 @@
       "Precise Shapes",
       "Has Padding"
     ],
-    "palette": false
+    "palette": false,
+    "animated": false,
+    "colored": false,
+    "width edit": true
   },
   "icons": {
     "address-book-filled": {

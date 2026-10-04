@@ -1,7 +1,7 @@
 {
   "info": {
     "name": "Charm Icons",
-    "total": 261,
+    "total": 262,
     "version": "0.12.1",
     "author": {
       "name": "Jay Newey",
@@ -26,7 +26,10 @@
       "Has Padding",
       "Uses Stroke"
     ],
-    "palette": false
+    "palette": false,
+    "animated": false,
+    "colored": false,
+    "width edit": true
   },
   "icons": {
     "anchor": {

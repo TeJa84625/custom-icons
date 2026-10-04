@@ -1,7 +1,7 @@
 {
   "info": {
     "name": "Akar Icons",
-    "total": 454,
+    "total": 458,
     "version": "1.9.31",
     "author": {
       "name": "Arturo Wibawa",
@@ -27,7 +27,10 @@
       "Has Padding",
       "Uses Stroke"
     ],
-    "palette": false
+    "palette": false,
+    "animated": false,
+    "colored": false,
+    "width edit": true
   },
   "icons": {
     "air": {

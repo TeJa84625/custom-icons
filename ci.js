@@ -10,21 +10,6 @@
   let isFetchingIndex = false;
   let fetchQueue = [];
 
-  function generate3CharHash(str) {
-    let hash = 5381;
-    for (let i = 0; i < str.length; i++) {
-      hash = (hash * 33) ^ str.charCodeAt(i);
-    }
-    const chars = '0123456789abcdefghijklmnopqrstuvwxyz';
-    let absHash = Math.abs(hash);
-    let result = '';
-    for (let i = 0; i < 3; i++) {
-      result += chars[absHash % chars.length];
-      absHash = Math.floor(absHash / chars.length);
-    }
-    return result;
-  }
-
   function cleanAndEncodeSVG(svgString) {
     if (!svgString) return '';
 
@@ -157,9 +142,10 @@
         const indexList = masterIndexData.indices || [];
 
         indexList.forEach(item => {
-          const fileTag = item.file.replace('.json', '');
-          const hashPrefix = generate3CharHash(`author_cat_${fileTag}`);
-          hashMap.set(hashPrefix, item.file);
+          // Map the provided "key" from svgs.json directly to the file name
+          if (item.key && item.file) {
+            hashMap.set(item.key, item.file);
+          }
         });
       }
     } catch (error) {

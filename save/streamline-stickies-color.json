@@ -20,7 +20,10 @@
       "cursor"
     ],
     "category": "UI Multicolor",
-    "palette": true
+    "palette": true,
+    "animated": false,
+    "colored": true,
+    "width edit": false
   },
   "icons": {
     "3d": {

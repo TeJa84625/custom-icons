@@ -1,7 +1,7 @@
 {
   "info": {
     "name": "Bytesize Icons",
-    "total": 101,
+    "total": 102,
     "version": "1.4.0",
     "author": {
       "name": "Dan Klammer",
@@ -28,7 +28,10 @@
       "Has Padding",
       "Uses Stroke"
     ],
-    "palette": false
+    "palette": false,
+    "animated": false,
+    "colored": false,
+    "width edit": true
   },
   "icons": {
     "activity": {

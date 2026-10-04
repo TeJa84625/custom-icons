@@ -23,7 +23,10 @@
     "height": 32,
     "displayHeight": 16,
     "category": "Logos",
-    "palette": true
+    "palette": true,
+    "animated": false,
+    "colored": true,
+    "width edit": false
   },
   "icons": {
     "0xbtc": {

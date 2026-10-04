@@ -1,7 +1,7 @@
 {
   "info": {
     "name": "Game Icons",
-    "total": 4133,
+    "total": 4134,
     "author": {
       "name": "GameIcons",
       "url": "https://github.com/game-icons/icons"
@@ -23,7 +23,10 @@
     "tags": [
       "Has Padding"
     ],
-    "palette": false
+    "palette": false,
+    "animated": false,
+    "colored": true,
+    "width edit": false
   },
   "icons": {
     "3d-glasses": {

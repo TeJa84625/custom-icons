@@ -1,7 +1,7 @@
 {
   "info": {
     "name": "coolicons",
-    "total": 442,
+    "total": 715,
     "author": {
       "name": "Kryston Schwarze",
       "url": "https://github.com/krystonschwarze/coolicons"
@@ -26,7 +26,10 @@
       "Has Padding",
       "Uses Stroke"
     ],
-    "palette": false
+    "palette": false,
+    "animated": false,
+    "colored": false,
+    "width edit": true
   },
   "icons": {
     "add-column": {

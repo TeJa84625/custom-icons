@@ -1,7 +1,7 @@
 {
   "info": {
     "name": "SVG Logos",
-    "total": 1861,
+    "total": 2091,
     "author": {
       "name": "Gil Barbara",
       "url": "https://github.com/gilbarbara/logos"
@@ -20,7 +20,10 @@
       "modernizr"
     ],
     "category": "Logos",
-    "palette": true
+    "palette": true,
+    "animated": false,
+    "colored": true,
+    "width edit": false
   },
   "icons": {
     "100tb": {

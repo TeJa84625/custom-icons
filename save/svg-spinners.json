@@ -26,7 +26,11 @@
       "Has Padding",
       "Contains Animations"
     ],
-    "palette": false
+    "palette": false,
+    "animated": true,
+    "colored": false,
+    "width edit": false,
+    "new": true
   },
   "icons": {
     "12-dots-scale-rotate": {

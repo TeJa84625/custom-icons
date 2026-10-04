@@ -25,7 +25,10 @@
     "tags": [
       "Has Padding"
     ],
-    "palette": false
+    "palette": false,
+    "animated": false,
+    "colored": false,
+    "width edit": true
   },
   "icons": {
     "account-book-filled": {

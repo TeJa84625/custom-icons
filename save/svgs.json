@@ -1,750 +1,1876 @@
 {
-  "totalFiles": 185,
-  "totalSvgs": 302713,
+  "totalFiles": 187,
+  "totalSvgs": 305853,
   "indices": [
     {
+      "file": "svg-loaders.json",
+      "count": 109,
+      "animated": true,
+      "colored": false,
+      "outline": false,
+      "new": true,
+      "category": "Loaders",
+      "key": "B9E"
+    },
+    {
       "file": "icons.json",
-      "count": 331
+      "count": 3031,
+      "animated": false,
+      "colored": false,
+      "outline": true,
+      "new": false,
+      "category": "Thematic",
+      "key": "5B7"
     },
     {
       "file": "academicons.json",
-      "count": 158
+      "count": 158,
+      "animated": false,
+      "colored": false,
+      "outline": false,
+      "new": false,
+      "category": "Thematic",
+      "key": "898"
     },
     {
       "file": "akar-icons.json",
-      "count": 458
+      "count": 458,
+      "animated": false,
+      "colored": false,
+      "outline": true,
+      "new": false,
+      "category": "UI 24px",
+      "key": "44F"
     },
     {
       "file": "ant-design.json",
-      "count": 848
+      "count": 848,
+      "animated": false,
+      "colored": false,
+      "outline": true,
+      "new": false,
+      "category": "UI 16px / 32px",
+      "key": "4E8"
     },
     {
       "file": "arcticons.json",
-      "count": 14996
+      "count": 14996,
+      "animated": false,
+      "colored": false,
+      "outline": true,
+      "new": false,
+      "category": "Logos",
+      "key": "21D"
     },
     {
       "file": "at-icons.json",
-      "count": 619
+      "count": 619,
+      "animated": false,
+      "colored": false,
+      "outline": false,
+      "new": false,
+      "category": "UI 16px / 32px",
+      "key": "096"
     },
     {
       "file": "basil.json",
-      "count": 496
+      "count": 496,
+      "animated": false,
+      "colored": false,
+      "outline": false,
+      "new": false,
+      "category": "UI 24px",
+      "key": "7B8"
     },
     {
       "file": "bi.json",
-      "count": 2084
+      "count": 2084,
+      "animated": false,
+      "colored": false,
+      "outline": false,
+      "new": false,
+      "category": "UI 16px / 32px",
+      "key": "442"
     },
     {
       "file": "bitcoin-icons.json",
-      "count": 330
+      "count": 330,
+      "animated": false,
+      "colored": false,
+      "outline": true,
+      "new": false,
+      "category": "UI 24px",
+      "key": "4EE"
     },
     {
       "file": "boxicons.json",
-      "count": 3768
+      "count": 3768,
+      "animated": false,
+      "colored": false,
+      "outline": false,
+      "new": false,
+      "category": "UI 24px",
+      "key": "8DB"
     },
     {
       "file": "brandico.json",
-      "count": 45
+      "count": 45,
+      "animated": false,
+      "colored": false,
+      "outline": false,
+      "new": false,
+      "category": "Logos",
+      "key": "125"
     },
     {
       "file": "bx.json",
-      "count": 1609
+      "count": 1609,
+      "animated": false,
+      "colored": false,
+      "outline": false,
+      "new": false,
+      "category": "UI 24px",
+      "key": "8C0"
     },
     {
       "file": "bxl.json",
-      "count": 299
+      "count": 299,
+      "animated": false,
+      "colored": false,
+      "outline": false,
+      "new": false,
+      "category": "Logos",
+      "key": "024"
     },
     {
       "file": "bxs.json",
-      "count": 665
+      "count": 665,
+      "animated": false,
+      "colored": false,
+      "outline": false,
+      "new": false,
+      "category": "UI 24px",
+      "key": "C16"
     },
     {
       "file": "bytesize.json",
-      "count": 102
+      "count": 102,
+      "animated": false,
+      "colored": false,
+      "outline": true,
+      "new": false,
+      "category": "UI 16px / 32px",
+      "key": "732"
     },
     {
       "file": "carbon.json",
-      "count": 2714
+      "count": 2714,
+      "animated": false,
+      "colored": false,
+      "outline": false,
+      "new": false,
+      "category": "UI 16px / 32px",
+      "key": "B06"
     },
     {
       "file": "catppuccin.json",
-      "count": 659
+      "count": 659,
+      "animated": false,
+      "colored": false,
+      "outline": true,
+      "new": false,
+      "category": "Programming",
+      "key": "D2F"
     },
     {
       "file": "cbi.json",
-      "count": 1664
+      "count": 1664,
+      "animated": false,
+      "colored": false,
+      "outline": false,
+      "new": false,
+      "category": "Logos",
+      "key": "153"
     },
     {
       "file": "charm.json",
-      "count": 262
+      "count": 262,
+      "animated": false,
+      "colored": false,
+      "outline": true,
+      "new": false,
+      "category": "UI 16px / 32px",
+      "key": "41C"
     },
     {
       "file": "ci.json",
-      "count": 715
+      "count": 715,
+      "animated": false,
+      "colored": false,
+      "outline": true,
+      "new": false,
+      "category": "UI 24px",
+      "key": "23F"
     },
     {
       "file": "cib.json",
-      "count": 830
+      "count": 830,
+      "animated": false,
+      "colored": true,
+      "outline": false,
+      "new": false,
+      "category": "Logos",
+      "key": "A80"
     },
     {
       "file": "cif.json",
-      "count": 199
+      "count": 199,
+      "animated": false,
+      "colored": false,
+      "outline": false,
+      "new": false,
+      "category": "Flags / Maps",
+      "key": "1CA"
     },
     {
       "file": "cil.json",
-      "count": 562
+      "count": 562,
+      "animated": false,
+      "colored": false,
+      "outline": false,
+      "new": false,
+      "category": "UI 16px / 32px",
+      "key": "349"
     },
     {
       "file": "circle-flags.json",
-      "count": 731
+      "count": 731,
+      "animated": false,
+      "colored": true,
+      "outline": false,
+      "new": false,
+      "category": "Flags / Maps",
+      "key": "921"
     },
     {
       "file": "circum.json",
-      "count": 288
+      "count": 288,
+      "animated": false,
+      "colored": false,
+      "outline": false,
+      "new": false,
+      "category": "UI 24px",
+      "key": "BAE"
     },
     {
       "file": "clarity.json",
-      "count": 1105
+      "count": 1105,
+      "animated": false,
+      "colored": false,
+      "outline": false,
+      "new": false,
+      "category": "UI Other / Mixed Grid",
+      "key": "7A4"
     },
     {
       "file": "codex.json",
-      "count": 78
+      "count": 78,
+      "animated": false,
+      "colored": false,
+      "outline": false,
+      "new": false,
+      "category": "UI Other / Mixed Grid",
+      "key": "1E8"
     },
     {
       "file": "codicon.json",
-      "count": 615
+      "count": 615,
+      "animated": false,
+      "colored": false,
+      "outline": false,
+      "new": false,
+      "category": "Programming",
+      "key": "BC2"
     },
     {
       "file": "covid.json",
-      "count": 142
+      "count": 142,
+      "animated": false,
+      "colored": false,
+      "outline": false,
+      "new": false,
+      "category": "Thematic",
+      "key": "AF8"
     },
     {
       "file": "cryptocurrency-color.json",
-      "count": 483
+      "count": 483,
+      "animated": false,
+      "colored": true,
+      "outline": false,
+      "new": false,
+      "category": "Logos",
+      "key": "3FD"
     },
     {
       "file": "cryptocurrency.json",
-      "count": 483
+      "count": 483,
+      "animated": false,
+      "colored": false,
+      "outline": false,
+      "new": false,
+      "category": "Logos",
+      "key": "4F5"
     },
     {
       "file": "cuida.json",
-      "count": 182
+      "count": 182,
+      "animated": false,
+      "colored": false,
+      "outline": false,
+      "new": false,
+      "category": "UI 24px",
+      "key": "DF6"
     },
     {
       "file": "devicon-plain.json",
-      "count": 784
+      "count": 784,
+      "animated": false,
+      "colored": false,
+      "outline": false,
+      "new": false,
+      "category": "Programming",
+      "key": "D57"
     },
     {
       "file": "devicon.json",
-      "count": 1042
+      "count": 1042,
+      "animated": false,
+      "colored": true,
+      "outline": false,
+      "new": false,
+      "category": "Programming",
+      "key": "6A4"
     },
     {
       "file": "dinkie-icons.json",
-      "count": 1198
+      "count": 1198,
+      "animated": false,
+      "colored": false,
+      "outline": false,
+      "new": false,
+      "category": "UI Other / Mixed Grid",
+      "key": "77F"
     },
     {
       "file": "duo-icons.json",
-      "count": 91
+      "count": 91,
+      "animated": false,
+      "colored": false,
+      "outline": false,
+      "new": false,
+      "category": "UI 24px",
+      "key": "F68"
     },
     {
       "file": "ei.json",
-      "count": 70
+      "count": 70,
+      "animated": false,
+      "colored": false,
+      "outline": false,
+      "new": false,
+      "category": "UI Other / Mixed Grid",
+      "key": "87D"
     },
     {
       "file": "emojione-monotone.json",
-      "count": 1403
+      "count": 1403,
+      "animated": false,
+      "colored": false,
+      "outline": false,
+      "new": false,
+      "category": "Emoji",
+      "key": "BD2"
     },
     {
       "file": "emojione-v1.json",
-      "count": 1262
+      "count": 1262,
+      "animated": false,
+      "colored": true,
+      "outline": false,
+      "new": false,
+      "category": "Emoji",
+      "key": "A57"
     },
     {
       "file": "emojione.json",
-      "count": 1834
+      "count": 1834,
+      "animated": false,
+      "colored": true,
+      "outline": false,
+      "new": false,
+      "category": "Emoji",
+      "key": "00D"
     },
     {
       "file": "entypo-social.json",
-      "count": 76
+      "count": 76,
+      "animated": false,
+      "colored": false,
+      "outline": false,
+      "new": false,
+      "category": "Logos",
+      "key": "929"
     },
     {
       "file": "eos-icons.json",
-      "count": 253
+      "count": 253,
+      "animated": false,
+      "colored": false,
+      "outline": false,
+      "new": false,
+      "category": "UI 24px",
+      "key": "8FF"
     },
     {
       "file": "ep.json",
-      "count": 293
+      "count": 293,
+      "animated": false,
+      "colored": false,
+      "outline": false,
+      "new": false,
+      "category": "UI 16px / 32px",
+      "key": "0AE"
     },
     {
       "file": "f7.json",
-      "count": 1253
+      "count": 1253,
+      "animated": false,
+      "colored": false,
+      "outline": false,
+      "new": false,
+      "category": "UI Other / Mixed Grid",
+      "key": "A7A"
     },
     {
       "file": "fa7-brands.json",
-      "count": 608
+      "count": 608,
+      "animated": false,
+      "colored": false,
+      "outline": false,
+      "new": false,
+      "category": "Logos",
+      "key": "255"
     },
     {
       "file": "fa7-regular.json",
-      "count": 272
+      "count": 272,
+      "animated": false,
+      "colored": false,
+      "outline": false,
+      "new": false,
+      "category": "UI Other / Mixed Grid",
+      "key": "FC5"
     },
     {
       "file": "fa7-solid.json",
-      "count": 2000
+      "count": 2000,
+      "animated": false,
+      "colored": false,
+      "outline": false,
+      "new": false,
+      "category": "UI Other / Mixed Grid",
+      "key": "516"
     },
     {
       "file": "fad.json",
-      "count": 155
+      "count": 155,
+      "animated": false,
+      "colored": false,
+      "outline": false,
+      "new": false,
+      "category": "Thematic",
+      "key": "E83"
     },
     {
       "file": "famicons.json",
-      "count": 1342
+      "count": 1342,
+      "animated": false,
+      "colored": false,
+      "outline": false,
+      "new": false,
+      "category": "UI 16px / 32px",
+      "key": "291"
     },
     {
       "file": "fe.json",
-      "count": 255
+      "count": 255,
+      "animated": false,
+      "colored": false,
+      "outline": false,
+      "new": false,
+      "category": "UI 24px",
+      "key": "AEB"
     },
     {
       "file": "file-icons.json",
-      "count": 930
+      "count": 930,
+      "animated": false,
+      "colored": false,
+      "outline": false,
+      "new": false,
+      "category": "Programming",
+      "key": "111"
     },
     {
       "file": "flag.json",
-      "count": 542
+      "count": 542,
+      "animated": false,
+      "colored": true,
+      "outline": false,
+      "new": false,
+      "category": "Flags / Maps",
+      "key": "10F"
     },
     {
       "file": "flagpack.json",
-      "count": 256
+      "count": 256,
+      "animated": false,
+      "colored": true,
+      "outline": false,
+      "new": false,
+      "category": "Flags / Maps",
+      "key": "5FC"
     },
     {
       "file": "flowbite.json",
-      "count": 804
+      "count": 804,
+      "animated": false,
+      "colored": false,
+      "outline": false,
+      "new": false,
+      "category": "UI 24px",
+      "key": "B25"
     },
     {
       "file": "fluent-color.json",
-      "count": 890
+      "count": 890,
+      "animated": false,
+      "colored": true,
+      "outline": false,
+      "new": false,
+      "category": "UI Multicolor",
+      "key": "5CE"
     },
     {
       "file": "fluent-emoji-flat.json",
-      "count": 3174
+      "count": 3174,
+      "animated": false,
+      "colored": true,
+      "outline": false,
+      "new": false,
+      "category": "Emoji",
+      "key": "951"
     },
     {
       "file": "fluent-emoji-high-contrast.json",
-      "count": 1594
+      "count": 1594,
+      "animated": false,
+      "colored": false,
+      "outline": false,
+      "new": false,
+      "category": "Emoji",
+      "key": "1C4"
     },
     {
       "file": "fluent.json",
-      "count": 19992
+      "count": 19992,
+      "animated": false,
+      "colored": false,
+      "outline": false,
+      "new": false,
+      "category": "UI Other / Mixed Grid",
+      "key": "21D"
     },
     {
       "file": "formkit.json",
-      "count": 144
+      "count": 144,
+      "animated": false,
+      "colored": false,
+      "outline": false,
+      "new": false,
+      "category": "UI 16px / 32px",
+      "key": "6EF"
     },
     {
       "file": "fxemoji.json",
-      "count": 1034
+      "count": 1034,
+      "animated": false,
+      "colored": true,
+      "outline": false,
+      "new": false,
+      "category": "Emoji",
+      "key": "595"
     },
     {
       "file": "game-icons.json",
-      "count": 4134
+      "count": 4134,
+      "animated": false,
+      "colored": true,
+      "outline": false,
+      "new": false,
+      "category": "Thematic",
+      "key": "24E"
     },
     {
       "file": "garden.json",
-      "count": 1027
+      "count": 1027,
+      "animated": false,
+      "colored": false,
+      "outline": false,
+      "new": false,
+      "category": "UI Other / Mixed Grid",
+      "key": "105"
     },
     {
       "file": "gcp.json",
-      "count": 214
+      "count": 214,
+      "animated": false,
+      "colored": false,
+      "outline": false,
+      "new": false,
+      "category": "Programming",
+      "key": "CA8"
     },
     {
       "file": "geo.json",
-      "count": 30
+      "count": 30,
+      "animated": false,
+      "colored": false,
+      "outline": false,
+      "new": false,
+      "category": "Flags / Maps",
+      "key": "EEE"
     },
     {
       "file": "gg.json",
-      "count": 704
+      "count": 704,
+      "animated": false,
+      "colored": false,
+      "outline": false,
+      "new": false,
+      "category": "UI 24px",
+      "key": "4B0"
     },
     {
       "file": "ginetex.json",
-      "count": 50
+      "count": 50,
+      "animated": false,
+      "colored": false,
+      "outline": false,
+      "new": false,
+      "category": "Thematic",
+      "key": "552"
     },
     {
       "file": "gis.json",
-      "count": 367
+      "count": 367,
+      "animated": false,
+      "colored": false,
+      "outline": false,
+      "new": false,
+      "category": "Flags / Maps",
+      "key": "C26"
     },
     {
       "file": "glyphs-poly.json",
-      "count": 863
+      "count": 863,
+      "animated": false,
+      "colored": false,
+      "outline": false,
+      "new": false,
+      "category": "UI Other / Mixed Grid",
+      "key": "8F5"
     },
     {
       "file": "glyphs.json",
-      "count": 3452
+      "count": 3452,
+      "animated": false,
+      "colored": false,
+      "outline": false,
+      "new": false,
+      "category": "UI Other / Mixed Grid",
+      "key": "61B"
     },
     {
       "file": "gravity-ui.json",
-      "count": 799
+      "count": 799,
+      "animated": false,
+      "colored": false,
+      "outline": false,
+      "new": false,
+      "category": "UI 16px / 32px",
+      "key": "BA7"
     },
     {
       "file": "griddy-icons.json",
-      "count": 2010
+      "count": 2010,
+      "animated": false,
+      "colored": false,
+      "outline": false,
+      "new": false,
+      "category": "UI 24px",
+      "key": "73B"
     },
     {
       "file": "gridicons.json",
-      "count": 207
+      "count": 207,
+      "animated": false,
+      "colored": false,
+      "outline": false,
+      "new": false,
+      "category": "UI 24px",
+      "key": "234"
     },
     {
       "file": "guidance.json",
-      "count": 360
+      "count": 360,
+      "animated": false,
+      "colored": false,
+      "outline": false,
+      "new": false,
+      "category": "UI 24px",
+      "key": "5E9"
     },
     {
       "file": "healthicons.json",
-      "count": 2691
+      "count": 2691,
+      "animated": false,
+      "colored": false,
+      "outline": false,
+      "new": false,
+      "category": "Thematic",
+      "key": "51E"
     },
     {
       "file": "heroicons.json",
-      "count": 1288
+      "count": 1288,
+      "animated": false,
+      "colored": false,
+      "outline": false,
+      "new": false,
+      "category": "UI Other / Mixed Grid",
+      "key": "774"
     },
     {
       "file": "hugeicons.json",
-      "count": 5091
+      "count": 5091,
+      "animated": false,
+      "colored": false,
+      "outline": false,
+      "new": false,
+      "category": "UI 24px",
+      "key": "F67"
     },
     {
       "file": "humbleicons.json",
-      "count": 287
+      "count": 287,
+      "animated": false,
+      "colored": false,
+      "outline": false,
+      "new": false,
+      "category": "UI 24px",
+      "key": "CDF"
     },
     {
       "file": "ic.json",
-      "count": 10956
+      "count": 10956,
+      "animated": false,
+      "colored": false,
+      "outline": false,
+      "new": false,
+      "category": "Material",
+      "key": "A41"
     },
     {
       "file": "icon-park-outline.json",
-      "count": 2658
+      "count": 2658,
+      "animated": false,
+      "colored": false,
+      "outline": false,
+      "new": false,
+      "category": "UI 24px",
+      "key": "324"
     },
     {
       "file": "icon-park-solid.json",
-      "count": 1970
+      "count": 1970,
+      "animated": false,
+      "colored": true,
+      "outline": false,
+      "new": false,
+      "category": "UI 24px",
+      "key": "573"
     },
     {
       "file": "icon-park-twotone.json",
-      "count": 1947
+      "count": 1947,
+      "animated": false,
+      "colored": true,
+      "outline": false,
+      "new": false,
+      "category": "UI 24px",
+      "key": "597"
     },
     {
       "file": "icon-park.json",
-      "count": 2658
+      "count": 2658,
+      "animated": false,
+      "colored": true,
+      "outline": false,
+      "new": false,
+      "category": "UI Multicolor",
+      "key": "BB3"
     },
     {
       "file": "iconamoon.json",
-      "count": 1781
+      "count": 1781,
+      "animated": false,
+      "colored": false,
+      "outline": false,
+      "new": false,
+      "category": "UI 24px",
+      "key": "A4C"
     },
     {
       "file": "iconoir.json",
-      "count": 1682
+      "count": 1682,
+      "animated": false,
+      "colored": false,
+      "outline": false,
+      "new": false,
+      "category": "UI 24px",
+      "key": "F6B"
     },
     {
       "file": "ion.json",
-      "count": 2361
+      "count": 2361,
+      "animated": false,
+      "colored": false,
+      "outline": false,
+      "new": false,
+      "category": "UI 16px / 32px",
+      "key": "618"
     },
     {
       "file": "ix.json",
-      "count": 1490
+      "count": 1490,
+      "animated": false,
+      "colored": false,
+      "outline": false,
+      "new": false,
+      "category": "UI Other / Mixed Grid",
+      "key": "A88"
     },
     {
       "file": "jam.json",
-      "count": 940
+      "count": 940,
+      "animated": false,
+      "colored": false,
+      "outline": false,
+      "new": false,
+      "category": "UI 24px",
+      "key": "852"
     },
     {
       "file": "lets-icons.json",
-      "count": 1544
+      "count": 1544,
+      "animated": false,
+      "colored": false,
+      "outline": false,
+      "new": false,
+      "category": "UI 24px",
+      "key": "005"
     },
     {
       "file": "line-md.json",
-      "count": 1233
+      "count": 1233,
+      "animated": true,
+      "colored": true,
+      "outline": false,
+      "new": false,
+      "category": "Material,Animated",
+      "key": "679"
     },
     {
       "file": "lineicons.json",
-      "count": 962
+      "count": 962,
+      "animated": false,
+      "colored": false,
+      "outline": false,
+      "new": false,
+      "category": "UI 24px",
+      "key": "15E"
     },
     {
       "file": "logos.json",
-      "count": 2091
+      "count": 2091,
+      "animated": false,
+      "colored": true,
+      "outline": false,
+      "new": false,
+      "category": "Logos",
+      "key": "259"
     },
     {
       "file": "lsicon.json",
-      "count": 716
+      "count": 716,
+      "animated": false,
+      "colored": false,
+      "outline": false,
+      "new": false,
+      "category": "UI 16px / 32px",
+      "key": "D55"
     },
     {
       "file": "lucide-lab.json",
-      "count": 373
+      "count": 373,
+      "animated": false,
+      "colored": false,
+      "outline": false,
+      "new": false,
+      "category": "UI 24px",
+      "key": "C24"
     },
     {
       "file": "lucide.json",
-      "count": 1808
+      "count": 1808,
+      "animated": false,
+      "colored": false,
+      "outline": false,
+      "new": false,
+      "category": "UI 24px",
+      "key": "7E1"
     },
     {
       "file": "mage.json",
-      "count": 1042
+      "count": 1042,
+      "animated": false,
+      "colored": false,
+      "outline": false,
+      "new": false,
+      "category": "UI 24px",
+      "key": "7F1"
     },
     {
       "file": "majesticons.json",
-      "count": 1045
+      "count": 1045,
+      "animated": false,
+      "colored": false,
+      "outline": false,
+      "new": false,
+      "category": "UI 24px",
+      "key": "2CF"
     },
     {
       "file": "maki.json",
-      "count": 418
+      "count": 418,
+      "animated": false,
+      "colored": false,
+      "outline": false,
+      "new": false,
+      "category": "Flags / Maps",
+      "key": "412"
     },
     {
       "file": "map.json",
-      "count": 167
+      "count": 167,
+      "animated": false,
+      "colored": false,
+      "outline": false,
+      "new": false,
+      "category": "Flags / Maps",
+      "key": "49E"
     },
     {
       "file": "marketeq.json",
-      "count": 590
+      "count": 590,
+      "animated": false,
+      "colored": false,
+      "outline": false,
+      "new": false,
+      "category": "UI Multicolor",
+      "key": "C8C"
     },
     {
       "file": "material-icon-theme.json",
-      "count": 1174
+      "count": 1174,
+      "animated": false,
+      "colored": false,
+      "outline": false,
+      "new": false,
+      "category": "Programming",
+      "key": "B82"
     },
     {
       "file": "material-symbols-light.json",
-      "count": 15917
+      "count": 15917,
+      "animated": false,
+      "colored": false,
+      "outline": false,
+      "new": false,
+      "category": "Material",
+      "key": "BCB"
     },
     {
       "file": "material-symbols.json",
-      "count": 16276
+      "count": 16276,
+      "animated": false,
+      "colored": false,
+      "outline": false,
+      "new": false,
+      "category": "Material",
+      "key": "48C"
     },
     {
       "file": "mdi-light.json",
-      "count": 304
+      "count": 304,
+      "animated": false,
+      "colored": false,
+      "outline": false,
+      "new": false,
+      "category": "Material",
+      "key": "7A1"
     },
     {
       "file": "mdi.json",
-      "count": 7638
+      "count": 7638,
+      "animated": false,
+      "colored": false,
+      "outline": false,
+      "new": false,
+      "category": "Material",
+      "key": "8C0"
     },
     {
       "file": "medical-icon.json",
-      "count": 144
+      "count": 144,
+      "animated": false,
+      "colored": false,
+      "outline": false,
+      "new": false,
+      "category": "Thematic",
+      "key": "308"
     },
     {
       "file": "memory.json",
-      "count": 651
+      "count": 651,
+      "animated": false,
+      "colored": false,
+      "outline": false,
+      "new": false,
+      "category": "UI Other / Mixed Grid",
+      "key": "98A"
     },
     {
       "file": "meteocons.json",
-      "count": 450
+      "count": 450,
+      "animated": true,
+      "colored": true,
+      "outline": false,
+      "new": false,
+      "category": "Thematic",
+      "key": "49D"
     },
     {
       "file": "meteor-icons.json",
-      "count": 408
+      "count": 408,
+      "animated": false,
+      "colored": false,
+      "outline": false,
+      "new": false,
+      "category": "UI 24px",
+      "key": "103"
     },
     {
       "file": "mi.json",
-      "count": 180
+      "count": 180,
+      "animated": false,
+      "colored": false,
+      "outline": false,
+      "new": false,
+      "category": "UI 24px",
+      "key": "C1E"
     },
     {
       "file": "mingcute.json",
-      "count": 3324
+      "count": 3324,
+      "animated": false,
+      "colored": false,
+      "outline": false,
+      "new": false,
+      "category": "UI 24px",
+      "key": "13F"
     },
     {
       "file": "mynaui.json",
-      "count": 2658
+      "count": 2658,
+      "animated": false,
+      "colored": false,
+      "outline": false,
+      "new": false,
+      "category": "UI 24px",
+      "key": "014"
     },
     {
       "file": "nimbus.json",
-      "count": 140
+      "count": 140,
+      "animated": false,
+      "colored": false,
+      "outline": false,
+      "new": false,
+      "category": "UI 16px / 32px",
+      "key": "983"
     },
     {
       "file": "nonicons.json",
-      "count": 69
+      "count": 69,
+      "animated": false,
+      "colored": false,
+      "outline": false,
+      "new": false,
+      "category": "Logos",
+      "key": "F9C"
     },
     {
       "file": "noto-v1.json",
-      "count": 2162
+      "count": 2162,
+      "animated": false,
+      "colored": true,
+      "outline": false,
+      "new": false,
+      "category": "Emoji",
+      "key": "C48"
     },
     {
       "file": "noto.json",
-      "count": 3800
+      "count": 3800,
+      "animated": false,
+      "colored": true,
+      "outline": false,
+      "new": false,
+      "category": "Emoji",
+      "key": "DA5"
     },
     {
       "file": "nrk.json",
-      "count": 245
+      "count": 245,
+      "animated": false,
+      "colored": false,
+      "outline": false,
+      "new": false,
+      "category": "UI Other / Mixed Grid",
+      "key": "320"
     },
     {
       "file": "octicon.json",
-      "count": 922
+      "count": 922,
+      "animated": false,
+      "colored": false,
+      "outline": false,
+      "new": false,
+      "category": "UI Other / Mixed Grid",
+      "key": "E43"
     },
     {
       "file": "ooui.json",
-      "count": 428
+      "count": 428,
+      "animated": false,
+      "colored": false,
+      "outline": false,
+      "new": false,
+      "category": "UI Other / Mixed Grid",
+      "key": "4EE"
     },
     {
       "file": "openmoji.json",
-      "count": 4509
+      "count": 4509,
+      "animated": false,
+      "colored": false,
+      "outline": false,
+      "new": false,
+      "category": "Emoji",
+      "key": "3AB"
     },
     {
       "file": "osmic.json",
-      "count": 169
+      "count": 169,
+      "animated": false,
+      "colored": false,
+      "outline": false,
+      "new": false,
+      "category": "Flags / Maps",
+      "key": "C7C"
     },
     {
       "file": "oui.json",
-      "count": 444
+      "count": 444,
+      "animated": false,
+      "colored": false,
+      "outline": false,
+      "new": false,
+      "category": "UI Other / Mixed Grid",
+      "key": "569"
     },
     {
       "file": "pajamas.json",
-      "count": 414
+      "count": 414,
+      "animated": false,
+      "colored": false,
+      "outline": false,
+      "new": false,
+      "category": "UI Other / Mixed Grid",
+      "key": "27B"
     },
     {
       "file": "pepicons-pencil.json",
-      "count": 1275
+      "count": 1275,
+      "animated": false,
+      "colored": true,
+      "outline": false,
+      "new": false,
+      "category": "UI Other / Mixed Grid",
+      "key": "F19"
     },
     {
       "file": "pepicons-pop.json",
-      "count": 1290
+      "count": 1290,
+      "animated": false,
+      "colored": true,
+      "outline": false,
+      "new": false,
+      "category": "UI Other / Mixed Grid",
+      "key": "4DB"
     },
     {
       "file": "pepicons-print.json",
-      "count": 1286
+      "count": 1286,
+      "animated": false,
+      "colored": false,
+      "outline": false,
+      "new": false,
+      "category": "UI Other / Mixed Grid",
+      "key": "E6C"
     },
     {
       "file": "ph.json",
-      "count": 9161
+      "count": 9161,
+      "animated": false,
+      "colored": false,
+      "outline": false,
+      "new": false,
+      "category": "UI Other / Mixed Grid",
+      "key": "A5F"
     },
     {
       "file": "picon.json",
-      "count": 824
+      "count": 824,
+      "animated": false,
+      "colored": false,
+      "outline": false,
+      "new": false,
+      "category": "UI Other / Mixed Grid",
+      "key": "89C"
     },
     {
       "file": "pinhead.json",
-      "count": 2440
+      "count": 2440,
+      "animated": false,
+      "colored": false,
+      "outline": false,
+      "new": false,
+      "category": "Flags / Maps",
+      "key": "57B"
     },
     {
       "file": "pixel.json",
-      "count": 578
+      "count": 578,
+      "animated": false,
+      "colored": false,
+      "outline": false,
+      "new": false,
+      "category": "UI 24px",
+      "key": "429"
     },
     {
       "file": "pixelarticons.json",
-      "count": 1169
+      "count": 1169,
+      "animated": false,
+      "colored": false,
+      "outline": false,
+      "new": false,
+      "category": "UI 24px",
+      "key": "EF1"
     },
     {
       "file": "prime.json",
-      "count": 313
+      "count": 313,
+      "animated": false,
+      "colored": false,
+      "outline": false,
+      "new": false,
+      "category": "UI 24px",
+      "key": "096"
     },
     {
       "file": "proicons.json",
-      "count": 547
+      "count": 547,
+      "animated": false,
+      "colored": false,
+      "outline": false,
+      "new": false,
+      "category": "UI 24px",
+      "key": "15D"
     },
     {
       "file": "qlementine-icons.json",
-      "count": 880
+      "count": 880,
+      "animated": false,
+      "colored": false,
+      "outline": false,
+      "new": false,
+      "category": "UI Other / Mixed Grid",
+      "key": "547"
     },
     {
       "file": "quill.json",
-      "count": 141
+      "count": 141,
+      "animated": false,
+      "colored": false,
+      "outline": false,
+      "new": false,
+      "category": "UI 16px / 32px",
+      "key": "D0B"
     },
     {
       "file": "radix-icons.json",
-      "count": 342
+      "count": 342,
+      "animated": false,
+      "colored": false,
+      "outline": false,
+      "new": false,
+      "category": "UI Other / Mixed Grid",
+      "key": "A0B"
     },
     {
       "file": "ri.json",
-      "count": 3229
+      "count": 3229,
+      "animated": false,
+      "colored": false,
+      "outline": false,
+      "new": false,
+      "category": "UI 24px",
+      "key": "551"
     },
     {
       "file": "rivet-icons.json",
-      "count": 210
+      "count": 210,
+      "animated": false,
+      "colored": false,
+      "outline": false,
+      "new": false,
+      "category": "UI 16px / 32px",
+      "key": "A86"
     },
     {
       "file": "roentgen.json",
-      "count": 574
+      "count": 574,
+      "animated": false,
+      "colored": false,
+      "outline": false,
+      "new": false,
+      "category": "Flags / Maps",
+      "key": "058"
     },
     {
       "file": "selfhst.json",
-      "count": 6990
+      "count": 6990,
+      "animated": false,
+      "colored": false,
+      "outline": false,
+      "new": false,
+      "category": "Logos",
+      "key": "B2C"
     },
     {
       "file": "si.json",
-      "count": 1301
+      "count": 1301,
+      "animated": false,
+      "colored": false,
+      "outline": false,
+      "new": false,
+      "category": "UI 24px",
+      "key": "212"
     },
     {
       "file": "sidekickicons.json",
-      "count": 232
+      "count": 232,
+      "animated": false,
+      "colored": false,
+      "outline": false,
+      "new": false,
+      "category": "UI Other / Mixed Grid",
+      "key": "ECF"
     },
     {
       "file": "simple-icons.json",
-      "count": 3723
+      "count": 3723,
+      "animated": false,
+      "colored": true,
+      "outline": false,
+      "new": false,
+      "category": "Logos",
+      "key": "025"
     },
     {
       "file": "skill-icons.json",
-      "count": 400
+      "count": 400,
+      "animated": false,
+      "colored": true,
+      "outline": false,
+      "new": false,
+      "category": "Programming",
+      "key": "235"
     },
     {
       "file": "solar.json",
-      "count": 7404
+      "count": 7404,
+      "animated": false,
+      "colored": true,
+      "outline": false,
+      "new": false,
+      "category": "UI 24px",
+      "key": "612"
     },
     {
       "file": "stash.json",
-      "count": 982
+      "count": 982,
+      "animated": false,
+      "colored": false,
+      "outline": false,
+      "new": false,
+      "category": "UI 24px",
+      "key": "378"
     },
     {
       "file": "streamline-block.json",
-      "count": 300
+      "count": 300,
+      "animated": false,
+      "colored": false,
+      "outline": false,
+      "new": false,
+      "category": "UI 16px / 32px",
+      "key": "E75"
     },
     {
       "file": "streamline-color.json",
-      "count": 2000
+      "count": 2000,
+      "animated": false,
+      "colored": true,
+      "outline": false,
+      "new": false,
+      "category": "UI Multicolor",
+      "key": "F28"
     },
     {
       "file": "streamline-cyber-color.json",
-      "count": 500
+      "count": 500,
+      "animated": false,
+      "colored": true,
+      "outline": false,
+      "new": false,
+      "category": "UI Multicolor",
+      "key": "5AA"
     },
     {
       "file": "streamline-cyber.json",
-      "count": 500
+      "count": 500,
+      "animated": false,
+      "colored": false,
+      "outline": false,
+      "new": false,
+      "category": "UI 24px",
+      "key": "9A4"
     },
     {
       "file": "streamline-emojis.json",
-      "count": 787
+      "count": 787,
+      "animated": false,
+      "colored": true,
+      "outline": false,
+      "new": false,
+      "category": "Emoji",
+      "key": "74B"
     },
     {
       "file": "streamline-flex-color.json",
-      "count": 1000
+      "count": 1000,
+      "animated": false,
+      "colored": true,
+      "outline": false,
+      "new": false,
+      "category": "UI Multicolor",
+      "key": "054"
     },
     {
       "file": "streamline-flex.json",
-      "count": 1500
+      "count": 1500,
+      "animated": false,
+      "colored": false,
+      "outline": false,
+      "new": false,
+      "category": "UI Other / Mixed Grid",
+      "key": "DEF"
     },
     {
       "file": "streamline-freehand-color.json",
-      "count": 1000
+      "count": 1000,
+      "animated": false,
+      "colored": true,
+      "outline": false,
+      "new": false,
+      "category": "UI Multicolor",
+      "key": "641"
     },
     {
       "file": "streamline-freehand.json",
-      "count": 1000
+      "count": 1000,
+      "animated": false,
+      "colored": false,
+      "outline": false,
+      "new": false,
+      "category": "UI Other / Mixed Grid",
+      "key": "323"
     },
     {
       "file": "streamline-kameleon-color.json",
-      "count": 400
+      "count": 400,
+      "animated": false,
+      "colored": true,
+      "outline": false,
+      "new": false,
+      "category": "UI Multicolor",
+      "key": "444"
     },
     {
       "file": "streamline-logos.json",
-      "count": 1362
+      "count": 1362,
+      "animated": false,
+      "colored": false,
+      "outline": false,
+      "new": false,
+      "category": "Logos",
+      "key": "36C"
     },
     {
       "file": "streamline-pixel.json",
-      "count": 662
+      "count": 662,
+      "animated": false,
+      "colored": false,
+      "outline": false,
+      "new": false,
+      "category": "UI 16px / 32px",
+      "key": "D84"
     },
     {
       "file": "streamline-plump-color.json",
-      "count": 1000
+      "count": 1000,
+      "animated": false,
+      "colored": true,
+      "outline": false,
+      "new": false,
+      "category": "UI Multicolor",
+      "key": "219"
     },
     {
       "file": "streamline-plump.json",
-      "count": 1499
+      "count": 1499,
+      "animated": false,
+      "colored": false,
+      "outline": false,
+      "new": false,
+      "category": "UI 24px",
+      "key": "5EA"
     },
     {
       "file": "streamline-sharp-color.json",
-      "count": 1000
+      "count": 1000,
+      "animated": false,
+      "colored": true,
+      "outline": false,
+      "new": false,
+      "category": "UI Multicolor",
+      "key": "1EA"
     },
     {
       "file": "streamline-sharp.json",
-      "count": 1500
+      "count": 1500,
+      "animated": false,
+      "colored": false,
+      "outline": false,
+      "new": false,
+      "category": "UI 24px",
+      "key": "992"
     },
     {
       "file": "streamline-stickies-color.json",
-      "count": 200
+      "count": 200,
+      "animated": false,
+      "colored": true,
+      "outline": false,
+      "new": false,
+      "category": "UI Multicolor",
+      "key": "2E4"
     },
     {
       "file": "streamline-ultimate-color.json",
-      "count": 998
+      "count": 998,
+      "animated": false,
+      "colored": true,
+      "outline": false,
+      "new": false,
+      "category": "UI Multicolor",
+      "key": "916"
     },
     {
       "file": "streamline-ultimate.json",
-      "count": 1999
+      "count": 1999,
+      "animated": false,
+      "colored": false,
+      "outline": false,
+      "new": false,
+      "category": "UI 24px",
+      "key": "02D"
     },
     {
       "file": "streamline.json",
-      "count": 3933
+      "count": 3933,
+      "animated": false,
+      "colored": false,
+      "outline": false,
+      "new": false,
+      "category": "UI Other / Mixed Grid",
+      "key": "2DB"
     },
     {
       "file": "svg-spinners.json",
-      "count": 46
+      "count": 46,
+      "animated": true,
+      "colored": false,
+      "outline": false,
+      "new": true,
+      "category": "UI 24px",
+      "key": "69E"
     },
     {
       "file": "system-uicons.json",
-      "count": 430
+      "count": 430,
+      "animated": false,
+      "colored": false,
+      "outline": false,
+      "new": false,
+      "category": "UI Other / Mixed Grid",
+      "key": "B25"
     },
     {
       "file": "tabler.json",
-      "count": 6214
+      "count": 6214,
+      "animated": false,
+      "colored": false,
+      "outline": false,
+      "new": false,
+      "category": "UI 24px",
+      "key": "ABF"
     },
     {
       "file": "tdesign.json",
-      "count": 2362
+      "count": 2362,
+      "animated": false,
+      "colored": false,
+      "outline": false,
+      "new": false,
+      "category": "UI 24px",
+      "key": "8A5"
     },
     {
       "file": "teenyicons.json",
-      "count": 1200
+      "count": 1200,
+      "animated": false,
+      "colored": false,
+      "outline": false,
+      "new": false,
+      "category": "UI Other / Mixed Grid",
+      "key": "D12"
     },
     {
       "file": "temaki.json",
-      "count": 557
+      "count": 557,
+      "animated": false,
+      "colored": false,
+      "outline": false,
+      "new": false,
+      "category": "Flags / Maps",
+      "key": "FF3"
     },
     {
       "file": "token-branded.json",
-      "count": 4150
+      "count": 4150,
+      "animated": false,
+      "colored": false,
+      "outline": false,
+      "new": false,
+      "category": "Logos",
+      "key": "D85"
     },
     {
       "file": "token.json",
-      "count": 1853
+      "count": 1853,
+      "animated": false,
+      "colored": false,
+      "outline": false,
+      "new": false,
+      "category": "Logos",
+      "key": "624"
     },
     {
       "file": "twemoji.json",
-      "count": 4169
+      "count": 4169,
+      "animated": false,
+      "colored": true,
+      "outline": false,
+      "new": false,
+      "category": "Emoji",
+      "key": "CF1"
     },
     {
       "file": "typcn.json",
-      "count": 336
+      "count": 336,
+      "animated": false,
+      "colored": false,
+      "outline": false,
+      "new": false,
+      "category": "UI 24px",
+      "key": "16C"
     },
     {
       "file": "uil.json",
-      "count": 1216
+      "count": 1216,
+      "animated": false,
+      "colored": false,
+      "outline": false,
+      "new": false,
+      "category": "UI 24px",
+      "key": "84F"
     },
     {
       "file": "uim.json",
-      "count": 298
+      "count": 298,
+      "animated": false,
+      "colored": false,
+      "outline": false,
+      "new": false,
+      "category": "UI 24px",
+      "key": "08E"
     },
     {
       "file": "uis.json",
-      "count": 190
+      "count": 190,
+      "animated": false,
+      "colored": false,
+      "outline": false,
+      "new": false,
+      "category": "UI 24px",
+      "key": "01F"
     },
     {
       "file": "uit.json",
-      "count": 216
+      "count": 216,
+      "animated": false,
+      "colored": false,
+      "outline": false,
+      "new": false,
+      "category": "UI 24px",
+      "key": "681"
     },
     {
       "file": "uiw.json",
-      "count": 214
+      "count": 214,
+      "animated": false,
+      "colored": false,
+      "outline": false,
+      "new": false,
+      "category": "UI Other / Mixed Grid",
+      "key": "B49"
     },
     {
       "file": "unjs.json",
-      "count": 63
+      "count": 63,
+      "animated": false,
+      "colored": false,
+      "outline": false,
+      "new": false,
+      "category": "Programming",
+      "key": "251"
     },
     {
       "file": "vscode-icons.json",
-      "count": 1567
+      "count": 1567,
+      "animated": false,
+      "colored": true,
+      "outline": false,
+      "new": false,
+      "category": "Programming",
+      "key": "01F"
     },
     {
       "file": "weui.json",
-      "count": 162
+      "count": 162,
+      "animated": false,
+      "colored": false,
+      "outline": false,
+      "new": false,
+      "category": "UI 24px",
+      "key": "EC5"
     },
     {
       "file": "wi.json",
-      "count": 230
+      "count": 230,
+      "animated": false,
+      "colored": false,
+      "outline": false,
+      "new": false,
+      "category": "Thematic",
+      "key": "DCB"
     },
     {
       "file": "wordpress.json",
-      "count": 340
+      "count": 340,
+      "animated": false,
+      "colored": false,
+      "outline": false,
+      "new": false,
+      "category": "UI 24px",
+      "key": "6CD"
     },
     {
       "file": "zondicons.json",
-      "count": 297
+      "count": 297,
+      "animated": false,
+      "colored": false,
+      "outline": false,
+      "new": false,
+      "category": "UI Other / Mixed Grid",
+      "key": "2D3"
     }
   ]
 }

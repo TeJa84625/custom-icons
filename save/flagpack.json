@@ -1,7 +1,7 @@
 {
   "info": {
     "name": "Flagpack",
-    "total": 254,
+    "total": 256,
     "version": "2.1.0",
     "author": {
       "name": "Yummygum",
@@ -22,7 +22,10 @@
     ],
     "height": 24,
     "category": "Flags / Maps",
-    "palette": true
+    "palette": true,
+    "animated": false,
+    "colored": true,
+    "width edit": false
   },
   "icons": {
     "ad": {

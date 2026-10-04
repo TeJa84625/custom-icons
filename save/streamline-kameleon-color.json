@@ -21,7 +21,10 @@
     ],
     "height": 24,
     "category": "UI Multicolor",
-    "palette": true
+    "palette": true,
+    "animated": false,
+    "colored": true,
+    "width edit": false
   },
   "icons": {
     "aid-kit": {

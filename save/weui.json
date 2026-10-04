@@ -8,7 +8,8 @@
     },
     "license": {
       "title": "MIT",
-      "spdx": "MIT"
+      "spdx": "MIT",
+      "url": ""
     },
     "samples": [
       "search-outlined",

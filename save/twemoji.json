@@ -1,7 +1,7 @@
 {
   "info": {
     "name": "Twitter Emoji",
-    "total": 3988,
+    "total": 4169,
     "author": {
       "name": "Twitter",
       "url": "https://github.com/jdecked/twemoji"
@@ -25,7 +25,10 @@
     "tags": [
       "Precise Shapes"
     ],
-    "palette": true
+    "palette": true,
+    "animated": false,
+    "colored": true,
+    "width edit": false
   },
   "icons": {
     "1st-place-medal": {

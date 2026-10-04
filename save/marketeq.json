@@ -3,11 +3,13 @@
     "name": "Marketeq",
     "total": 590,
     "author": {
-      "name": "Marketeq"
+      "name": "Marketeq",
+      "url": ""
     },
     "license": {
       "title": "MIT",
-      "spdx": "MIT"
+      "spdx": "MIT",
+      "url": ""
     },
     "samples": [
       "mute",

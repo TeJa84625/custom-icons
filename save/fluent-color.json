@@ -25,7 +25,10 @@
       "Precise Shapes",
       "Has Padding"
     ],
-    "palette": true
+    "palette": true,
+    "animated": false,
+    "colored": true,
+    "width edit": false
   },
   "icons": {
     "add-circle-16": {

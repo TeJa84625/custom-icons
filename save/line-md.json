@@ -1,7 +1,7 @@
 {
   "info": {
     "name": "Material Line Icons",
-    "total": 1218,
+    "total": 1233,
     "version": "3.0.5",
     "author": {
       "name": "Vjacheslav Trushkin",
@@ -28,7 +28,10 @@
       "Uses Stroke",
       "Contains Animations"
     ],
-    "palette": false
+    "palette": false,
+    "animated": true,
+    "colored": true,
+    "width edit": false
   },
   "icons": {
     "account": {

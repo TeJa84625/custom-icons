@@ -1,7 +1,7 @@
 {
   "info": {
     "name": "Meteocons",
-    "total": 447,
+    "total": 450,
     "version": "3.0.0",
     "author": {
       "name": "Bas Milius",
@@ -27,7 +27,10 @@
       "Uses Stroke",
       "Contains Animations"
     ],
-    "palette": true
+    "palette": true,
+    "animated": true,
+    "colored": true,
+    "width edit": false
   },
   "icons": {
     "barometer": {
