@@ -1133,6 +1133,9 @@
             <button class="copy-box-btn" onclick="copyCode(document.getElementById('modalHtmlSnippetBox').textContent)" title="Copy HTML">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
             </button>
+            <button class="copy-box-btn" onclick="copyUrl(document.getElementById('modalSvgSnippetBox').textContent)" title="Copy SVG URL" style="display: flex; align-items: center; gap: 4px; padding: 2px 6px; font-size: 0.7rem; cursor: pointer;">
+              URL
+            </button>
           </div>
         </div>
         <div class="code-box-wrapper">
@@ -1190,6 +1193,22 @@
       navigator.clipboard.writeText(text);
       showToast('HTML snippet copied to clipboard!', '#333');
     };
+
+    window.copyUrl = function (text) {
+      const classMatch = text.match(/class="[^"]*ci\s+ci-([^"\s]+)/);
+      const iconName = classMatch ? classMatch[1] : '';
+
+      let url = `https://ci-icons.vercel.app/ci.html#${iconName}`;
+
+      const colorMatch = text.match(/style="[^"]*color:\s*([^;"]+)/i);
+      if (colorMatch) {
+          const color = colorMatch[1].trim().replace(/^#/, '');
+          url += `#${color}`;
+      }
+
+      navigator.clipboard.writeText(url);
+      showToast('URL copied to clipboard!', '#333');
+  };
 
     function copySvgCode(svgText) {
       try {
