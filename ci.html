@@ -1,9 +1,31 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <style>
+        /* Ensure the SVG fills the viewport cleanly for embedding */
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: transparent;
+            overflow: hidden;
+        }
+
+        svg {
+            width: 100% !important;
+            height: 100% !important;
+            max-width: 100vw !important;
+            max-height: 100vh !important;
+            object-fit: contain !important;
+            display: block;
+        }
+    </style>
 </head>
 
 <body>
@@ -13,7 +35,6 @@
         function normalizeColor(color) {
             if (!color) return '';
             color = color.trim();
-            // Check if it looks like a hex code without '#' (3, 4, 6, or 8 hex characters)
             const isHex = /^[0-9A-Fa-f]{3,8}$/.test(color);
             if (isHex) {
                 return '#' + color;
@@ -21,58 +42,153 @@
             return color;
         }
 
-        function applyColor(svgString, rawColorCode) {
-            const colorCode = normalizeColor(rawColorCode);
-            if (!colorCode) return svgString;
+        function formatSvgString(svgString, rawColorCode, uniqueId = 'embed') {
+            const customColor = normalizeColor(rawColorCode);
+
             try {
                 const parser = new DOMParser();
                 const doc = parser.parseFromString(svgString, 'image/svg+xml');
-                const svgElement = doc.querySelector('svg');
-                if (svgElement) {
-                    svgElement.setAttribute('stroke', colorCode);
-                    const elements = svgElement.querySelectorAll('[stroke]');
-                    elements.forEach(el => {
-                        const currentStroke = el.getAttribute('stroke');
-                        if (currentStroke && currentStroke.toLowerCase() !== 'none') {
-                            el.setAttribute('stroke', colorCode);
-                        }
-                    });
-                    return new XMLSerializer().serializeToString(svgElement);
+                const svgEl = doc.querySelector('svg');
+                if (!svgEl) return svgString;
+
+                // Force scalable ViewBox if missing
+                if (!svgEl.hasAttribute('viewBox')) {
+                    const w = svgEl.getAttribute('width');
+                    const h = svgEl.getAttribute('height');
+                    const pw = parseFloat(w) || 24;
+                    const ph = parseFloat(h) || 24;
+                    svgEl.setAttribute('viewBox', `0 0 ${pw} ${ph}`);
                 }
+
+                // Clean up explicit widths/heights so CSS sizing takes over perfectly 
+                svgEl.removeAttribute('width');
+                svgEl.removeAttribute('height');
+
+                // Safe ID collision rewritter
+                const idMap = {};
+                svgEl.querySelectorAll('[id]').forEach(el => {
+                    const oldId = el.getAttribute('id');
+                    if (oldId && !oldId.startsWith('ci-')) {
+                        const newId = `ci-${uniqueId}-${oldId}`.replace(/[^a-zA-Z0-9-_]/g, '');
+                        el.setAttribute('id', newId);
+                        idMap[oldId] = newId;
+                    }
+                });
+
+                // Remap url(#id) references
+                if (Object.keys(idMap).length > 0) {
+                    svgEl.querySelectorAll('*').forEach(el => {
+                        Array.from(el.attributes).forEach(attr => {
+                            let val = attr.value;
+                            if (val.includes('url(#')) {
+                                Object.keys(idMap).forEach(oldId => {
+                                    val = val.split(`url(#${oldId})`).join(`url(#${idMap[oldId]})`);
+                                });
+                                if (val !== attr.value) el.setAttribute(attr.name, val);
+                            }
+                            if ((attr.name === 'href' || attr.name === 'xlink:href') && val.startsWith('#')) {
+                                const oldId = val.substring(1);
+                                if (idMap[oldId]) el.setAttribute(attr.name, `#${idMap[oldId]}`);
+                            }
+                        });
+                    });
+                }
+
+                // Deep Apply Color if provided
+                if (customColor) {
+                    svgEl.style.color = customColor;
+                    const rootFill = svgEl.getAttribute('fill');
+                    if (!rootFill || (rootFill !== 'none' && !rootFill.includes('url('))) {
+                        svgEl.setAttribute('fill', customColor);
+                    }
+
+                    const applyColor = (el) => {
+                        const fillAttr = el.getAttribute('fill');
+                        if (fillAttr && fillAttr !== 'none' && !fillAttr.includes('url(')) {
+                            el.setAttribute('fill', customColor);
+                        }
+                        if (el.style && el.style.fill && el.style.fill !== 'none' && !el.style.fill.includes('url(')) {
+                            el.style.fill = customColor;
+                        }
+
+                        const strokeAttr = el.getAttribute('stroke');
+                        if (strokeAttr && strokeAttr !== 'none' && !strokeAttr.includes('url(')) {
+                            el.setAttribute('stroke', customColor);
+                        }
+                        if (el.style && el.style.stroke && el.style.stroke !== 'none' && !el.style.stroke.includes('url(')) {
+                            el.style.stroke = customColor;
+                        }
+                    };
+
+                    svgEl.querySelectorAll('path, circle, rect, polygon, polyline, ellipse, line, g').forEach(applyColor);
+                }
+
+                return new XMLSerializer().serializeToString(svgEl);
             } catch (e) {
-                // Fallback regex replacement if DOMParser fails
-                return svgString.replace(/stroke="[^"]*"/g, `stroke="${colorCode}"`);
+                console.error("SVG Formatting Error: ", e);
+                return svgString;
             }
-            return svgString;
         }
 
         async function renderIcon() {
+            // Get hash and split by '#' to separate the icon ID and color
+            // Example: #hashKey-iconName#ff0000
             const hash = window.location.hash ? window.location.hash.substring(1) : '';
-            const parts = hash.split('#');
-            const iconName = parts[0] ? decodeURIComponent(parts[0]) : '';
-            const colorCode = parts[1] ? decodeURIComponent(parts[1]) : '';
+            const hashParts = hash.split('#');
+            const fullIconId = hashParts[0] ? decodeURIComponent(hashParts[0]) : '';
+            const colorCode = hashParts[1] ? decodeURIComponent(hashParts[1]) : '';
 
             let finalSvg = defaultFallbackSvg;
 
-            if (iconName) {
+            if (fullIconId) {
                 try {
-                    const response = await fetch('svgs.json');
-                    if (response.ok) {
-                        const data = await response.json();
-                        if (data[iconName] && data[iconName].svg) {
-                            finalSvg = data[iconName].svg;
+                    // 1. Fetch the master index
+                    const indexRes = await fetch('save/svgs.json');
+
+                    if (indexRes.ok) {
+                        const masterIndex = await indexRes.json();
+                        const indices = masterIndex.indices || [];
+
+                        let targetFile = null;
+                        let targetIconName = null;
+
+                        // 2. Find which library file this icon belongs to using the key prefix
+                        for (const item of indices) {
+                            const fileTag = item.file.replace('.json', '');
+                            const encryptionKey = item.key || fileTag.replace(/[^a-zA-Z0-9]/g, '');
+
+                            // Check if the requested ID starts with this library's key + "-"
+                            if (fullIconId.startsWith(encryptionKey + '-')) {
+                                targetFile = item.file;
+                                // The actual icon name inside the sub-file is everything after the prefix
+                                targetIconName = fullIconId.substring(encryptionKey.length + 1);
+                                break;
+                            }
+                        }
+
+                        // 3. Fetch the specific library file and extract the SVG
+                        if (targetFile && targetIconName) {
+                            const libRes = await fetch(`save/${targetFile}`);
+                            if (libRes.ok) {
+                                const libData = await libRes.json();
+                                const icons = libData.icons || {};
+                                const iconObj = icons[targetIconName];
+
+                                if (iconObj) {
+                                    finalSvg = (typeof iconObj === 'object' && iconObj.svg)
+                                        ? iconObj.svg
+                                        : iconObj;
+                                }
+                            }
                         }
                     }
                 } catch (e) {
-                    // Keep default fallback on network/fetch error
+                    console.error("Failed to fetch icon data", e);
                 }
             }
 
-            // Apply custom color code with correct normalization
-            if (colorCode) {
-                finalSvg = applyColor(finalSvg, colorCode);
-            }
-
+            // 4. Format, apply colors, fix viewboxes, and inject to DOM
+            finalSvg = formatSvgString(finalSvg, colorCode, fullIconId || 'fallback');
             document.body.innerHTML = finalSvg;
         }
 
