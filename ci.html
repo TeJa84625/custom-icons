@@ -97,12 +97,21 @@
                 // Deep Apply Color if provided
                 if (customColor) {
                     svgEl.style.color = customColor;
+
+                    // ROOT ELEMENT: Apply to Fill
                     const rootFill = svgEl.getAttribute('fill');
-                    if (!rootFill || (rootFill !== 'none' && !rootFill.includes('url('))) {
+                    if (rootFill && rootFill !== 'none' && !rootFill.includes('url(')) {
                         svgEl.setAttribute('fill', customColor);
                     }
 
-                    const applyColor = (el) => {
+                    // ROOT ELEMENT: Apply to Stroke (This was missing previously)
+                    const rootStroke = svgEl.getAttribute('stroke');
+                    if (rootStroke && rootStroke !== 'none' && !rootStroke.includes('url(')) {
+                        svgEl.setAttribute('stroke', customColor);
+                    }
+
+                    // CHILDREN: Apply to Fill & Stroke
+                    const applyColorToEl = (el) => {
                         const fillAttr = el.getAttribute('fill');
                         if (fillAttr && fillAttr !== 'none' && !fillAttr.includes('url(')) {
                             el.setAttribute('fill', customColor);
@@ -120,7 +129,7 @@
                         }
                     };
 
-                    svgEl.querySelectorAll('path, circle, rect, polygon, polyline, ellipse, line, g').forEach(applyColor);
+                    svgEl.querySelectorAll('path, circle, rect, polygon, polyline, ellipse, line, g').forEach(applyColorToEl);
                 }
 
                 return new XMLSerializer().serializeToString(svgEl);
@@ -132,7 +141,6 @@
 
         async function renderIcon() {
             // Get hash and split by '#' to separate the icon ID and color
-            // Example: #hashKey-iconName#ff0000
             const hash = window.location.hash ? window.location.hash.substring(1) : '';
             const hashParts = hash.split('#');
             const fullIconId = hashParts[0] ? decodeURIComponent(hashParts[0]) : '';
@@ -142,7 +150,6 @@
 
             if (fullIconId) {
                 try {
-                    // 1. Fetch the master index
                     const indexRes = await fetch('save/svgs.json');
 
                     if (indexRes.ok) {
@@ -152,21 +159,19 @@
                         let targetFile = null;
                         let targetIconName = null;
 
-                        // 2. Find which library file this icon belongs to using the key prefix
+                        // Find which library file this icon belongs to
                         for (const item of indices) {
                             const fileTag = item.file.replace('.json', '');
                             const encryptionKey = item.key || fileTag.replace(/[^a-zA-Z0-9]/g, '');
 
-                            // Check if the requested ID starts with this library's key + "-"
                             if (fullIconId.startsWith(encryptionKey + '-')) {
                                 targetFile = item.file;
-                                // The actual icon name inside the sub-file is everything after the prefix
                                 targetIconName = fullIconId.substring(encryptionKey.length + 1);
                                 break;
                             }
                         }
 
-                        // 3. Fetch the specific library file and extract the SVG
+                        // Fetch the specific library file and extract the SVG
                         if (targetFile && targetIconName) {
                             const libRes = await fetch(`save/${targetFile}`);
                             if (libRes.ok) {
@@ -187,7 +192,6 @@
                 }
             }
 
-            // 4. Format, apply colors, fix viewboxes, and inject to DOM
             finalSvg = formatSvgString(finalSvg, colorCode, fullIconId || 'fallback');
             document.body.innerHTML = finalSvg;
         }
