@@ -1717,7 +1717,7 @@
       "file": "token-branded.json",
       "count": 4150,
       "animated": false,
-      "colored": false,
+      "colored": true,
       "outline": false,
       "new": false,
       "category": "Logos",
