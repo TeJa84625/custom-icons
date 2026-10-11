@@ -341,23 +341,6 @@
         </select>
       </div>
 
-      <!-- Advanced Filters (Toggles) -->
-      <div class="advanced-filters">
-        <!-- Animated Filter Toggle -->
-        <label class="view-toggle-container" title="Show only animated icons">
-          <span>Animated Only</span>
-          <input type="checkbox" id="animatedToggle" class="switch-input">
-          <span class="switch-slider"></span>
-        </label>
-
-        <!-- Colored Filter Toggle -->
-        <label class="view-toggle-container" title="Show only colored/fixed-color icons">
-          <span>Colored Only</span>
-          <input type="checkbox" id="coloredToggle" class="switch-input">
-          <span class="switch-slider"></span>
-        </label>
-      </div>
-
       <!-- Visualization Controls -->
       <div class="filter-controls" style="margin-top: 8px;">
         <!-- Color Picker & Hex Code Input Group -->
@@ -378,13 +361,25 @@
               <div class="slider-thumb-glass-specular"></div>
             </div>
           </div>
-          <span id="sizeValue" class="slider-value">24px</span>
+          <span id="sizeValue" class="slider-value">32px</span>
         </div>
 
         <!-- Compact View Switch -->
         <label class="view-toggle-container" title="Hide icon titles and version info for a high-density icon grid">
           <span>Compact Grid</span>
           <input type="checkbox" id="compactModeToggle" class="switch-input">
+          <span class="switch-slider"></span>
+        </label>
+        <label class="view-toggle-container" title="Show only animated icons">
+          <span>Animated</span>
+          <input type="checkbox" id="animatedToggle" class="switch-input">
+          <span class="switch-slider"></span>
+        </label>
+        
+        <!-- Colored Filter Toggle -->
+        <label class="view-toggle-container" title="Show only colored/fixed-color icons">
+          <span>Colored</span>
+          <input type="checkbox" id="coloredToggle" class="switch-input">
           <span class="switch-slider"></span>
         </label>
 
@@ -416,13 +411,6 @@
   </div>
 
   <script>
-    // --- List of libraries to preserve original colors (Fallback) ---
-    const COLOR_PRESERVED_LIBRARIES = [
-      'google-color', 'flat-color-icons', 'logos', 'vscode-icons', 'cryptocurrency-color', 'emojione-v1', 'noto', 'streamline-plump-color',
-      'devicon', 'flag', 'flagpack', 'circle-flags', 'cib', 'noto-v1', 'token-branded', 'fxemoji', 'emojione', 'twemoji', 'openmoji',
-      'cryptocurrency-icons', 'color-icons', 'simple-icons', 'skill-icons', 'streamline-flex-color', 'fluent-emoji-flat'
-    ];
-
     // --- Theme & Intelligent Default Color Logic ---
     const toggleBtn = document.getElementById('theme-toggle');
     const body = document.body;
@@ -512,7 +500,8 @@
     let filteredIcons = [];
     let currentPage = 1;
     let itemsPerPage = 200;
-    let iconSizeVal = 24;
+    let iconSizeVal = 32;
+    let svgUrl = "";
 
     let isCompactMode = localStorage.getItem('compactMode') === 'true';
     let savedColor = localStorage.getItem('iconColor') || '#3b82f6';
@@ -640,7 +629,7 @@
     async function initIcons() {
       colorPicker.value = savedColor;
       hexInput.value = savedColor;
-      sizeSliderCtrl.setFromValue(24);
+      sizeSliderCtrl.setFromValue(32);
 
       iconGrid.innerHTML = `
         <div class="loading-state-container">
@@ -730,7 +719,7 @@
 
           const isIconSpecificAnimated = typeof iconObj === 'object' && (iconObj.animated === true || iconObj.animated === "true");
           const isAnimatedFinal = metadata.animated || isIconSpecificAnimated;
-          const isColoredFinal = metadata.colored || COLOR_PRESERVED_LIBRARIES.some(lib => fileTag.toLowerCase().includes(lib));
+          const isColoredFinal = metadata.colored;
 
           if (!iconsData.some(i => i.id === uniqueId)) {
             newIcons.push({
@@ -835,93 +824,155 @@
     }
 
     function formatSvgString(svgString, customColor, isColored, uniqueId) {
-      // 1. RAW INJECTION for Colored Flags (Preserves Animations, Layouts, and Mask references perfectly)
-      if (isColored) {
-        return svgString;
-      }
-
-      // 2. Safe DOM Manipulation for Recolor & Scalability
-      try {
-        const parser = new DOMParser();
-        const doc = parser.parseFromString(svgString, 'image/svg+xml');
-        const svgEl = doc.querySelector('svg');
-        if (!svgEl) return svgString;
-
-        // Force scalable ViewBox if missing
-        if (!svgEl.hasAttribute('viewBox')) {
-          const w = svgEl.getAttribute('width');
-          const h = svgEl.getAttribute('height');
-          const pw = parseFloat(w) || 24;
-          const ph = parseFloat(h) || 24;
-          svgEl.setAttribute('viewBox', `0 0 ${pw} ${ph}`);
+        // 1. RAW INJECTION for Colored Flags (Preserves Animations, Layouts, and Mask references perfectly)
+        if (isColored) {
+          return svgString;
         }
 
-        // Clean up explicit widths/heights so CSS sizing takes over perfectly 
-        svgEl.removeAttribute('width');
-        svgEl.removeAttribute('height');
+        // 2. Safe DOM Manipulation for Recolor & Scalability
+        try {
+          const parser = new DOMParser();
+          const doc = parser.parseFromString(svgString, 'image/svg+xml');
+          const svgEl = doc.querySelector('svg');
+          if (!svgEl) return svgString;
 
-        // Safe ID collision rewritter (Critical for List Views)
-        const idMap = {};
-        svgEl.querySelectorAll('[id]').forEach(el => {
-          const oldId = el.getAttribute('id');
-          if (oldId && !oldId.startsWith('ci-')) {
-            const newId = `ci-${uniqueId}-${oldId}`.replace(/[^a-zA-Z0-9-_]/g, '');
-            el.setAttribute('id', newId);
-            idMap[oldId] = newId;
+          // Force scalable ViewBox if missing
+          if (!svgEl.hasAttribute('viewBox')) {
+            const w = svgEl.getAttribute('width');
+            const h = svgEl.getAttribute('height');
+            const pw = parseFloat(w) || 24;
+            const ph = parseFloat(h) || 24;
+            svgEl.setAttribute('viewBox', `0 0 ${pw} ${ph}`);
           }
-        });
 
-        // Remap url(#id) references
-        if (Object.keys(idMap).length > 0) {
-          svgEl.querySelectorAll('*').forEach(el => {
-            Array.from(el.attributes).forEach(attr => {
-              let val = attr.value;
-              if (val.includes('url(#')) {
-                Object.keys(idMap).forEach(oldId => {
-                  val = val.split(`url(#${oldId})`).join(`url(#${idMap[oldId]})`);
-                });
-                if (val !== attr.value) el.setAttribute(attr.name, val);
+          // Clean up explicit widths/heights so CSS sizing takes over perfectly 
+          svgEl.removeAttribute('width');
+          svgEl.removeAttribute('height');
+
+          // Safe ID collision rewritter (Critical for List Views)
+          const idMap = {};
+          svgEl.querySelectorAll('[id]').forEach(el => {
+            const oldId = el.getAttribute('id');
+            if (oldId && !oldId.startsWith('ci-')) {
+              const newId = `ci-${uniqueId}-${oldId}`.replace(/[^a-zA-Z0-9-_]/g, '');
+              el.setAttribute('id', newId);
+              idMap[oldId] = newId;
+            }
+          });
+
+          // Remap url(#id) references
+          if (Object.keys(idMap).length > 0) {
+            svgEl.querySelectorAll('*').forEach(el => {
+              Array.from(el.attributes).forEach(attr => {
+                let val = attr.value;
+                if (val.includes('url(#')) {
+                  Object.keys(idMap).forEach(oldId => {
+                    val = val.split(`url(#${oldId})`).join(`url(#${idMap[oldId]})`);
+                  });
+                  if (val !== attr.value) el.setAttribute(attr.name, val);
+                }
+                if ((attr.name === 'href' || attr.name === 'xlink:href') && val.startsWith('#')) {
+                  const oldId = val.substring(1);
+                  if (idMap[oldId]) el.setAttribute(attr.name, `#${idMap[oldId]}`);
+                }
+              });
+            });
+          }
+
+          // Definite Stroke vs Fill detection (Ignoring animation keywords like 'freeze' and 'remove')
+          const hasStroke = svgEl.hasAttribute('stroke') ||
+            svgEl.querySelector('[stroke]') !== null ||
+            svgEl.querySelector('[style*="stroke"]') !== null;
+
+          let hasSolidFill = false;
+          svgEl.querySelectorAll('[fill]').forEach(el => {
+            const tagName = el.tagName.toLowerCase();
+            // Ignore SMIL animation tags that use fill="freeze" or fill="remove"
+            if (['animate', 'animatetransform', 'animatemotion', 'set'].includes(tagName)) {
+              return;
+            }
+            const f = el.getAttribute('fill') || '';
+            if (f && f !== 'none' && f !== 'freeze' && f !== 'remove' && !f.includes('url(')) {
+              hasSolidFill = true;
+            }
+          });
+
+          svgEl.querySelectorAll('[style*="fill"]').forEach(el => {
+            const sf = el.style.fill || '';
+            if (sf && sf !== 'none' && sf !== 'freeze' && sf !== 'remove' && !sf.includes('url(')) {
+              hasSolidFill = true;
+            }
+          });
+
+          const rootFill = svgEl.getAttribute('fill');
+          if (rootFill && rootFill !== 'none' && rootFill !== 'freeze' && rootFill !== 'remove' && !rootFill.includes('url(')) {
+            hasSolidFill = true;
+          }
+
+          const isStrokeIcon = hasStroke && !hasSolidFill;
+
+          svgEl.style.color = customColor;
+
+          if (isStrokeIcon) {
+            // Ensure root SVG never gets a fill attribute
+            svgEl.removeAttribute('fill');
+
+            if (svgEl.hasAttribute('stroke')) {
+              svgEl.setAttribute('stroke', customColor);
+            }
+
+            // Explicitly stamp stroke and fill="none" on all shape elements
+            svgEl.querySelectorAll('g, path, circle, rect, polygon, polyline, ellipse, line').forEach(el => {
+              const tagName = el.tagName.toLowerCase();
+              const isShape = ['path', 'circle', 'rect', 'polygon', 'polyline', 'ellipse', 'line'].includes(tagName);
+
+              const strokeAttr = el.getAttribute('stroke');
+              if (strokeAttr && strokeAttr !== 'none' && !strokeAttr.includes('url(')) {
+                el.setAttribute('stroke', customColor);
+              } else if (!strokeAttr && isShape) {
+                el.setAttribute('stroke', customColor);
               }
-              if ((attr.name === 'href' || attr.name === 'xlink:href') && val.startsWith('#')) {
-                const oldId = val.substring(1);
-                if (idMap[oldId]) el.setAttribute(attr.name, `#${idMap[oldId]}`);
+
+              if (el.style && el.style.stroke && el.style.stroke !== 'none' && !el.style.stroke.includes('url(')) {
+                el.style.stroke = customColor;
+              }
+
+              // Ensure shapes in stroke icons remain hollow (fill="none")
+              if (isShape) {
+                const fillAttr = el.getAttribute('fill');
+                if (!fillAttr || fillAttr !== 'none') {
+                  el.setAttribute('fill', 'none');
+                }
               }
             });
-          });
+          } else {
+            // Handle Solid Fill Icons
+            if (!rootFill || (rootFill !== 'none' && !rootFill.includes('url('))) {
+              svgEl.setAttribute('fill', customColor);
+            }
+
+            svgEl.querySelectorAll('path, circle, rect, polygon, polyline, ellipse, line, g').forEach(el => {
+              const tagName = el.tagName.toLowerCase();
+              const isShape = ['path', 'circle', 'rect', 'polygon', 'polyline', 'ellipse', 'line'].includes(tagName);
+
+              const fillAttr = el.getAttribute('fill');
+              if (fillAttr && fillAttr !== 'none' && !fillAttr.includes('url(')) {
+                el.setAttribute('fill', customColor);
+              } else if (!fillAttr && isShape) {
+                el.setAttribute('fill', customColor);
+              }
+              if (el.style && el.style.fill && el.style.fill !== 'none' && !el.style.fill.includes('url(')) {
+                el.style.fill = customColor;
+              }
+            });
+          }
+
+          return new XMLSerializer().serializeToString(svgEl);
+        } catch (e) {
+          console.error("SVG Formatting Error: ", e);
+          return svgString;
         }
-
-        // Deep Apply Color (Defaults properly to Root & Overrides)
-        svgEl.style.color = customColor;
-        const rootFill = svgEl.getAttribute('fill');
-        if (!rootFill || (rootFill !== 'none' && !rootFill.includes('url('))) {
-          svgEl.setAttribute('fill', customColor);
-        }
-
-        const applyColor = (el) => {
-          const fillAttr = el.getAttribute('fill');
-          if (fillAttr && fillAttr !== 'none' && !fillAttr.includes('url(')) {
-            el.setAttribute('fill', customColor);
-          }
-          if (el.style && el.style.fill && el.style.fill !== 'none' && !el.style.fill.includes('url(')) {
-            el.style.fill = customColor;
-          }
-
-          const strokeAttr = el.getAttribute('stroke');
-          if (strokeAttr && strokeAttr !== 'none' && !strokeAttr.includes('url(')) {
-            el.setAttribute('stroke', customColor);
-          }
-          if (el.style && el.style.stroke && el.style.stroke !== 'none' && !el.style.stroke.includes('url(')) {
-            el.style.stroke = customColor;
-          }
-        };
-        svgEl.querySelectorAll('path, circle, rect, polygon, polyline, ellipse, line, g').forEach(applyColor);
-
-        return new XMLSerializer().serializeToString(svgEl);
-      } catch (e) {
-        console.error("SVG Formatting Error: ", e);
-        return svgString;
       }
-    }
 
     function renderGrid() {
       iconGrid.innerHTML = '';
@@ -985,70 +1036,78 @@
     }
 
     function renderPaginationBar() {
-      paginationBar.innerHTML = '';
+        const totalPages = Math.ceil(filteredIcons.length / itemsPerPage);
 
-      const totalPages = Math.ceil(filteredIcons.length / itemsPerPage);
-      if (totalPages <= 1) return;
+        // Hide if items are empty or there's 1 or fewer pages
+        if (filteredIcons.length === 0 || totalPages <= 1) {
+          if (paginationBar) paginationBar.style.display = 'none';
+          return;
+        }
 
-      let startPage;
-      if (totalPages <= 3) {
-        startPage = 1;
-      } else if (currentPage === 1 || currentPage === 2) {
-        startPage = 1;
-      } else if (currentPage === totalPages || currentPage === totalPages - 1) {
-        startPage = totalPages - 2;
-      } else {
-        startPage = currentPage - 1;
+        // Ensure it's visible when there are multiple pages
+        if (paginationBar) paginationBar.style.display = 'flex'; // Change to 'block' if flex isn't used for layout
+
+        paginationBar.innerHTML = '';
+
+        let startPage;
+        if (totalPages <= 3) {
+          startPage = 1;
+        } else if (currentPage === 1 || currentPage === 2) {
+          startPage = 1;
+        } else if (currentPage === totalPages || currentPage === totalPages - 1) {
+          startPage = totalPages - 2;
+        } else {
+          startPage = currentPage - 1;
+        }
+
+        const endPage = Math.min(startPage + 2, totalPages);
+
+        const firstBtn = document.createElement('button');
+        firstBtn.className = 'page-arrow-btn';
+        firstBtn.innerHTML = '«';
+        firstBtn.title = 'First Page';
+        firstBtn.disabled = currentPage === 1;
+        firstBtn.onclick = () => { if (currentPage > 1) changePage(1); };
+        paginationBar.appendChild(firstBtn);
+
+        const prevBtn = document.createElement('button');
+        prevBtn.className = 'page-arrow-btn';
+        prevBtn.innerHTML = '‹';
+        prevBtn.title = 'Previous Page';
+        prevBtn.disabled = currentPage === 1;
+        prevBtn.onclick = () => { if (currentPage > 1) changePage(currentPage - 1); };
+        paginationBar.appendChild(prevBtn);
+
+        const pagesContainer = document.createElement('div');
+        pagesContainer.className = 'page-dots-container';
+
+        for (let i = startPage; i <= endPage; i++) {
+          const pageBtn = document.createElement('button');
+          pageBtn.className = `page-dot ${i === currentPage ? 'active' : ''}`;
+          pageBtn.innerHTML = i;
+          pageBtn.title = `Page ${i}`;
+          pageBtn.onclick = () => { if (i !== currentPage) changePage(i); };
+          pagesContainer.appendChild(pageBtn);
+        }
+
+        paginationBar.appendChild(pagesContainer);
+
+        const nextBtn = document.createElement('button');
+        nextBtn.className = 'page-arrow-btn';
+        nextBtn.innerHTML = '›';
+        nextBtn.title = 'Next Page';
+        nextBtn.disabled = currentPage === totalPages;
+        nextBtn.onclick = () => { if (currentPage < totalPages) changePage(currentPage + 1); };
+        paginationBar.appendChild(nextBtn);
+
+        const lastBtn = document.createElement('button');
+        lastBtn.className = 'page-arrow-btn';
+        lastBtn.innerHTML = '»';
+        lastBtn.title = 'Last Page';
+        lastBtn.disabled = currentPage === totalPages;
+        lastBtn.onclick = () => { if (currentPage < totalPages) changePage(totalPages); };
+        paginationBar.appendChild(lastBtn);
       }
-
-      const endPage = Math.min(startPage + 2, totalPages);
-
-      const firstBtn = document.createElement('button');
-      firstBtn.className = 'page-arrow-btn';
-      firstBtn.innerHTML = '«';
-      firstBtn.title = 'First Page';
-      firstBtn.disabled = currentPage === 1;
-      firstBtn.onclick = () => { if (currentPage > 1) changePage(1); };
-      paginationBar.appendChild(firstBtn);
-
-      const prevBtn = document.createElement('button');
-      prevBtn.className = 'page-arrow-btn';
-      prevBtn.innerHTML = '‹';
-      prevBtn.title = 'Previous Page';
-      prevBtn.disabled = currentPage === 1;
-      prevBtn.onclick = () => { if (currentPage > 1) changePage(currentPage - 1); };
-      paginationBar.appendChild(prevBtn);
-
-      const pagesContainer = document.createElement('div');
-      pagesContainer.className = 'page-dots-container';
-
-      for (let i = startPage; i <= endPage; i++) {
-        const pageBtn = document.createElement('button');
-        pageBtn.className = `page-dot ${i === currentPage ? 'active' : ''}`;
-        pageBtn.innerHTML = i;
-        pageBtn.title = `Page ${i}`;
-        pageBtn.onclick = () => { if (i !== currentPage) changePage(i); };
-        pagesContainer.appendChild(pageBtn);
-      }
-
-      paginationBar.appendChild(pagesContainer);
-
-      const nextBtn = document.createElement('button');
-      nextBtn.className = 'page-arrow-btn';
-      nextBtn.innerHTML = '›';
-      nextBtn.title = 'Next Page';
-      nextBtn.disabled = currentPage === totalPages;
-      nextBtn.onclick = () => { if (currentPage < totalPages) changePage(currentPage + 1); };
-      paginationBar.appendChild(nextBtn);
-
-      const lastBtn = document.createElement('button');
-      lastBtn.className = 'page-arrow-btn';
-      lastBtn.innerHTML = '»';
-      lastBtn.title = 'Last Page';
-      lastBtn.disabled = currentPage === totalPages;
-      lastBtn.onclick = () => { if (currentPage < totalPages) changePage(totalPages); };
-      paginationBar.appendChild(lastBtn);
-    }
 
     function changePage(page) {
       if (page === currentPage) return;
@@ -1088,13 +1147,20 @@
 
       function updateModalContent() {
         const updatedSvg = formatSvgString(icon.svg, modalColor, icon.colored, icon.id);
-        const htmlSnippet = `<i class="ci ci-${icon.id}" style="font-size: ${modalSize}px;"></i>`;
+        const htmlSnippet = icon.colored
+          ? `<i class="ci ci-${icon.id}" style="font-size: ${modalSize}px;"></i>`
+          : `<i class="ci ci-${icon.id}" style="font-size: ${modalSize}px; color: ${modalColor};"></i>`;
 
         const previewContainer = modalBody.querySelector('#modalIconPreview');
         if (previewContainer) previewContainer.innerHTML = updatedSvg;
 
         const htmlBox = modalBody.querySelector('#modalHtmlSnippetBox');
         const svgBox = modalBody.querySelector('#modalSvgSnippetBox');
+
+        svgUrl = !icon.colored
+          ? "https://ci-icons.vercel.app/ci.html#" + icon.id + "#" + encodeURIComponent(modalColor) + "#" + modalSize
+          : "https://ci-icons.vercel.app/ci.html#" + icon.id + "##" + modalSize ;
+
         if (htmlBox) htmlBox.textContent = htmlSnippet;
         if (svgBox) svgBox.textContent = updatedSvg;
 
@@ -1195,20 +1261,16 @@
     };
 
     window.copyUrl = function (text) {
-      const classMatch = text.match(/class="[^"]*ci\s+ci-([^"\s]+)/);
-      const iconName = classMatch ? classMatch[1] : '';
+        const targetUrl = svgUrl;
 
-      let url = `https://ci-icons.vercel.app/ci.html#${iconName}`;
-
-      const colorMatch = text.match(/style="[^"]*color:\s*([^;"]+)/i);
-      if (colorMatch) {
-          const color = colorMatch[1].trim().replace(/^#/, '');
-          url += `#${color}`;
-      }
-
-      navigator.clipboard.writeText(url);
-      showToast('URL copied to clipboard!', '#333');
-  };
+        navigator.clipboard.writeText(targetUrl).then(() => {
+          showToast('URL copied to clipboard!', '#333');
+          window.open(targetUrl, '_blank');
+        }).catch(err => {
+          console.error('Failed to copy: ', err);
+          window.open(targetUrl, '_blank');
+        });
+      };
 
     function copySvgCode(svgText) {
       try {
